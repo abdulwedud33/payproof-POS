@@ -1,0 +1,34 @@
+# secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.jks
+*.keystore
+google-services.json
+
+# real data never goes in git
+evals/data/real/
+**/real-samples/
+*.receipt.png
+*.receipt.jpg
+
+# build output
+node_modules/
+dist/
+build/
+.next/
+out/
+.expo/
+android/app/build/
+__pycache__/
+.venv/
+*.pyc
+coverage/
+.turbo/
+
+# local
+.DS_Store
+*.log
+.idea/
