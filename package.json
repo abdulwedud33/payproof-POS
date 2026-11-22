@@ -1,0 +1,26 @@
+{
+  "name": "payproof-root",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PayProof POS Monorepo",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "test": "turbo run test",
+    "test:rls": "turbo run test:rls",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "scan:secrets": "node scripts/scan-secrets.js",
+    "db:migrate": "pnpm --filter db migrate",
+    "db:seed": "pnpm --filter db seed"
+  },
+  "devDependencies": {
+    "turbo": "^2.4.4",
+    "typescript": "^5.8.2",
+    "prettier": "^3.5.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["argon2", "esbuild"]
+  },
+  "packageManager": "pnpm@10.5.2"
+}
