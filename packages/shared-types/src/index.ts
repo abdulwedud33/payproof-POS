@@ -6,3 +6,6 @@ export * from './catalog.js';
 export * from './sales.js';
 export * from './sync.js';
 export * from './evidence.js';
+export * from './payment-accounts.js';
+export * from './verifications.js';
+export * from './alerts.js';

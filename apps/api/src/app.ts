@@ -12,6 +12,7 @@ import { cashierRoutes } from './routes/cashiers.js';
 import { productRoutes } from './routes/products.js';
 import { saleRoutes } from './routes/sales.js';
 import { syncRoutes } from './routes/sync.js';
+import { paymentAccountRoutes } from './routes/payment-accounts.js';
 
 export function buildApp() {
   const isTest = config.NODE_ENV === 'test' || Boolean(process.env.VITEST);
@@ -74,6 +75,7 @@ export function buildApp() {
   app.register(productRoutes, { prefix: '/v1/products' });
   app.register(saleRoutes, { prefix: '/v1/sales' });
   app.register(syncRoutes, { prefix: '/v1/sync' });
+  app.register(paymentAccountRoutes, { prefix: '/v1/payment-accounts' });
 
   return app;
 }

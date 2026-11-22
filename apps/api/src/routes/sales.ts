@@ -2,8 +2,11 @@ import type { FastifyPluginAsync } from 'fastify';
 import {
   CreateSaleRequestSchema,
   VoidSaleRequestSchema,
+  VerifySaleRequestSchema,
+  ManualOverrideRequestSchema,
 } from '@payproof/shared-types';
 import { SaleService } from '../services/sale-service.js';
+import { VerificationService } from '../services/verification-service.js';
 import { requireAuth } from '../middleware/auth.js';
 
 export const saleRoutes: FastifyPluginAsync = async (fastify) => {
@@ -57,5 +60,37 @@ export const saleRoutes: FastifyPluginAsync = async (fastify) => {
     const parsed = VoidSaleRequestSchema.parse(request.body);
     const sale = await SaleService.voidSale(request.user!, id, parsed);
     return reply.status(200).send(sale);
+  });
+
+  // POST /v1/sales/:id/verify-mobile-money
+  fastify.post('/:id/verify-mobile-money', async (request, reply) => {
+    const { id } = request.params as { id: string };
+    const parsed = VerifySaleRequestSchema.parse(request.body);
+    const user = request.user!;
+
+    const decision = await VerificationService.verifyMobileMoney(
+      user.orgId,
+      user.id,
+      user.branchIds,
+      id,
+      parsed
+    );
+    return reply.status(200).send(decision);
+  });
+
+  // POST /v1/sales/:id/override
+  fastify.post('/:id/override', async (request, reply) => {
+    const { id } = request.params as { id: string };
+    const parsed = ManualOverrideRequestSchema.parse(request.body);
+    const user = request.user!;
+
+    const result = await VerificationService.applyManualOverride(
+      user.orgId,
+      user.id,
+      user.branchIds,
+      id,
+      parsed
+    );
+    return reply.status(200).send(result);
   });
 };

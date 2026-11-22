@@ -43,6 +43,13 @@ export const FetchEvidenceRequestSchema = z.object({
 });
 export type FetchEvidenceRequest = z.infer<typeof FetchEvidenceRequestSchema>;
 
+export const SafeFetchErrorSchema = z.object({
+  code: SafeFetchErrorCodeSchema,
+  message: z.string(),
+  details: z.record(z.unknown()).optional(),
+});
+export type SafeFetchError = z.infer<typeof SafeFetchErrorSchema>;
+
 export const SafeFetchResultSchema = z.discriminatedUnion('ok', [
   z.object({
     ok: z.literal(true),
@@ -50,11 +57,7 @@ export const SafeFetchResultSchema = z.discriminatedUnion('ok', [
   }),
   z.object({
     ok: z.literal(false),
-    error: z.object({
-      code: SafeFetchErrorCodeSchema,
-      message: z.string(),
-      details: z.record(z.unknown()).optional(),
-    }),
+    error: SafeFetchErrorSchema,
   }),
 ]);
 export type SafeFetchResult = z.infer<typeof SafeFetchResultSchema>;

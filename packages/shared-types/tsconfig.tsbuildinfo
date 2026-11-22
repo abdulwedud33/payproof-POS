@@ -1,1 +1,1 @@
-{"root":["./src/auth.ts","./src/branches.ts","./src/errors.ts","./src/index.ts","./src/users.ts"],"version":"5.9.3"}
+{"root":["./src/alerts.ts","./src/auth.ts","./src/branches.ts","./src/catalog.ts","./src/errors.ts","./src/evidence.ts","./src/index.ts","./src/payment-accounts.ts","./src/sales.ts","./src/sync.ts","./src/users.ts","./src/verifications.ts"],"version":"5.9.3"}

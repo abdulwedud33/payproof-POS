@@ -38,15 +38,16 @@ export class CartService {
     if (product.unit === 'piece' || product.unit === 'pack') {
       const existingIdx = this.items.findIndex((item) => item.productId === product.id);
       if (existingIdx !== -1) {
-        const existing = this.items[existingIdx];
+        const existing = this.items[existingIdx]!;
         const newQty = existing.quantity + quantity;
         const newLineTotal = Number(multiplyQuantity(existing.unitPriceMinor, newQty));
-        this.items[existingIdx] = {
+        const updatedItem: CartItem = {
           ...existing,
           quantity: newQty,
           lineTotalMinor: newLineTotal,
         };
-        return this.items[existingIdx];
+        this.items[existingIdx] = updatedItem;
+        return updatedItem;
       }
     }
 
@@ -75,7 +76,7 @@ export class CartService {
       throw new Error('Item not found in cart');
     }
 
-    const current = this.items[idx];
+    const current = this.items[idx]!;
     const newLineTotal = Number(multiplyQuantity(current.unitPriceMinor, newQuantity));
     const updated: CartItem = {
       ...current,
@@ -91,6 +92,7 @@ export class CartService {
     if (idx === -1) return null;
 
     const [removed] = this.items.splice(idx, 1);
+    if (!removed) return null;
     this.lastRemovedItem = { item: removed, index: idx };
     return removed;
   }

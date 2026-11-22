@@ -3,6 +3,8 @@ import { ZodError } from 'zod';
 import crypto from 'crypto';
 import { AppApiError, ErrorCode, type ApiErrorResponse } from '@payproof/shared-types';
 
+export { AppApiError, ErrorCode };
+
 export function generateReferenceId(): string {
   return crypto.randomBytes(3).toString('hex').toUpperCase().slice(0, 4);
 }

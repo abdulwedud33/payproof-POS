@@ -78,6 +78,8 @@ export function formatBirr(santim: bigint | number | string, includeSuffix: bool
   return includeSuffix ? `${formatted} Birr` : formatted;
 }
 
+export const formatSantimToBirr = formatBirr;
+
 export function add(a: bigint | number, b: bigint | number): bigint {
   return toMinor(a) + toMinor(b);
 }

@@ -2,7 +2,6 @@ import {
   FetchEvidenceRequest,
   SafeFetchResult,
   ProviderEvidence,
-  SafeFetchErrorCode,
 } from '@payproof/shared-types';
 import { safeFetch, SafeFetchException, SafeFetchOptions } from './safe-fetch.js';
 

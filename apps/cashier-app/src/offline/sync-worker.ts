@@ -1,4 +1,4 @@
-import type { OfflineStorage, OutboxRecord } from './storage.js';
+import type { OfflineStorage } from './storage.js';
 import type { SaleResponse } from '@payproof/shared-types';
 
 export interface ApiClient {
