@@ -63,19 +63,19 @@ jobs:
           pnpm lint
           pnpm format:check
 
-      - name: Gate 3 - TypeScript Strict Typecheck
-        run: |
-          pnpm --filter @payproof/money typecheck
-          pnpm --filter @payproof/shared-types typecheck
-          pnpm --filter @payproof/db typecheck
-          pnpm --filter @payproof/api typecheck
-
-      - name: Gate 4 - Build Workspace Packages
+      - name: Gate 3 - Build Workspace Packages
         run: |
           pnpm --filter @payproof/money build
           pnpm --filter @payproof/shared-types build
           pnpm --filter @payproof/db build
           pnpm --filter @payproof/api build
+
+      - name: Gate 4 - TypeScript Strict Typecheck
+        run: |
+          pnpm --filter @payproof/money typecheck
+          pnpm --filter @payproof/shared-types typecheck
+          pnpm --filter @payproof/db typecheck
+          pnpm --filter @payproof/api typecheck
 
       - name: Gate 5 - Database Migrations & Seed Check
         env:
