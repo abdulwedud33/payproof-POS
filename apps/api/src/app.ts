@@ -30,7 +30,9 @@ export function buildApp() {
           },
         },
     requestIdHeader: 'x-request-id',
-    requestIdLogLabel: 'requestId',
+    logController: {
+      requestIdLogLabel: 'requestId',
+    },
     genReqId: (req) => (req.headers['x-request-id'] as string) || crypto.randomUUID(),
   });
 
