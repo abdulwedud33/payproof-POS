@@ -120,7 +120,10 @@ export class ProductService {
     });
   }
 
-  public static async getProductById(user: RequestUser, productId: string): Promise<ProductResponse> {
+  public static async getProductById(
+    user: RequestUser,
+    productId: string
+  ): Promise<ProductResponse> {
     const ctx: TenantContext = {
       orgId: user.org_id,
       userId: user.user_id,
@@ -268,10 +271,10 @@ export class ProductService {
 
     return withTenantTransaction(ctx, async (client) => {
       // Verify product exists in org
-      const existing = await client.query(
-        `SELECT id FROM products WHERE id = $1 AND org_id = $2`,
-        [productId, user.org_id]
-      );
+      const existing = await client.query(`SELECT id FROM products WHERE id = $1 AND org_id = $2`, [
+        productId,
+        user.org_id,
+      ]);
       if (existing.rowCount === 0) {
         throw new AppApiError({
           code: ErrorCode.NOT_FOUND,
@@ -290,7 +293,9 @@ export class ProductService {
       }
       if (input.name_local !== undefined) {
         updates.push(`name_local = $${pIdx++}`);
-        values.push(input.name_local ? ProductService.sanitizeFormulaInjection(input.name_local) : null);
+        values.push(
+          input.name_local ? ProductService.sanitizeFormulaInjection(input.name_local) : null
+        );
       }
       if (input.sku !== undefined) {
         updates.push(`sku = $${pIdx++}`);
@@ -344,7 +349,10 @@ export class ProductService {
     });
   }
 
-  public static async deleteProduct(user: RequestUser, productId: string): Promise<{ success: true }> {
+  public static async deleteProduct(
+    user: RequestUser,
+    productId: string
+  ): Promise<{ success: true }> {
     const ctx: TenantContext = {
       orgId: user.org_id,
       userId: user.user_id,
@@ -398,7 +406,10 @@ export class ProductService {
     }
 
     const headerLine = lines[0] || '';
-    const header = headerLine.toLowerCase().split(',').map((h) => h.trim());
+    const header = headerLine
+      .toLowerCase()
+      .split(',')
+      .map((h) => h.trim());
     const nameIdx = header.indexOf('name');
     const nameLocalIdx = header.indexOf('name_local');
     const skuIdx = header.indexOf('sku');
@@ -442,10 +453,7 @@ export class ProductService {
       }
 
       const unitVal = (unitIdx !== -1 && cols[unitIdx] ? cols[unitIdx]!.toLowerCase() : 'piece') as
-        | 'piece'
-        | 'kg'
-        | 'litre'
-        | 'pack';
+        'piece' | 'kg' | 'litre' | 'pack';
       const validUnits = ['piece', 'kg', 'litre', 'pack'];
       const unit = validUnits.includes(unitVal) ? unitVal : 'piece';
 
@@ -476,7 +484,14 @@ export class ProductService {
           `INSERT INTO products (org_id, name, name_local, sku, unit, price_minor, active)
            VALUES ($1, $2, $3, $4, $5, $6, true)
            RETURNING id`,
-          [user.org_id, row.name, row.name_local || null, row.sku || null, row.unit, row.price_minor]
+          [
+            user.org_id,
+            row.name,
+            row.name_local || null,
+            row.sku || null,
+            row.unit,
+            row.price_minor,
+          ]
         );
         const prodId = prodRes.rows[0].id;
 

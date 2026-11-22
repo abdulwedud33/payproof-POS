@@ -69,7 +69,10 @@ export class SaleService {
         computedTotal += expectedLineTotal;
       }
 
-      if (toMinor(input.subtotal_minor) !== computedTotal || toMinor(input.total_minor) !== computedTotal) {
+      if (
+        toMinor(input.subtotal_minor) !== computedTotal ||
+        toMinor(input.total_minor) !== computedTotal
+      ) {
         throw new AppApiError({
           code: ErrorCode.VALIDATION_ERROR,
           message: `Sale total mismatch: computed ${computedTotal}, declared subtotal ${input.subtotal_minor}, total ${input.total_minor}`,
@@ -193,7 +196,9 @@ export class SaleService {
         payment_method: saleRow.payment_method,
         subtotal_minor: Number(saleRow.subtotal_minor),
         total_minor: Number(saleRow.total_minor),
-        cash_received_minor: saleRow.cash_received_minor ? Number(saleRow.cash_received_minor) : null,
+        cash_received_minor: saleRow.cash_received_minor
+          ? Number(saleRow.cash_received_minor)
+          : null,
         overpaid_minor: Number(saleRow.overpaid_minor),
         idempotency_key: saleRow.idempotency_key,
         client_created_at: saleRow.client_created_at.toISOString(),
@@ -239,7 +244,10 @@ export class SaleService {
 
       // Cashier boundary check
       const cashierBranches = user.branch_ids || user.branchIds || [];
-      if (user.role === 'cashier' && (!cashierBranches.includes(sale.branch_id) || sale.cashier_id !== user.user_id)) {
+      if (
+        user.role === 'cashier' &&
+        (!cashierBranches.includes(sale.branch_id) || sale.cashier_id !== user.user_id)
+      ) {
         throw new AppApiError({
           code: ErrorCode.FORBIDDEN,
           message: 'Access to sale outside assigned branch/cashier denied',

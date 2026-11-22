@@ -43,10 +43,7 @@ export function TableSkeleton({ rows = 6, cols = 5 }: { rows?: number; cols?: nu
         {Array.from({ length: rows }).map((_, r) => (
           <div key={r} className="p-4 flex items-center justify-between gap-4">
             {Array.from({ length: cols }).map((_, c) => (
-              <Skeleton
-                key={c}
-                className={`h-5 ${c === 0 ? 'w-48' : c === 1 ? 'w-24' : 'w-20'}`}
-              />
+              <Skeleton key={c} className={`h-5 ${c === 0 ? 'w-48' : c === 1 ? 'w-24' : 'w-20'}`} />
             ))}
           </div>
         ))}

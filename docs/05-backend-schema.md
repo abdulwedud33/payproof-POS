@@ -1,24 +1,24 @@
 # 05 · Backend Schema
 
-| | |
-|---|---|
-| **Database** | PostgreSQL 16 or newer |
-| **Version** | 0.1 draft, 24 Oct 2026 |
-| **Related** | [TRD](02-technical-requirements.md) · [Guardrails](agent/GUARDRAILS.md) |
+|              |                                                                         |
+| ------------ | ----------------------------------------------------------------------- |
+| **Database** | PostgreSQL 16 or newer                                                  |
+| **Version**  | 0.1 draft, 24 Oct 2026                                                  |
+| **Related**  | [TRD](02-technical-requirements.md) · [Guardrails](agent/GUARDRAILS.md) |
 
 ---
 
 ## 1. Conventions
 
-| Rule | Detail |
-|---|---|
-| IDs | UUID. Sales use client-generated UUID v7 so offline sales keep their identity. Everything else uses `gen_random_uuid()` |
-| Money | `bigint` in **santim** (1 Birr = 100). Column names end in `_minor`. No floats |
-| Quantity | `numeric(12,3)` to support kilograms and litres |
-| Time | `timestamptz`, stored in UTC. Reports convert to `Africa/Addis_Ababa` |
-| Deletion | Soft delete for anything referenced by a sale |
-| Scoping | Every business table carries `org_id`. All queries filter by it, and **row-level security enforces it in the database** (section 6) |
-| Naming | `snake_case`, plural table names |
+| Rule     | Detail                                                                                                                              |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| IDs      | UUID. Sales use client-generated UUID v7 so offline sales keep their identity. Everything else uses `gen_random_uuid()`             |
+| Money    | `bigint` in **santim** (1 Birr = 100). Column names end in `_minor`. No floats                                                      |
+| Quantity | `numeric(12,3)` to support kilograms and litres                                                                                     |
+| Time     | `timestamptz`, stored in UTC. Reports convert to `Africa/Addis_Ababa`                                                               |
+| Deletion | Soft delete for anything referenced by a sale                                                                                       |
+| Scoping  | Every business table carries `org_id`. All queries filter by it, and **row-level security enforces it in the database** (section 6) |
+| Naming   | `snake_case`, plural table names                                                                                                    |
 
 ## 2. Entity overview
 
@@ -643,10 +643,10 @@ Soft deletion (a status or `deleted_at`) is used instead of `DELETE` for users, 
 
 ### 6.6 What RLS does and does not cover
 
-| It covers | It does not replace |
-|---|---|
-| Business and branch separation, role limits, fail-closed default | API authorization, which stays on |
-| Mistakes in API queries | Input validation |
+| It covers                                                                         | It does not replace                                                      |
+| --------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| Business and branch separation, role limits, fail-closed default                  | API authorization, which stays on                                        |
+| Mistakes in API queries                                                           | Input validation                                                         |
 | A compromised API role being unable to read other businesses' rows in one request | Protection if the database superuser or the migrator role is compromised |
 
 A unique-violation on `consumed_payments` can tell a caller that a transaction ID was already used, even by another business. The API reports it only as "already used" and nothing more. This small exposure is accepted and documented.
@@ -674,28 +674,28 @@ A test suite (pgTAP or a script) switches the session context to each role and c
 
 ## 7. Integrity rules
 
-| Rule | How it is enforced |
-|---|---|
-| A transaction ID is used once | Primary key on `consumed_payments` |
-| A verified payment went to one of the branch's saved accounts | `receiver_match` must be true before `verified`, enforced by a constraint and tests |
-| Only official provider hosts are fetched | `provider_hosts` allowlist, checked by the verification service |
-| An SMS event is stored once (optional feature) | Unique `(provider, provider_txn_id)` on `sms_events` |
-| A sale syncs once | Unique `(org_id, idempotency_key)` on `sales` |
-| Barcodes are unique per business | Unique `(org_id, barcode)` |
-| Cashier sells only at their branch | API check **and** a row-level security policy, plus a test that tries to break both |
-| Every table has row-level security and policies | CI query lists any table without RLS and fails the build |
-| Completed sales cannot be edited | Trigger plus a database role without update rights |
-| Audit log cannot be edited | Application role has insert and select only |
-| Totals are correct | `total_minor` must equal the sum of `line_total_minor`, checked in the API and in a nightly consistency query |
+| Rule                                                          | How it is enforced                                                                                            |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| A transaction ID is used once                                 | Primary key on `consumed_payments`                                                                            |
+| A verified payment went to one of the branch's saved accounts | `receiver_match` must be true before `verified`, enforced by a constraint and tests                           |
+| Only official provider hosts are fetched                      | `provider_hosts` allowlist, checked by the verification service                                               |
+| An SMS event is stored once (optional feature)                | Unique `(provider, provider_txn_id)` on `sms_events`                                                          |
+| A sale syncs once                                             | Unique `(org_id, idempotency_key)` on `sales`                                                                 |
+| Barcodes are unique per business                              | Unique `(org_id, barcode)`                                                                                    |
+| Cashier sells only at their branch                            | API check **and** a row-level security policy, plus a test that tries to break both                           |
+| Every table has row-level security and policies               | CI query lists any table without RLS and fails the build                                                      |
+| Completed sales cannot be edited                              | Trigger plus a database role without update rights                                                            |
+| Audit log cannot be edited                                    | Application role has insert and select only                                                                   |
+| Totals are correct                                            | `total_minor` must equal the sum of `line_total_minor`, checked in the API and in a nightly consistency query |
 
 ## 8. Retention
 
-| Data | Kept |
-|---|---|
-| Sales, items, audit logs | Indefinitely (business records) |
+| Data                                          | Kept                                                          |
+| --------------------------------------------- | ------------------------------------------------------------- |
+| Sales, items, audit logs                      | Indefinitely (business records)                               |
 | Provider record copies and any receipt images | `receipt_retention_days`, then deleted. Extracted fields stay |
-| Full QR text and raw SMS text | Never stored. Only a hash and parsed or redacted fields |
-| Refresh tokens | Until expiry, then purged |
+| Full QR text and raw SMS text                 | Never stored. Only a hash and parsed or redacted fields       |
+| Refresh tokens                                | Until expiry, then purged                                     |
 
 ## 9. Migration and seed plan
 

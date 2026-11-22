@@ -113,7 +113,8 @@ describe('Reports & Alerts Endpoints (Milestone 6 Done-When)', () => {
       url: '/v1/alerts/88888888-8888-8888-8888-888888888801/resolve',
       headers: { authorization: `Bearer ${ownerToken}` },
       payload: {
-        resolvedNote: 'Customer acknowledged receipt reuse was accidental and paid with another account.',
+        resolvedNote:
+          'Customer acknowledged receipt reuse was accidental and paid with another account.',
       },
     });
 

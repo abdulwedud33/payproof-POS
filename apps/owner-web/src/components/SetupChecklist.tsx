@@ -93,9 +93,7 @@ export function SetupChecklist({ steps, onNavigateTab }: SetupChecklistProps) {
                 >
                   {step.title}
                 </h4>
-                {!step.completed && (
-                  <ChevronRight className="w-3.5 h-3.5 text-blue-500 shrink-0" />
-                )}
+                {!step.completed && <ChevronRight className="w-3.5 h-3.5 text-blue-500 shrink-0" />}
               </div>
               <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">{step.description}</p>
             </div>

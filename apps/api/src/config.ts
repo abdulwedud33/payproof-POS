@@ -9,7 +9,9 @@ const ConfigSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default(isTest ? 'test' : 'development'),
   PORT: z.coerce.number().default(3000),
   HOST: z.string().default('0.0.0.0'),
-  DATABASE_URL: z.string().default(isTest ? 'postgres://app_api:CHANGE_ME@localhost:5432/payproof' : ''),
+  DATABASE_URL: z
+    .string()
+    .default(isTest ? 'postgres://app_api:CHANGE_ME@localhost:5432/payproof' : ''),
   MIGRATOR_DATABASE_URL: z.string().optional(),
   REDIS_URL: z.string().default('redis://localhost:6379'),
   JWT_ACCESS_SECRET: z.string().default(isTest ? 'CHANGE_ME_LONG_RANDOM' : ''),

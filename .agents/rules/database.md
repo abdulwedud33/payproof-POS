@@ -1,7 +1,7 @@
 ---
 trigger: glob
-globs: "**/*.sql, db/**, **/migrations/**"
-description: "Database migrations, schema, row level security policies, and SQL."
+globs: '**/*.sql, db/**, **/migrations/**'
+description: 'Database migrations, schema, row level security policies, and SQL.'
 ---
 
 # Database rules

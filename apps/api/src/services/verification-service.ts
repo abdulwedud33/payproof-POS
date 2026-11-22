@@ -103,7 +103,9 @@ export class VerificationService {
         return {
           verdict: 'rejected',
           rejectReason: 'already_used',
-          reasons: [`Transaction ID '${evidence!.transactionId}' was claimed concurrently by another sale`],
+          reasons: [
+            `Transaction ID '${evidence!.transactionId}' was claimed concurrently by another sale`,
+          ],
           shortfallMinor: null,
           matchedAccountId: decision.matchedAccountId,
           transactionId: evidence!.transactionId,

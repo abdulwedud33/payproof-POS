@@ -54,7 +54,11 @@ export interface PaymentContext {
 export interface PaymentStateMachineConfig {
   haptics?: HapticDriver;
   verifyPaymentApi?: (saleId: string, qrText: string) => Promise<VerificationDecision>;
-  overridePaymentApi?: (saleId: string, pin: string, reason: string) => Promise<{ success: boolean }>;
+  overridePaymentApi?: (
+    saleId: string,
+    pin: string,
+    reason: string
+  ) => Promise<{ success: boolean }>;
   waitingTimeoutSeconds?: number;
   retryIntervalSeconds?: number;
 }
@@ -130,7 +134,12 @@ export class PaymentStateMachine {
    * Cashier taps "Scan payment QR".
    */
   public openScanner(): void {
-    if (this.state !== 'MOBILE_MONEY_PROMPT' && this.state !== 'REJECTED' && this.state !== 'WAITING') return;
+    if (
+      this.state !== 'MOBILE_MONEY_PROMPT' &&
+      this.state !== 'REJECTED' &&
+      this.state !== 'WAITING'
+    )
+      return;
     this.state = 'SCANNING';
     this.triggerHaptic('tap');
   }

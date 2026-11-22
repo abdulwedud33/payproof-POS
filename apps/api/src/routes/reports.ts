@@ -24,25 +24,29 @@ export const reportRoutes: FastifyPluginAsync = async (app) => {
   });
 
   // 2. GET /v1/reports/breakdown (Owner & Manager)
-  app.get('/breakdown', { preHandler: [requireRole('owner', 'manager')] }, async (request, reply) => {
-    const user = request.user!;
-    const { dimension, branch_id, from, to } = request.query as {
-      dimension?: string;
-      branch_id?: string;
-      from?: string;
-      to?: string;
-    };
+  app.get(
+    '/breakdown',
+    { preHandler: [requireRole('owner', 'manager')] },
+    async (request, reply) => {
+      const user = request.user!;
+      const { dimension, branch_id, from, to } = request.query as {
+        dimension?: string;
+        branch_id?: string;
+        from?: string;
+        to?: string;
+      };
 
-    const parsedDim = BreakdownDimensionSchema.safeParse(dimension);
-    const validDim = parsedDim.success ? parsedDim.data : 'branch';
+      const parsedDim = BreakdownDimensionSchema.safeParse(dimension);
+      const validDim = parsedDim.success ? parsedDim.data : 'branch';
 
-    const breakdown = await ReportService.getBreakdown(user.orgId, validDim, {
-      branchId: branch_id,
-      from,
-      to,
-    });
-    return reply.status(200).send(breakdown);
-  });
+      const breakdown = await ReportService.getBreakdown(user.orgId, validDim, {
+        branchId: branch_id,
+        from,
+        to,
+      });
+      return reply.status(200).send(breakdown);
+    }
+  );
 
   // 3. GET /v1/reports/export (Owner only - CSV download)
   app.get('/export', { preHandler: [requireRole('owner')] }, async (request, reply) => {
@@ -60,7 +64,10 @@ export const reportRoutes: FastifyPluginAsync = async (app) => {
     });
 
     reply.header('content-type', 'text/csv');
-    reply.header('content-disposition', `attachment; filename="payproof-report-${new Date().toISOString().slice(0, 10)}.csv"`);
+    reply.header(
+      'content-disposition',
+      `attachment; filename="payproof-report-${new Date().toISOString().slice(0, 10)}.csv"`
+    );
     return reply.status(200).send(csvContent);
   });
 };

@@ -11,9 +11,18 @@ const path = require('path');
 
 const FORBIDDEN_PATTERNS = [
   { name: 'Private Key block', regex: /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/ },
-  { name: 'Generic API Secret assignment', regex: /(?:api[_-]?key|secret|password|auth_token)\s*=\s*['"][a-zA-Z0-9_\-]{16,}['"]/i },
-  { name: 'JWT Secret hardcoded string', regex: /JWT_(?:ACCESS|REFRESH)_SECRET\s*=\s*['"][^'"]+['"]/i },
-  { name: 'Postgres password with live credential', regex: /postgres:\/\/(?!app_api:CHANGE_ME|migrator:CHANGE_ME|postgres:postgres)[^:]+:[^@]+@/i },
+  {
+    name: 'Generic API Secret assignment',
+    regex: /(?:api[_-]?key|secret|password|auth_token)\s*=\s*['"][a-zA-Z0-9_\-]{16,}['"]/i,
+  },
+  {
+    name: 'JWT Secret hardcoded string',
+    regex: /JWT_(?:ACCESS|REFRESH)_SECRET\s*=\s*['"][^'"]+['"]/i,
+  },
+  {
+    name: 'Postgres password with live credential',
+    regex: /postgres:\/\/(?!app_api:CHANGE_ME|migrator:CHANGE_ME|postgres:postgres)[^:]+:[^@]+@/i,
+  },
   { name: 'AWS/Cloud Secret Key pattern', regex: /(?:AKIA[0-9A-Z]{16}|aws_secret_access_key)/i },
 ];
 
@@ -27,7 +36,7 @@ const IGNORED_PATHS = [
   'coverage',
   '.env.example',
   'scripts/scan-secrets.js',
-  '.gitleaks.toml'
+  '.gitleaks.toml',
 ];
 
 let violations = 0;
@@ -45,7 +54,13 @@ function walk(dir) {
       file === 'build' ||
       file === '.turbo' ||
       file === 'coverage' ||
-      IGNORED_PATHS.some(ignored => relPath === ignored || relPath.startsWith(ignored + '/') || relPath.includes('/node_modules/') || relPath.includes('/.git/'))
+      IGNORED_PATHS.some(
+        (ignored) =>
+          relPath === ignored ||
+          relPath.startsWith(ignored + '/') ||
+          relPath.includes('/node_modules/') ||
+          relPath.includes('/.git/')
+      )
     ) {
       continue;
     }
@@ -61,7 +76,8 @@ function walk(dir) {
       }
 
       // Check file content
-      if (stat.size < 1024 * 1024) { // Only scan files under 1MB
+      if (stat.size < 1024 * 1024) {
+        // Only scan files under 1MB
         try {
           const content = fs.readFileSync(fullPath, 'utf8');
           for (const pattern of FORBIDDEN_PATTERNS) {

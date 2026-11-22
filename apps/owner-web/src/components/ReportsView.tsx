@@ -200,7 +200,9 @@ export function ReportsView({
           {/* Breakdown detail badges */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs pt-2">
             <div className="p-2.5 rounded-lg bg-emerald-50/70 border border-emerald-100">
-              <span className="text-emerald-800 font-semibold block text-[11px]">Physical Cash</span>
+              <span className="text-emerald-800 font-semibold block text-[11px]">
+                Physical Cash
+              </span>
               <span className="font-bold text-slate-900 text-sm">
                 {formatBirr(summary.cashIncomeMinor)}
               </span>
@@ -282,8 +284,8 @@ export function ReportsView({
                   {dimensionTab === 'branch'
                     ? 'Branch'
                     : dimensionTab === 'cashier'
-                    ? 'Cashier'
-                    : 'Time Interval'}
+                      ? 'Cashier'
+                      : 'Time Interval'}
                 </th>
                 <th className="px-4 py-3 text-center">Transactions</th>
                 <th className="px-4 py-3 text-right">Cash Received</th>

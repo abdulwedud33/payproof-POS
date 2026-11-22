@@ -38,7 +38,10 @@ export class SafeFetchException extends Error {
 /**
  * Checks whether an IPv4 or IPv6 address belongs to private, loopback, or reserved ranges.
  */
-export function isForbiddenIp(ip: string, allowLoopback: boolean = false): { forbidden: boolean; reason?: string } {
+export function isForbiddenIp(
+  ip: string,
+  allowLoopback: boolean = false
+): { forbidden: boolean; reason?: string } {
   // Always forbid link-local and AWS / cloud metadata IP
   if (ip === '169.254.169.254' || ip.startsWith('169.254.')) {
     return { forbidden: true, reason: 'Link-local or cloud metadata IP (169.254.0.0/16)' };
@@ -48,9 +51,16 @@ export function isForbiddenIp(ip: string, allowLoopback: boolean = false): { for
   if (net.isIPv6(ip)) {
     const normalized = ip.toLowerCase();
     if (normalized === '::1' || normalized === '0:0:0:0:0:0:0:1') {
-      return allowLoopback ? { forbidden: false } : { forbidden: true, reason: 'IPv6 loopback (::1)' };
+      return allowLoopback
+        ? { forbidden: false }
+        : { forbidden: true, reason: 'IPv6 loopback (::1)' };
     }
-    if (normalized.startsWith('fe80:') || normalized.startsWith('fe9') || normalized.startsWith('fea') || normalized.startsWith('feb')) {
+    if (
+      normalized.startsWith('fe80:') ||
+      normalized.startsWith('fe9') ||
+      normalized.startsWith('fea') ||
+      normalized.startsWith('feb')
+    ) {
       return { forbidden: true, reason: 'IPv6 link-local (fe80::/10)' };
     }
     if (normalized.startsWith('fc') || normalized.startsWith('fd')) {
@@ -69,7 +79,9 @@ export function isForbiddenIp(ip: string, allowLoopback: boolean = false): { for
 
   // 127.0.0.0/8 (Loopback)
   if (b0 === 127) {
-    return allowLoopback ? { forbidden: false } : { forbidden: true, reason: 'Loopback IP (127.0.0.0/8)' };
+    return allowLoopback
+      ? { forbidden: false }
+      : { forbidden: true, reason: 'Loopback IP (127.0.0.0/8)' };
   }
 
   // 0.0.0.0/8 (Current network)
@@ -125,17 +137,25 @@ export async function validateUrlSafety(
 
   if (!isHttps) {
     if (!isHttp || !options.allowHttpForDev) {
-      throw new SafeFetchException('UNTRUSTED_LINK', `Protocol '${parsed.protocol}' is forbidden; HTTPS required`, {
-        protocol: parsed.protocol,
-      });
+      throw new SafeFetchException(
+        'UNTRUSTED_LINK',
+        `Protocol '${parsed.protocol}' is forbidden; HTTPS required`,
+        {
+          protocol: parsed.protocol,
+        }
+      );
     }
   }
 
   // 2. Reject credentials in URL (user:pass@host)
   if (parsed.username || parsed.password) {
-    throw new SafeFetchException('UNTRUSTED_LINK', 'Embedded credentials in URL are strictly prohibited', {
-      host: parsed.hostname,
-    });
+    throw new SafeFetchException(
+      'UNTRUSTED_LINK',
+      'Embedded credentials in URL are strictly prohibited',
+      {
+        host: parsed.hostname,
+      }
+    );
   }
 
   const hostname = parsed.hostname.toLowerCase();
@@ -151,10 +171,14 @@ export async function validateUrlSafety(
   });
 
   if (!isAllowlisted) {
-    throw new SafeFetchException('UNTRUSTED_LINK', `Host '${hostname}' is not on the provider allowlist`, {
-      hostname,
-      allowlist: options.allowlistHosts,
-    });
+    throw new SafeFetchException(
+      'UNTRUSTED_LINK',
+      `Host '${hostname}' is not on the provider allowlist`,
+      {
+        hostname,
+        allowlist: options.allowlistHosts,
+      }
+    );
   }
 
   // 4. DNS Resolution & SSRF check
@@ -182,11 +206,15 @@ export async function validateUrlSafety(
   for (const ip of addresses) {
     const check = isForbiddenIp(ip, Boolean(options.allowLoopbackForDev));
     if (check.forbidden) {
-      throw new SafeFetchException('SSRF_BLOCKED', `Host '${hostname}' resolved to forbidden address: ${check.reason}`, {
-        hostname,
-        resolvedIp: ip,
-        reason: check.reason,
-      });
+      throw new SafeFetchException(
+        'SSRF_BLOCKED',
+        `Host '${hostname}' resolved to forbidden address: ${check.reason}`,
+        {
+          hostname,
+          resolvedIp: ip,
+          reason: check.reason,
+        }
+      );
     }
   }
 
@@ -204,7 +232,10 @@ export async function validateUrlSafety(
  * - Clean request headers (no credentials)
  * - Deterministic SHA-256 body hash
  */
-export async function safeFetch(url: string, options: SafeFetchOptions): Promise<SafeFetchResponse> {
+export async function safeFetch(
+  url: string,
+  options: SafeFetchOptions
+): Promise<SafeFetchResponse> {
   const maxRedirects = options.maxRedirects ?? 3;
   const timeoutMs = options.readTimeoutMs ?? 5000;
   const maxBytes = options.maxBytes ?? 512000; // 500 KB
@@ -234,12 +265,18 @@ export async function safeFetch(url: string, options: SafeFetchOptions): Promise
       if ([301, 302, 303, 307, 308].includes(res.status)) {
         redirectCount++;
         if (redirectCount > maxRedirects) {
-          throw new SafeFetchException('UNTRUSTED_LINK', `Exceeded maximum redirect limit of ${maxRedirects} hops`);
+          throw new SafeFetchException(
+            'UNTRUSTED_LINK',
+            `Exceeded maximum redirect limit of ${maxRedirects} hops`
+          );
         }
 
         const location = res.headers.get('location');
         if (!location) {
-          throw new SafeFetchException('FETCH_FAILED', `Received HTTP ${res.status} redirect without Location header`);
+          throw new SafeFetchException(
+            'FETCH_FAILED',
+            `Received HTTP ${res.status} redirect without Location header`
+          );
         }
 
         // Resolve redirect URL relative to current URL
@@ -264,10 +301,14 @@ export async function safeFetch(url: string, options: SafeFetchOptions): Promise
           totalBytes += value.length;
           if (totalBytes > maxBytes) {
             await reader.cancel('Response size exceeded limit');
-            throw new SafeFetchException('SIZE_EXCEEDED', `Response exceeded maximum size limit of ${maxBytes} bytes`, {
-              bytesReceived: totalBytes,
-              maxBytes,
-            });
+            throw new SafeFetchException(
+              'SIZE_EXCEEDED',
+              `Response exceeded maximum size limit of ${maxBytes} bytes`,
+              {
+                bytesReceived: totalBytes,
+                maxBytes,
+              }
+            );
           }
           chunks.push(value);
         }
@@ -294,7 +335,9 @@ export async function safeFetch(url: string, options: SafeFetchOptions): Promise
         throw err;
       }
       if (err.name === 'AbortError' || controller.signal.aborted) {
-        throw new SafeFetchException('TIMEOUT', `Request timed out after ${timeoutMs}ms`, { timeoutMs });
+        throw new SafeFetchException('TIMEOUT', `Request timed out after ${timeoutMs}ms`, {
+          timeoutMs,
+        });
       }
       throw new SafeFetchException('FETCH_FAILED', `Network request failed: ${err.message}`, {
         error: err.message,

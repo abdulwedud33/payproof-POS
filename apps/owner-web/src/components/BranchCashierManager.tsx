@@ -28,7 +28,12 @@ interface BranchCashierManagerProps {
   cashiers: CashierItem[];
   loading?: boolean;
   onAddBranch: (data: { name: string; code: string; location?: string }) => Promise<void>;
-  onAddCashier: (data: { name: string; username: string; branch_id: string; pin: string }) => Promise<void>;
+  onAddCashier: (data: {
+    name: string;
+    username: string;
+    branch_id: string;
+    pin: string;
+  }) => Promise<void>;
 }
 
 export function BranchCashierManager({

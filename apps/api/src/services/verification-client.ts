@@ -1,8 +1,4 @@
-import {
-  FetchEvidenceRequest,
-  SafeFetchResult,
-  ProviderEvidence,
-} from '@payproof/shared-types';
+import { FetchEvidenceRequest, SafeFetchResult, ProviderEvidence } from '@payproof/shared-types';
 import { safeFetch, SafeFetchException, SafeFetchOptions } from './safe-fetch.js';
 
 export interface VerificationClientConfig {

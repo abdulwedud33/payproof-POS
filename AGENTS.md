@@ -19,17 +19,17 @@ It is an ASTU senior project, built by the student and an AI agent working toget
 
 ## 2. Read before you build
 
-| Order | File | Why |
-|---|---|---|
-| 1 | [docs/agent/MEMORY.md](docs/agent/MEMORY.md) | Current decisions, open questions, learnings |
-| 2 | [docs/01-product-requirements.md](docs/01-product-requirements.md) | What and why |
-| 3 | [docs/02-technical-requirements.md](docs/02-technical-requirements.md) | How |
-| 4 | [docs/05-backend-schema.md](docs/05-backend-schema.md) | Data and integrity rules |
-| 5 | [SECURITY.md](SECURITY.md) and [docs/agent/GUARDRAILS.md](docs/agent/GUARDRAILS.md) | Security rules and what must never happen |
-| 6 | [DESIGN.md](DESIGN.md) | Before touching any UI |
-| 7 | [docs/agent/EVALS.md](docs/agent/EVALS.md) | Before touching verification code |
-| 8 | [docs/08-production-readiness.md](docs/08-production-readiness.md) | Before CI, deployment, or anything operational |
-| 9 | `.agents/skills/` | Use the project skills (`/build-milestone`, `/new-endpoint`, `/new-table-with-rls`, `/build-screen`, `/security-review`) instead of improvising a process |
+| Order | File                                                                                | Why                                                                                                                                                       |
+| ----- | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1     | [docs/agent/MEMORY.md](docs/agent/MEMORY.md)                                        | Current decisions, open questions, learnings                                                                                                              |
+| 2     | [docs/01-product-requirements.md](docs/01-product-requirements.md)                  | What and why                                                                                                                                              |
+| 3     | [docs/02-technical-requirements.md](docs/02-technical-requirements.md)              | How                                                                                                                                                       |
+| 4     | [docs/05-backend-schema.md](docs/05-backend-schema.md)                              | Data and integrity rules                                                                                                                                  |
+| 5     | [SECURITY.md](SECURITY.md) and [docs/agent/GUARDRAILS.md](docs/agent/GUARDRAILS.md) | Security rules and what must never happen                                                                                                                 |
+| 6     | [DESIGN.md](DESIGN.md)                                                              | Before touching any UI                                                                                                                                    |
+| 7     | [docs/agent/EVALS.md](docs/agent/EVALS.md)                                          | Before touching verification code                                                                                                                         |
+| 8     | [docs/08-production-readiness.md](docs/08-production-readiness.md)                  | Before CI, deployment, or anything operational                                                                                                            |
+| 9     | `.agents/skills/`                                                                   | Use the project skills (`/build-milestone`, `/new-endpoint`, `/new-table-with-rls`, `/build-screen`, `/security-review`) instead of improvising a process |
 
 **Assumption A1** (the payment QR links to a readable provider page) is unconfirmed until Milestone 0 is done. Do not build on it silently. Check MEMORY.md for its current status.
 
@@ -96,61 +96,66 @@ docs/                 Project documentation
 
 These are created in Milestone 1. Keep this section accurate as they change.
 
-| Task | Command |
-|---|---|
-| Install | `pnpm install` |
-| Start local stack | `docker compose up -d` |
-| Run API in dev | `pnpm --filter api dev` |
-| Run web in dev | `pnpm --filter owner-web dev` |
-| Run all TS tests | `pnpm test` |
-| Lint and typecheck | `pnpm lint && pnpm typecheck` |
-| Secret scan | `pnpm scan:secrets` (repo, web bundle, APK) |
-| RLS and policy tests | `pnpm test:rls` |
-| Migrate database | `pnpm db:migrate` |
-| Seed synthetic data | `pnpm db:seed` |
-| Verification service tests | `cd services/verification && pytest` |
-| Run evals | `pnpm evals:run` |
+| Task                       | Command                                     |
+| -------------------------- | ------------------------------------------- |
+| Install                    | `pnpm install`                              |
+| Start local stack          | `docker compose up -d`                      |
+| Run API in dev             | `pnpm --filter api dev`                     |
+| Run web in dev             | `pnpm --filter owner-web dev`               |
+| Run all TS tests           | `pnpm test`                                 |
+| Lint and typecheck         | `pnpm lint && pnpm typecheck`               |
+| Secret scan                | `pnpm scan:secrets` (repo, web bundle, APK) |
+| RLS and policy tests       | `pnpm test:rls`                             |
+| Migrate database           | `pnpm db:migrate`                           |
+| Seed synthetic data        | `pnpm db:seed`                              |
+| Verification service tests | `cd services/verification && pytest`        |
+| Run evals                  | `pnpm evals:run`                            |
 
 ## 6. Conventions
 
 **TypeScript**
+
 - `strict` mode on. No `any` without a comment explaining why.
 - Validate every external input with Zod at the boundary. Share schemas through `packages/shared-types`.
 - Errors use the standard shape `{ error: { code, message, details } }`. Codes are `UPPER_SNAKE_CASE` and listed in `shared-types`.
 - Functions are small and named for what they do. Business rules live in services, not controllers.
 
 **Python**
+
 - Type hints everywhere, `ruff` and `mypy` clean.
-- The verification service returns *evidence*, never a sale decision.
+- The verification service returns _evidence_, never a sale decision.
 
 **Database**
+
 - Migrations are forward-only SQL files. Never edit a migration that has been applied.
 - Add the index when you add the query.
 
 **Git**
+
 - Small commits in the form `type(scope): summary`, for example `feat(api): claim payment atomically`.
 - One milestone per branch. Do not mix refactors with features.
 
 **UI**
+
 - Use tokens from `packages/ui-tokens`. No raw hex values or magic spacing in components.
 - Every user-facing string goes through the translation layer.
 - Every state has an icon and a word as well as a color.
 
 ## 7. Testing expectations
 
-| Change | Needs |
-|---|---|
-| New endpoint | Success test, validation failure test, authorization test, cross-branch test |
-| Money or totals logic | Unit tests including rounding and large values |
-| Parser (provider page, and SMS if built) | Table-driven tests with synthetic samples served by the mock provider, plus malformed input |
-| Link handling | Tests with hostile links: wrong host, lookalike host, redirects off the allowlist, private addresses, huge responses |
-| Decision rules | A test per row of the decision table in the TRD |
-| Claim logic | A concurrency test with two simultaneous claims of the same ID |
-| Sync | A test that uploads the same sale twice |
-| UI screen | A render test for each state (including its skeleton), and a check against DESIGN.md tokens |
-| New table | RLS enabled and forced, policies written, and a policy test for every role |
-| Any endpoint | A rate-limit test and an error-leak test |
-| Onboarding screens | A layout-shift check showing nothing moves |
+| Change                                   | Needs                                                                                                                |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| New endpoint                             | Success test, validation failure test, authorization test, cross-branch test                                         |
+| Money or totals logic                    | Unit tests including rounding and large values                                                                       |
+| Parser (provider page, and SMS if built) | Table-driven tests with synthetic samples served by the mock provider, plus malformed input                          |
+| Link handling                            | Tests with hostile links: wrong host, lookalike host, redirects off the allowlist, private addresses, huge responses |
+| Decision rules                           | A test per row of the decision table in the TRD                                                                      |
+| Claim logic                              | A concurrency test with two simultaneous claims of the same ID                                                       |
+| Sync                                     | A test that uploads the same sale twice                                                                              |
+| UI screen                                | A render test for each state (including its skeleton), and a check against DESIGN.md tokens                          |
+| New table                                | RLS enabled and forced, policies written, and a policy test for every role                                           |
+| Any endpoint                             | A rate-limit test and an error-leak test                                                                             |
+| Onboarding screens                       | A layout-shift check showing nothing moves                                                                           |
 
 ## 8. Definition of done
 
@@ -168,6 +173,7 @@ Use the checklist in [docs/06-implementation-plan.md](docs/06-implementation-pla
 ## 10. Ask first
 
 Stop and ask the student before you:
+
 - Add a new runtime dependency to a core service
 - Change the database schema after a migration shipped
 - Change a decision rule in the verification logic

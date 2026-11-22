@@ -80,7 +80,8 @@ export function VoidModal({ sale, onClose, onConfirmVoid }: VoidModalProps) {
 
           <div className="mb-4">
             <label className="block text-xs font-semibold text-slate-700 mb-1">
-              Manager / Owner PIN <span className="text-slate-400">(Required above void limit)</span>
+              Manager / Owner PIN{' '}
+              <span className="text-slate-400">(Required above void limit)</span>
             </label>
             <div className="relative">
               <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />

@@ -78,7 +78,10 @@ export const ProductImportRowSchema = z
     unit: UnitKindSchema.default('piece'),
     price_minor: z.coerce.number().int().nonnegative().optional(),
     priceMinor: z.coerce.number().int().nonnegative().optional(),
-    priceBirr: z.string().regex(/^\d+(?:\.\d{1,2})?$/).optional(),
+    priceBirr: z
+      .string()
+      .regex(/^\d+(?:\.\d{1,2})?$/)
+      .optional(),
     barcode: z.string().trim().max(64).optional(),
   })
   .refine(

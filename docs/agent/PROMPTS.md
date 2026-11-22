@@ -38,6 +38,7 @@ and a one-line session log entry. Then summarise:
 ## 3. Planning and requirements
 
 ### Clarify a requirement
+
 ```
 Requirement {FR-id} in docs/01-product-requirements.md says: "{text}".
 List the ambiguities, the options for each, and the risk of each option.
@@ -46,6 +47,7 @@ Do not change any file yet.
 ```
 
 ### Break a milestone into tasks
+
 ```
 Take milestone {M#} from docs/06-implementation-plan.md and break it into tasks of at most half a day.
 For each task give: goal, files likely touched, tests needed, requirement IDs covered,
@@ -57,6 +59,7 @@ and what could block it. Order them so something demonstrable exists as early as
 ## 4. Backend
 
 ### New endpoint
+
 ```
 Implement {METHOD /v1/path} for requirement {FR-id}.
 Follow docs/02-technical-requirements.md and docs/05-backend-schema.md.
@@ -71,6 +74,7 @@ Run the tests and show me the results.
 ```
 
 ### New migration
+
 ```
 Write migration {NNNN_name} that {purpose}, matching docs/05-backend-schema.md.
 Forward-only SQL. Enable and force row-level security on every new table and write its policies in the same migration, with tests for each role. Include indexes for the queries it supports, constraints that enforce
@@ -79,6 +83,7 @@ and on a database with seed data.
 ```
 
 ### Atomic payment claim
+
 ```
 Implement the payment claim as a single database transaction:
 insert into consumed_payments, set the verification verdict to verified, set the sale to paid.
@@ -87,6 +92,7 @@ claims of the same transaction ID from two branches and asserts exactly one succ
 ```
 
 ### Decision engine
+
 ```
 Implement the decision rules from section 4.4 of docs/02-technical-requirements.md as a pure function:
 (provider record, saved accounts, sale total, claim state, now) -> verdict, reason.
@@ -98,6 +104,7 @@ Backup evidence may add warnings but must never change the verdict. Show me the 
 ## 5. Verification service
 
 ### Provider parser
+
 ```
 Write the parser for the {provider} receipt page. Use only the synthetic samples in evals/data/synthetic/{provider}/
 and the field list recorded in docs/agent/MEMORY.md from Milestone 0.
@@ -108,6 +115,7 @@ Add tests for malformed input and a changed layout. List what you still need fro
 ```
 
 ### Safe fetching
+
 ```
 Implement fetching of the QR link in the verification service.
 Allow only HTTPS URLs whose host is in the provider_hosts allowlist. Follow redirects only if every hop stays on the list.
@@ -118,6 +126,7 @@ huge and slow responses. Show me the results and confirm no request left the all
 ```
 
 ### Run and summarise evals
+
 ```
 Run pnpm evals:run --suite {suite} (safe_fetch, parsing, receiver, decisions, concurrency, or all). Compare against the last report in evals/reports.
 Summarise using the template in docs/agent/EVALS.md. List the 10 worst failures with causes,
@@ -129,6 +138,7 @@ and tell me honestly whether any target is missed.
 ## 6. Mobile and companion
 
 ### Cashier screen
+
 ```
 Build the "{screen}" screen from docs/03-app-flow.md and docs/04-uiux-design-brief.md.
 Use only tokens from packages/ui-tokens and components from DESIGN.md.
@@ -143,6 +153,7 @@ Apply Jakob's, Hick's, proximity, Miller's, and Von Restorff where they fit, and
 ```
 
 ### Offline outbox
+
 ```
 Implement the sales outbox on the device: save each sale locally with a UUID v7 and idempotency key,
 upload with exponential backoff, mark synced on server acknowledgement.
@@ -151,6 +162,7 @@ Show the sync status banner states from DESIGN.md.
 ```
 
 ### Receiver matching
+
 ```
 Implement receiver matching: given a provider record and the branch's saved payment accounts,
 return match, near-match (warn), or no match. Normalize names (case, spacing, punctuation, common transliterations).
@@ -159,6 +171,7 @@ Report false accepts and false rejects. A look-alike must never match.
 ```
 
 ### SMS companion parser (optional backup evidence)
+
 ```
 Only if the SMS backup is being built. Implement SMS filtering and parsing in the Kotlin companion for {provider}.
 Accept only the configured sender IDs. Ignore and store nothing for everything else.
@@ -185,6 +198,7 @@ Use skeletons that match each block, keep the initial script small, and show fri
 ## 8. Design
 
 ### Critique a screen
+
 ```
 Review this screen against docs/04-uiux-design-brief.md and DESIGN.md.
 Check: contrast, touch targets, states, microcopy, hierarchy, whether the main action is obvious
@@ -193,6 +207,7 @@ with a concrete fix for each. Do not rewrite everything.
 ```
 
 ### Microcopy
+
 ```
 Write the text for {screen/state}. Follow the voice rules in DESIGN.md section 8:
 plain verbs, sentence case, say what happened and what to do next, no apology or blame.
@@ -204,6 +219,7 @@ Give the translation keys and English text, and note any words that may not tran
 ## 9. Review and security
 
 ### Code review
+
 ```
 Review this change against docs/agent/GUARDRAILS.md section 8.
 Answer each checklist question with yes, no, or not applicable and the evidence.
@@ -212,6 +228,7 @@ let a fetch go to a host outside the allowlist, or let a user cross a business o
 ```
 
 ### Authorization matrix
+
 ```
 Generate an authorization test matrix: every endpoint against owner, cashier at branch A,
 cashier at branch B, suspended cashier, and unauthenticated. Expected result for each cell.
@@ -219,6 +236,7 @@ Implement it as one parameterised test and run it. Report any cell that fails.
 ```
 
 ### Threat check
+
 ```
 Pick the feature "{feature}". Walk through the threat table in docs/agent/GUARDRAILS.md.
 Which threats apply, what is the current mitigation in code, what is missing, and what test would prove it?
@@ -229,6 +247,7 @@ Which threats apply, what is the current mitigation in code, what is missing, an
 ## 10. Documentation and thesis
 
 ### Sync docs
+
 ```
 Compare the current code with docs/02-technical-requirements.md and docs/05-backend-schema.md.
 List every place they disagree. For each, say which should change and why.
@@ -236,6 +255,7 @@ Do not edit until I choose.
 ```
 
 ### Thesis section
+
 ```
 Draft the thesis section "{section}" from the project docs and the latest eval report.
 Use plain language and cite specific numbers from the report. State limitations honestly.
@@ -243,6 +263,7 @@ Mark every claim you cannot support from the repo with [NEEDS EVIDENCE].
 ```
 
 ### Proposal difference paragraph
+
 ```
 Using the past-project list I will paste below, write an 80 to 150 word paragraph on how this project
 differs from the closest one. Name that project and be specific. Do not claim differences you cannot see in the list.
@@ -253,6 +274,7 @@ differs from the closest one. Name that project and be specific. Do not claim di
 ## 11. Security, UX, and speed checks
 
 ### RLS for a new table
+
 ```
 Table {name} was added. Enable and force row-level security, and write policies for select, insert, update,
 and delete based on app.org_id, app.role, app.branch_ids, and app.user_id (see docs/05-backend-schema.md section 7).
@@ -261,6 +283,7 @@ another business, and no context. Show me the matrix and any cell that fails.
 ```
 
 ### Secrets and client bundle check
+
 ```
 Scan the repo, the built web bundle, and the Android build output for secrets, keys, and any value from the server .env.
 Check that no private setting uses a public-prefixed variable name. Report each finding with its file and how to fix it.
@@ -268,6 +291,7 @@ If anything was ever committed, say which secret to rotate first.
 ```
 
 ### Error leakage check
+
 ```
 Force these failures: database unreachable, a query error, a provider timeout, invalid input, an oversized body, and a rate-limit hit.
 For each, show me exactly what the client receives and what the user sees. Fail the check if any response or screen shows a stack trace,
@@ -275,6 +299,7 @@ SQL, table or column names, internal IDs, file paths, or raw server text.
 ```
 
 ### Rate limit for a route
+
 ```
 Add rate limiting to {METHOD /v1/path}. Pick the route class from SECURITY.md section 8 and key it by
 user, device, and IP as that class says. Limits live in configuration and are shared across API instances.
@@ -284,6 +309,7 @@ Show me the limit you chose and why.
 ```
 
 ### Skeleton and feedback pass
+
 ```
 List every screen that loads data. For each, show its skeleton (matching the final layout), what happens while loading,
 offline, and on error, and the time to first feedback when a control is tapped.
@@ -292,6 +318,7 @@ and any optimistic update that shows a money result before the server decides.
 ```
 
 ### Speed review
+
 ```
 Review {feature} for: uncompressed or oversized JSON, N+1 queries, writes in loops, missing indexes,
 repeated reads, work that blocks the request and could be queued, a single dependency that can stop the shop,

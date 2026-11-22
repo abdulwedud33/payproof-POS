@@ -4,12 +4,13 @@
 
 @layer base {
   :root {
-    --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-sans:
+      'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 
   body {
-    background-color: #F8FAFC;
-    color: #0F172A;
+    background-color: #f8fafc;
+    color: #0f172a;
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
@@ -21,7 +22,8 @@
 
 /* Skeleton pulse animation */
 @keyframes pulse-subtle {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -31,5 +33,5 @@
 
 .animate-skeleton {
   animation: pulse-subtle 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  background-color: #E2E8F0;
+  background-color: #e2e8f0;
 }

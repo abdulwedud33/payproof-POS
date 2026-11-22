@@ -58,7 +58,13 @@ describe('Accessible Verdict Presentation Model (DESIGN § 5.3 & § 7-9)', () =>
       alertRaised: false,
     };
 
-    const model = VerdictModel.getVerdictPresentation(totalMinor, branchName, provider, decision, 12);
+    const model = VerdictModel.getVerdictPresentation(
+      totalMinor,
+      branchName,
+      provider,
+      decision,
+      12
+    );
 
     expect(model.status).toBe('waiting');
     expect(model.headline).toBe('Waiting');

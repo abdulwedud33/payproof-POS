@@ -19,9 +19,15 @@ export class ReportService {
     _orgId: string,
     options?: ReportFilterOptions
   ): Promise<ReportSummaryResponse> {
-    const isBole = options?.branchId?.includes('bole') || options?.branchId === '22222222-2222-2222-2222-222222222221';
-    const isPiassa = options?.branchId?.includes('piassa') || options?.branchId === '22222222-2222-2222-2222-222222222222';
-    const isAdama = options?.branchId?.includes('adama') || options?.branchId === '22222222-2222-2222-2222-222222222223';
+    const isBole =
+      options?.branchId?.includes('bole') ||
+      options?.branchId === '22222222-2222-2222-2222-222222222221';
+    const isPiassa =
+      options?.branchId?.includes('piassa') ||
+      options?.branchId === '22222222-2222-2222-2222-222222222222';
+    const isAdama =
+      options?.branchId?.includes('adama') ||
+      options?.branchId === '22222222-2222-2222-2222-222222222223';
 
     // Multi-branch aggregated seeded metrics (ASTU Senior Project evaluation data)
     let totalIncome = 4823000n; // 48,230.00 Birr

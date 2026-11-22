@@ -127,7 +127,8 @@ export function PaymentAccountsManager({
             Verified Receiving Accounts
           </h3>
           <p className="text-xs text-slate-500 mt-0.5">
-            Cashier verification matches against these official merchant accounts. Protected by Owner PIN.
+            Cashier verification matches against these official merchant accounts. Protected by
+            Owner PIN.
           </p>
         </div>
 
@@ -163,7 +164,9 @@ export function PaymentAccountsManager({
                 <td colSpan={6} className="px-4 py-12 text-center text-slate-400">
                   <div className="flex flex-col items-center justify-center">
                     <CreditCard className="w-8 h-8 text-slate-300 mb-2" />
-                    <p className="text-sm font-semibold text-slate-700">No payment accounts registered</p>
+                    <p className="text-sm font-semibold text-slate-700">
+                      No payment accounts registered
+                    </p>
                     <p className="text-xs text-slate-400 mt-0.5">
                       Register your Telebirr or CBE merchant accounts so payments can be verified.
                     </p>

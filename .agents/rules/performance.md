@@ -1,6 +1,6 @@
 ---
 trigger: model_decision
-description: "Apply when designing API responses, database writes, sync, caching, hosting, or anything about speed."
+description: 'Apply when designing API responses, database writes, sync, caching, hosting, or anything about speed.'
 ---
 
 # Performance rules

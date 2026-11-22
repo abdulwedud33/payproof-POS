@@ -1,8 +1,5 @@
 import type { FastifyPluginAsync } from 'fastify';
-import {
-  CreateBranchRequestSchema,
-  UpdateBranchRequestSchema,
-} from '@payproof/shared-types';
+import { CreateBranchRequestSchema, UpdateBranchRequestSchema } from '@payproof/shared-types';
 import { BranchService } from '../services/branch-service.js';
 import { requireAuth, requireRole } from '../middleware/auth.js';
 

@@ -73,14 +73,28 @@ describe('Pure Decision Engine (TRD 4.4 Rules 1 to 9)', () => {
 
   it('Rule 3: Enters WAITING state when provider reports pending status', () => {
     const pendingEvidence = { ...validEvidence, status: 'pending' as const };
-    const decision = evaluatePaymentDecision(pendingEvidence, null, sale, branchAccounts, false, now);
+    const decision = evaluatePaymentDecision(
+      pendingEvidence,
+      null,
+      sale,
+      branchAccounts,
+      false,
+      now
+    );
     expect(decision.verdict).toBe('waiting');
     expect(decision.rejectReason).toBeNull();
   });
 
   it('Rule 4: Rejects when provider reports status as failed or reversed', () => {
     const failedEvidence = { ...validEvidence, status: 'failed' as const };
-    const decision = evaluatePaymentDecision(failedEvidence, null, sale, branchAccounts, false, now);
+    const decision = evaluatePaymentDecision(
+      failedEvidence,
+      null,
+      sale,
+      branchAccounts,
+      false,
+      now
+    );
     expect(decision.verdict).toBe('rejected');
     expect(decision.rejectReason).toBe('not_successful');
   });
@@ -91,7 +105,14 @@ describe('Pure Decision Engine (TRD 4.4 Rules 1 to 9)', () => {
       receiverName: 'Different Supermarket PLC',
       receiverAccountMasked: '1000****9999',
     };
-    const decision = evaluatePaymentDecision(wrongReceiverEvidence, null, sale, branchAccounts, false, now);
+    const decision = evaluatePaymentDecision(
+      wrongReceiverEvidence,
+      null,
+      sale,
+      branchAccounts,
+      false,
+      now
+    );
     expect(decision.verdict).toBe('rejected');
     expect(decision.rejectReason).toBe('wrong_receiver');
     expect(decision.alertRaised).toBe(true);
@@ -154,7 +175,14 @@ describe('Pure Decision Engine (TRD 4.4 Rules 1 to 9)', () => {
       ...validEvidence,
       amountMinor: 20000n, // Paid 200.00 ETB for 150.00 ETB total
     };
-    const decision = evaluatePaymentDecision(overpaidEvidence, null, sale, branchAccounts, false, now);
+    const decision = evaluatePaymentDecision(
+      overpaidEvidence,
+      null,
+      sale,
+      branchAccounts,
+      false,
+      now
+    );
     expect(decision.verdict).toBe('verified');
     expect(decision.shortfallMinor).toBeNull();
   });

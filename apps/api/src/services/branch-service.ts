@@ -43,7 +43,14 @@ export class BranchService {
         `INSERT INTO branches (id, org_id, name, city, address, timezone, status)
          VALUES ($1, $2, $3, $4, $5, $6, 'active')
          RETURNING id, org_id AS "orgId", name, city, address, timezone, status, created_at AS "createdAt"`,
-        [branchId, user.orgId, req.name, req.city ?? null, req.address ?? null, req.timezone || 'Africa/Addis_Ababa']
+        [
+          branchId,
+          user.orgId,
+          req.name,
+          req.city ?? null,
+          req.address ?? null,
+          req.timezone || 'Africa/Addis_Ababa',
+        ]
       );
 
       // Audit Log

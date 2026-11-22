@@ -1,6 +1,6 @@
 ---
 trigger: model_decision
-description: "Apply whenever writing or reviewing authentication, authorization, API endpoints, input handling, error handling, secrets or config, file or link handling, rate limiting, logging, or anything that touches money or personal data."
+description: 'Apply whenever writing or reviewing authentication, authorization, API endpoints, input handling, error handling, secrets or config, file or link handling, rate limiting, logging, or anything that touches money or personal data.'
 ---
 
 # Security rules (PayProof POS)

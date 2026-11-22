@@ -64,7 +64,10 @@ export function fromBirrDecimalString(birrStr: string): bigint {
 /**
  * Formats integer santim into standard human-readable display string: "318.00 Birr".
  */
-export function formatBirr(santim: bigint | number | string, includeSuffix: boolean = true): string {
+export function formatBirr(
+  santim: bigint | number | string,
+  includeSuffix: boolean = true
+): string {
   const minor = toMinor(santim);
   const isNegative = minor < 0n;
   const absMinor = isNegative ? -minor : minor;
@@ -92,7 +95,10 @@ export function subtract(a: bigint | number, b: bigint | number): bigint {
  * Multiplies an integer santim amount by a numeric quantity (e.g. 3.2 kg).
  * Quantity must be a valid non-negative number or string. Uses round-half-up.
  */
-export function multiplyQuantity(unitPriceMinor: bigint | number, quantity: number | string): bigint {
+export function multiplyQuantity(
+  unitPriceMinor: bigint | number,
+  quantity: number | string
+): bigint {
   const price = toMinor(unitPriceMinor);
   if (price < 0n) {
     throw new MoneyError(`Unit price cannot be negative: ${price}`);

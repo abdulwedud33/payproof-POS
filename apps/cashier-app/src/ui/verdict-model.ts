@@ -52,9 +52,7 @@ export class VerdictModel {
       formattedAmount: formatted,
       subtitle: 'Contacting official provider service',
       detailMessage: 'Please hold still while we verify the transaction record',
-      actions: [
-        { id: 'cancel', label: 'Cancel', isPrimary: false },
-      ],
+      actions: [{ id: 'cancel', label: 'Cancel', isPrimary: false }],
       isSkeleton: true,
       accessibilityLabel: `Checking payment of ${formatted} with provider. Please wait.`,
     };
@@ -86,9 +84,7 @@ export class VerdictModel {
         subtitle: `${provider.toUpperCase()} · To ${branchName}`,
         detailMessage: 'Payment verified and claimed atomically.',
         warningMessage: nearMatchWarning,
-        actions: [
-          { id: 'complete_sale', label: 'Complete sale', isPrimary: true },
-        ],
+        actions: [{ id: 'complete_sale', label: 'Complete sale', isPrimary: true }],
         isSkeleton: false,
         accessibilityLabel: `Payment of ${formattedAmount} to ${branchName} successfully verified. Tap to complete sale.`,
       };

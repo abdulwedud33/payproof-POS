@@ -28,16 +28,18 @@ export interface ReceiverMatchResult {
 export function normalizeAccountHolderName(rawName: string): string {
   if (!rawName) return '';
 
-  return rawName
-    .normalize('NFKD')
-    .toLowerCase()
-    // Remove corporate & honorific titles as whole words
-    .replace(/\b(plc|p\.l\.c|share\s+company|s\.c|s\s+c|ato|w\/ro|w\/rt)\b/gi, ' ')
-    // Remove punctuation & special characters
-    .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()'"?]/g, ' ')
-    // Collapse whitespace
-    .replace(/\s+/g, ' ')
-    .trim();
+  return (
+    rawName
+      .normalize('NFKD')
+      .toLowerCase()
+      // Remove corporate & honorific titles as whole words
+      .replace(/\b(plc|p\.l\.c|share\s+company|s\.c|s\s+c|ato|w\/ro|w\/rt)\b/gi, ' ')
+      // Remove punctuation & special characters
+      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()'"?]/g, ' ')
+      // Collapse whitespace
+      .replace(/\s+/g, ' ')
+      .trim()
+  );
 }
 
 /**

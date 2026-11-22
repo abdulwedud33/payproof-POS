@@ -68,8 +68,12 @@ export function ProtectedStrip({ data, loading, onViewAlerts }: ProtectedStripPr
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             </div>
             <h3 className="text-base sm:text-lg font-bold text-white tracking-tight mt-0.5">
-              Protected this week: <span className="text-emerald-300 font-extrabold">{birrProtected}</span> across{' '}
-              <span className="text-emerald-300 font-extrabold">{data.suspiciousAttemptsCaught}</span> suspicious attempts
+              Protected this week:{' '}
+              <span className="text-emerald-300 font-extrabold">{birrProtected}</span> across{' '}
+              <span className="text-emerald-300 font-extrabold">
+                {data.suspiciousAttemptsCaught}
+              </span>{' '}
+              suspicious attempts
             </h3>
           </div>
         </div>
@@ -78,12 +82,20 @@ export function ProtectedStrip({ data, loading, onViewAlerts }: ProtectedStripPr
         <div className="flex items-center flex-wrap gap-5 pt-2 lg:pt-0 border-t border-slate-800 lg:border-t-0">
           <div className="flex items-center gap-4 text-xs">
             <div className="bg-slate-800/80 px-3 py-1.5 rounded-md border border-slate-700/60">
-              <span className="text-slate-400 block text-[10px] uppercase font-medium">Double-Spends</span>
-              <span className="font-bold text-slate-200 text-sm">{data.doubleSpendsPrevented} blocked</span>
+              <span className="text-slate-400 block text-[10px] uppercase font-medium">
+                Double-Spends
+              </span>
+              <span className="font-bold text-slate-200 text-sm">
+                {data.doubleSpendsPrevented} blocked
+              </span>
             </div>
             <div className="bg-slate-800/80 px-3 py-1.5 rounded-md border border-slate-700/60">
-              <span className="text-slate-400 block text-[10px] uppercase font-medium">Underpaid Attempts</span>
-              <span className="font-bold text-slate-200 text-sm">{data.underpaidPrevented} blocked</span>
+              <span className="text-slate-400 block text-[10px] uppercase font-medium">
+                Underpaid Attempts
+              </span>
+              <span className="font-bold text-slate-200 text-sm">
+                {data.underpaidPrevented} blocked
+              </span>
             </div>
           </div>
 

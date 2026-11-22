@@ -1,7 +1,7 @@
 ---
 trigger: glob
-globs: "apps/cashier-app/**, apps/owner-web/**, packages/ui-tokens/**"
-description: "Any user interface work: screens, components, loading, errors, onboarding, copy."
+globs: 'apps/cashier-app/**, apps/owner-web/**, packages/ui-tokens/**'
+description: 'Any user interface work: screens, components, loading, errors, onboarding, copy.'
 ---
 
 # UI and UX rules

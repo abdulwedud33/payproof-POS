@@ -50,7 +50,9 @@ export function buildMockProviderApp() {
 
     if (scenarioKey.includes('MALFORMED')) {
       reply.type('text/html');
-      return reply.send('<!DOCTYPE html><html><body><h1>Service Notice</h1><p>System undergoing maintenance</p></body></html>');
+      return reply.send(
+        '<!DOCTYPE html><html><body><h1>Service Notice</h1><p>System undergoing maintenance</p></body></html>'
+      );
     }
 
     let status: 'SUCCESS' | 'PENDING' | 'FAILED' = 'SUCCESS';
@@ -93,7 +95,11 @@ export function buildMockProviderApp() {
   return app;
 }
 
-if (process.env.NODE_ENV !== 'test' && !process.env.VITEST && (process.argv[1]?.endsWith('server.ts') || process.argv[1]?.endsWith('server.js'))) {
+if (
+  process.env.NODE_ENV !== 'test' &&
+  !process.env.VITEST &&
+  (process.argv[1]?.endsWith('server.ts') || process.argv[1]?.endsWith('server.js'))
+) {
   const isDirectRun = !process.env.VITEST && !process.env.TEST;
   if (isDirectRun) {
     const server = buildMockProviderApp();

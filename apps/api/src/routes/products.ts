@@ -1,8 +1,5 @@
 import type { FastifyPluginAsync } from 'fastify';
-import {
-  CreateProductRequestSchema,
-  UpdateProductRequestSchema,
-} from '@payproof/shared-types';
+import { CreateProductRequestSchema, UpdateProductRequestSchema } from '@payproof/shared-types';
 import { ProductService } from '../services/product-service.js';
 import { requireAuth, requireRole } from '../middleware/auth.js';
 

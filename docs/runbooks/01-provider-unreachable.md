@@ -2,11 +2,12 @@
 
 **Severity:** P2 (High)  
 **Applies to:** Telebirr, CBE Birr receipt verification endpoints  
-**Target Resolution Time:** < 15 minutes  
+**Target Resolution Time:** < 15 minutes
 
 ---
 
 ## 1. Symptoms & Alert Triggers
+
 - Cashiers reporting mobile-money verification hanging in `Waiting` state (> 12 seconds).
 - System alerts: `PROVIDER_UNREACHABLE`, `SAFE_FETCH_TIMEOUT`, or sudden surge in `VERIFICATION_SLOW`.
 - Cashier tablet displays the countdown timer reaching 0 and transitioning to "Waiting for provider confirmation... Re-check / Owner Override".
@@ -14,6 +15,7 @@
 ---
 
 ## 2. Immediate Cashier Actions (Counter Operations)
+
 1. **Cash Sales Unaffected**: Instruct cashiers that cash sales operate 100% locally and are completely unaffected by external network or provider status.
 2. **Customer Re-Check**:
    - Customer keeps receipt on their phone screen.
@@ -26,6 +28,7 @@
 ---
 
 ## 3. Engineering Diagnosis & Resolution Steps
+
 1. **Check Provider Health**:
    - Test outgoing connectivity from the server:
      ```powershell

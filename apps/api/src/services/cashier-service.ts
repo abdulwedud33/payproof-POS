@@ -45,10 +45,7 @@ export class CashierService {
       }
 
       // 2. Check phone uniqueness
-      const existing = await client.query(
-        `SELECT id FROM users WHERE phone = $1`,
-        [req.phone]
-      );
+      const existing = await client.query(`SELECT id FROM users WHERE phone = $1`, [req.phone]);
       if (existing.rows.length > 0) {
         throw new AppApiError({
           code: ErrorCode.CONFLICT,
@@ -72,16 +69,22 @@ export class CashierService {
       );
 
       // Assign to branch
-      await client.query(
-        `INSERT INTO user_branches (user_id, branch_id) VALUES ($1, $2)`,
-        [cashierId, req.branchId]
-      );
+      await client.query(`INSERT INTO user_branches (user_id, branch_id) VALUES ($1, $2)`, [
+        cashierId,
+        req.branchId,
+      ]);
 
       // Audit Log
       await client.query(
         `INSERT INTO audit_logs (org_id, actor_id, actor_role, action, entity_type, entity_id, meta)
          VALUES ($1, $2, $3, 'cashier.create', 'user', $4, $5)`,
-        [user.orgId, user.id, user.role, cashierId, JSON.stringify({ fullName: req.fullName, branchId: req.branchId })]
+        [
+          user.orgId,
+          user.id,
+          user.role,
+          cashierId,
+          JSON.stringify({ fullName: req.fullName, branchId: req.branchId }),
+        ]
       );
 
       const cashier: CashierResponse = {
@@ -192,7 +195,9 @@ export class CashierService {
 
       let hasSales = false;
       if (salesCheck.rows[0]?.exists) {
-        const salesRes = await client.query('SELECT 1 FROM sales WHERE cashier_id = $1 LIMIT 1', [cashierId]);
+        const salesRes = await client.query('SELECT 1 FROM sales WHERE cashier_id = $1 LIMIT 1', [
+          cashierId,
+        ]);
         hasSales = salesRes.rows.length > 0;
       }
 

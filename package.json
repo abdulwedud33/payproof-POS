@@ -10,6 +10,8 @@
     "test:rls": "turbo run test:rls",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "scan:secrets": "node scripts/scan-secrets.js",
     "test:verification": "cd services/verification && python -m pytest tests",
     "db:migrate": "pnpm --filter db migrate",
@@ -21,7 +23,10 @@
     "prettier": "^3.5.3"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["argon2", "esbuild"],
+    "onlyBuiltDependencies": [
+      "argon2",
+      "esbuild"
+    ],
     "overrides": {
       "fast-jwt": "^6.2.0"
     }

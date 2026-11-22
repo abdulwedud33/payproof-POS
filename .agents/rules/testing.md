@@ -1,6 +1,6 @@
 ---
 trigger: model_decision
-description: "Apply when writing tests, fixing bugs, finishing a task, or deciding whether work is done."
+description: 'Apply when writing tests, fixing bugs, finishing a task, or deciding whether work is done.'
 ---
 
 # Testing rules

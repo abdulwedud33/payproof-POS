@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import type { ProductResponse, SaleResponse } from '@payproof/shared-types';
 import { SummaryCards, type SummaryData } from '../components/SummaryCards';
-import { ProductTable } from '../components/ProductTable';
+import { ProductTable, type ExtendedProduct } from '../components/ProductTable';
 import { SalesTable } from '../components/SalesTable';
 import { CsvImportModal } from '../components/CsvImportModal';
 import { VoidModal } from '../components/VoidModal';
@@ -24,6 +24,7 @@ import {
   type ReportSummary,
   type DimensionBreakdownItem,
 } from '../components/ReportsView';
+import { translations, type Locale } from '../i18n';
 import {
   Package,
   Receipt,
@@ -33,6 +34,7 @@ import {
   Store,
   CreditCard,
   ShieldAlert,
+  Globe,
 } from 'lucide-react';
 
 // Seed Branches
@@ -151,13 +153,14 @@ const INITIAL_ALERTS: AlertItem[] = [
     amount_minor: 18000,
     status: 'resolved',
     resolved_at: new Date(Date.now() - 1000 * 60 * 120).toISOString(),
-    resolution_notes: 'Customer transferred to personal phone instead of official merchant QR. Rectified.',
+    resolution_notes:
+      'Customer transferred to personal phone instead of official merchant QR. Rectified.',
     created_at: new Date(Date.now() - 1000 * 60 * 180).toISOString(),
   },
 ];
 
-// Seed Products
-const INITIAL_PRODUCTS: ProductResponse[] = [
+// Seed Products with Stock Tracking
+const INITIAL_PRODUCTS: ExtendedProduct[] = [
   {
     id: '11111111-1111-1111-1111-111111111101',
     org_id: '11111111-1111-1111-1111-111111111111',
@@ -166,6 +169,8 @@ const INITIAL_PRODUCTS: ProductResponse[] = [
     sku: 'TEF-MAG-01',
     unit: 'kg',
     price_minor: 12500,
+    stock_quantity: 4,
+    low_stock_threshold: 10,
     active: true,
     barcodes: ['690100100001'],
     updated_at: new Date().toISOString(),
@@ -179,6 +184,8 @@ const INITIAL_PRODUCTS: ProductResponse[] = [
     sku: 'SPC-SHR-05',
     unit: 'pack',
     price_minor: 16000,
+    stock_quantity: 35,
+    low_stock_threshold: 10,
     active: true,
     barcodes: ['690100100010'],
     updated_at: new Date().toISOString(),
@@ -192,6 +199,8 @@ const INITIAL_PRODUCTS: ProductResponse[] = [
     sku: 'OIL-SNF-01',
     unit: 'litre',
     price_minor: 32000,
+    stock_quantity: 6,
+    low_stock_threshold: 10,
     active: true,
     barcodes: ['690100100030'],
     updated_at: new Date().toISOString(),
@@ -205,6 +214,8 @@ const INITIAL_PRODUCTS: ProductResponse[] = [
     sku: 'MLK-SHL-05',
     unit: 'piece',
     price_minor: 6000,
+    stock_quantity: 48,
+    low_stock_threshold: 10,
     active: true,
     barcodes: ['690100100040'],
     updated_at: new Date().toISOString(),
@@ -218,6 +229,8 @@ const INITIAL_PRODUCTS: ProductResponse[] = [
     sku: 'INJ-PCK-10',
     unit: 'pack',
     price_minor: 18000,
+    stock_quantity: 18,
+    low_stock_threshold: 10,
     active: true,
     barcodes: ['690100100050'],
     updated_at: new Date().toISOString(),
@@ -231,6 +244,8 @@ const INITIAL_PRODUCTS: ProductResponse[] = [
     sku: 'BEV-AMB-05',
     unit: 'piece',
     price_minor: 3500,
+    stock_quantity: 82,
+    low_stock_threshold: 10,
     active: true,
     barcodes: ['690100100070'],
     updated_at: new Date().toISOString(),
@@ -298,16 +313,19 @@ export default function DashboardPage() {
     'overview' | 'reports' | 'branches' | 'accounts' | 'alerts' | 'products' | 'sales'
   >('overview');
   const [selectedBranchId, setSelectedBranchId] = useState<string>('all');
+  const [locale, setLocale] = useState<Locale>('en');
   const [loading, setLoading] = useState(false);
+
+  const t = translations[locale];
 
   // Core Data States
   const [branches, setBranches] = useState<BranchItem[]>(INITIAL_BRANCHES);
   const [cashiers, setCashiers] = useState<CashierItem[]>(INITIAL_CASHIERS);
   const [accounts, setAccounts] = useState<PaymentAccountItem[]>(INITIAL_ACCOUNTS);
   const [alerts, setAlerts] = useState<AlertItem[]>(INITIAL_ALERTS);
-  const [products, setProducts] = useState<ProductResponse[]>(INITIAL_PRODUCTS);
+  const [products, setProducts] = useState<ExtendedProduct[]>(INITIAL_PRODUCTS);
   const [sales, setSales] = useState<SaleResponse[]>(INITIAL_SALES);
-  const [filteredProducts, setFilteredProducts] = useState<ProductResponse[]>(INITIAL_PRODUCTS);
+  const [filteredProducts, setFilteredProducts] = useState<ExtendedProduct[]>(INITIAL_PRODUCTS);
 
   // Modals
   const [isImportOpen, setIsImportOpen] = useState(false);
@@ -347,9 +365,7 @@ export default function DashboardPage() {
 
   // Filter sales by selected branch
   const activeBranchSales =
-    selectedBranchId === 'all'
-      ? sales
-      : sales.filter((s) => s.branch_id === selectedBranchId);
+    selectedBranchId === 'all' ? sales : sales.filter((s) => s.branch_id === selectedBranchId);
 
   // Protected Strip Data
   const protectedData: ProtectedStripData = {
@@ -433,10 +449,38 @@ export default function DashboardPage() {
   });
 
   const breakdownByHour: DimensionBreakdownItem[] = [
-    { key: '08-11', label: 'Morning (08:00 - 11:59)', salesCount: 14, totalIncomeMinor: 1420000, cashMinor: 600000, mobileMoneyMinor: 820000 },
-    { key: '12-14', label: 'Lunch Rush (12:00 - 14:59)', salesCount: 28, totalIncomeMinor: 3120000, cashMinor: 1100000, mobileMoneyMinor: 2020000 },
-    { key: '15-18', label: 'Afternoon Peak (15:00 - 18:59)', salesCount: 35, totalIncomeMinor: 4820000, cashMinor: 1520000, mobileMoneyMinor: 3300000 },
-    { key: '19-21', label: 'Evening Close (19:00 - 21:00)', salesCount: 12, totalIncomeMinor: 980000, cashMinor: 420000, mobileMoneyMinor: 560000 },
+    {
+      key: '08-11',
+      label: 'Morning (08:00 - 11:59)',
+      salesCount: 14,
+      totalIncomeMinor: 1420000,
+      cashMinor: 600000,
+      mobileMoneyMinor: 820000,
+    },
+    {
+      key: '12-14',
+      label: 'Lunch Rush (12:00 - 14:59)',
+      salesCount: 28,
+      totalIncomeMinor: 3120000,
+      cashMinor: 1100000,
+      mobileMoneyMinor: 2020000,
+    },
+    {
+      key: '15-18',
+      label: 'Afternoon Peak (15:00 - 18:59)',
+      salesCount: 35,
+      totalIncomeMinor: 4820000,
+      cashMinor: 1520000,
+      mobileMoneyMinor: 3300000,
+    },
+    {
+      key: '19-21',
+      label: 'Evening Close (19:00 - 21:00)',
+      salesCount: 12,
+      totalIncomeMinor: 980000,
+      cashMinor: 420000,
+      mobileMoneyMinor: 560000,
+    },
   ];
 
   const handleSearch = (term: string) => {
@@ -476,6 +520,15 @@ export default function DashboardPage() {
     const updated = [newProd, ...products];
     setProducts(updated);
     setFilteredProducts(updated);
+  };
+
+  const handleRestockProduct = (productId: string, amount: number) => {
+    const update = (list: ExtendedProduct[]) =>
+      list.map((p) =>
+        p.id === productId ? { ...p, stock_quantity: (p.stock_quantity ?? 0) + amount } : p
+      );
+    setProducts(update);
+    setFilteredProducts(update);
   };
 
   const handleImportCsv = async (csvText: string) => {
@@ -583,14 +636,20 @@ export default function DashboardPage() {
     if (owner_pin !== '1234' && owner_pin !== '9999') {
       throw new Error('Invalid Owner PIN. Authorization rejected.');
     }
-    setAccounts((prev) =>
-      prev.map((a) => (a.id === accountId ? { ...a, active: newActive } : a))
-    );
+    setAccounts((prev) => prev.map((a) => (a.id === accountId ? { ...a, active: newActive } : a)));
   };
 
   const handleExportCsv = async (timeRange: string, branchId: string) => {
     // Generate sanitized CSV content following CWE-1236 mitigation
-    const header = ['Transaction ID', 'Branch', 'Cashier', 'Payment Method', 'Amount (Birr)', 'Status', 'Date'];
+    const header = [
+      'Transaction ID',
+      'Branch',
+      'Cashier',
+      'Payment Method',
+      'Amount (Birr)',
+      'Status',
+      'Date',
+    ];
     const rows = activeBranchSales.map((s) => {
       const branch = branches.find((b) => b.id === s.branch_id)?.name || 'Bole Branch';
       const cashier = cashiers.find((c) => c.id === s.cashier_id)?.name || 'Cashier 1';
@@ -627,7 +686,9 @@ export default function DashboardPage() {
       {/* Top Banner, Multi-Branch Selector & Control */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Supermarket Operations</h2>
+          <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
+            {t.appName} · {t.appSubtitle}
+          </h2>
           <p className="text-sm text-slate-500 mt-1">
             Multi-branch management, fraud prevention journal, and real-time cashier monitoring
           </p>
@@ -642,12 +703,26 @@ export default function DashboardPage() {
               onChange={(e) => setSelectedBranchId(e.target.value)}
               className="text-xs font-bold text-slate-800 bg-transparent py-1 pr-3 focus:outline-hidden cursor-pointer"
             >
-              <option value="all">All Branches (Consolidated)</option>
+              <option value="all">{t.allBranches}</option>
               {branches.map((b) => (
                 <option key={b.id} value={b.id}>
                   {b.name} ({b.code})
                 </option>
               ))}
+            </select>
+          </div>
+
+          {/* Language Switcher (Amharic / English / Afaan Oromoo) */}
+          <div className="flex items-center gap-1.5 bg-white border border-slate-200 rounded-lg p-1 shadow-2xs">
+            <Globe className="w-3.5 h-3.5 text-slate-400 ml-1.5" />
+            <select
+              value={locale}
+              onChange={(e) => setLocale(e.target.value as Locale)}
+              className="text-xs font-semibold text-slate-800 bg-transparent py-1 pr-2 focus:outline-hidden cursor-pointer"
+            >
+              <option value="en">English (EN)</option>
+              <option value="am">አማርኛ (AM)</option>
+              <option value="om">Afaan Oromoo (OM)</option>
             </select>
           </div>
 
@@ -658,7 +733,7 @@ export default function DashboardPage() {
             title="Simulate network load to inspect zero-CLS layout skeletons"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
-            Refresh
+            {t.refresh}
           </button>
         </div>
       </div>
@@ -675,7 +750,7 @@ export default function DashboardPage() {
           }`}
         >
           <LayoutDashboard className="w-4 h-4" />
-          Overview
+          {t.overview}
         </button>
         <button
           type="button"
@@ -687,7 +762,7 @@ export default function DashboardPage() {
           }`}
         >
           <BarChart3 className="w-4 h-4" />
-          Reports & Trends
+          {t.reports}
         </button>
         <button
           type="button"
@@ -699,7 +774,7 @@ export default function DashboardPage() {
           }`}
         >
           <Store className="w-4 h-4" />
-          Branches & Cashiers
+          {t.branchesAndCashiers}
         </button>
         <button
           type="button"
@@ -711,7 +786,7 @@ export default function DashboardPage() {
           }`}
         >
           <CreditCard className="w-4 h-4" />
-          Saved Accounts
+          {t.savedAccounts}
         </button>
         <button
           type="button"
@@ -723,7 +798,7 @@ export default function DashboardPage() {
           }`}
         >
           <ShieldAlert className="w-4 h-4" />
-          Fraud Alerts ({alerts.filter((a) => a.status === 'open').length})
+          {t.fraudAlerts} ({alerts.filter((a) => a.status === 'open').length})
         </button>
         <button
           type="button"
@@ -735,7 +810,7 @@ export default function DashboardPage() {
           }`}
         >
           <Package className="w-4 h-4" />
-          Catalog Products ({filteredProducts.length})
+          {t.catalogProducts} ({filteredProducts.length})
         </button>
         <button
           type="button"
@@ -747,7 +822,7 @@ export default function DashboardPage() {
           }`}
         >
           <Receipt className="w-4 h-4" />
-          Sales Journal ({activeBranchSales.length})
+          {t.salesJournal} ({activeBranchSales.length})
         </button>
       </div>
 
@@ -830,11 +905,7 @@ export default function DashboardPage() {
       )}
 
       {activeTab === 'alerts' && (
-        <AlertsTable
-          alerts={alerts}
-          loading={loading}
-          onResolveAlert={handleResolveAlert}
-        />
+        <AlertsTable alerts={alerts} loading={loading} onResolveAlert={handleResolveAlert} />
       )}
 
       {activeTab === 'products' && (
@@ -844,6 +915,7 @@ export default function DashboardPage() {
           onSearch={handleSearch}
           onAddProduct={handleAddProduct}
           onOpenImport={() => setIsImportOpen(true)}
+          onRestockProduct={handleRestockProduct}
         />
       )}
 

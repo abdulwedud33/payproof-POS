@@ -1,7 +1,7 @@
 ---
 trigger: glob
-globs: "services/verification/**, services/mock-provider/**, apps/api/src/**/payments/**, apps/api/src/**/verification/**"
-description: "Payment verification: QR links, provider page fetching, parsing, receiver matching, the decision engine, and claims."
+globs: 'services/verification/**, services/mock-provider/**, apps/api/src/**/payments/**, apps/api/src/**/verification/**'
+description: 'Payment verification: QR links, provider page fetching, parsing, receiver matching, the decision engine, and claims.'
 ---
 
 # Verification rules

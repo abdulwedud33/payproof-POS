@@ -1,10 +1,10 @@
 # 04 · UI/UX Design Brief
 
-| | |
-|---|---|
-| **Version** | 0.1 draft, 24 Oct 2026 |
-| **Tokens and components** | [DESIGN.md](../DESIGN.md) |
-| **Flows** | [03-app-flow.md](03-app-flow.md) |
+|                           |                                  |
+| ------------------------- | -------------------------------- |
+| **Version**               | 0.1 draft, 24 Oct 2026           |
+| **Tokens and components** | [DESIGN.md](../DESIGN.md)        |
+| **Flows**                 | [03-app-flow.md](03-app-flow.md) |
 
 ---
 
@@ -12,7 +12,7 @@
 
 **Subject:** a supermarket checkout counter in Ethiopia, where payment is a screenshot and trust is the problem.
 **Audience:** cashiers under queue pressure, and owners checking in from a laptop or phone.
-**Primary job of the design:** get a cashier to a confident *take the money / don't take the money* answer in under a second of looking.
+**Primary job of the design:** get a cashier to a confident _take the money / don't take the money_ answer in under a second of looking.
 
 ## 2. The design idea
 
@@ -22,16 +22,16 @@ Spend boldness there. Keep the rest disciplined.
 
 ## 3. Context the design must respect
 
-| Condition | Design consequence |
-|---|---|
-| Bright, mixed shop lighting, phone glare | High contrast, large type, no pale-gray-on-white text |
-| One hand holds goods or the phone | Primary actions in the bottom thumb zone, 56 px minimum height |
-| Noisy | Verdict also uses haptics and an optional short sound. Never rely on audio alone |
-| A queue is watching | No modal chains. One decision per screen |
-| Mid-range Android, 360 × 800 | Design at 360 wide first. No heavy blur or animated gradients |
-| Intermittent internet | Always show connection and sync state. Never a spinner without a reason |
-| Many users read English as a second language | Short plain sentences, numerals first, icons paired with words |
-| Money | Numbers are tabular-aligned and never truncated. Currency is always shown |
+| Condition                                    | Design consequence                                                               |
+| -------------------------------------------- | -------------------------------------------------------------------------------- |
+| Bright, mixed shop lighting, phone glare     | High contrast, large type, no pale-gray-on-white text                            |
+| One hand holds goods or the phone            | Primary actions in the bottom thumb zone, 56 px minimum height                   |
+| Noisy                                        | Verdict also uses haptics and an optional short sound. Never rely on audio alone |
+| A queue is watching                          | No modal chains. One decision per screen                                         |
+| Mid-range Android, 360 × 800                 | Design at 360 wide first. No heavy blur or animated gradients                    |
+| Intermittent internet                        | Always show connection and sync state. Never a spinner without a reason          |
+| Many users read English as a second language | Short plain sentences, numerals first, icons paired with words                   |
+| Money                                        | Numbers are tabular-aligned and never truncated. Currency is always shown        |
 
 ## 4. Principles
 
@@ -115,6 +115,7 @@ VERIFIED                 WAITING                  REJECTED
 ```
 
 Behavior:
+
 - On arrival, the color floods from the center in about 300 ms, the icon draws, and the phone gives one haptic. Verified and Rejected use different haptic patterns so they can be felt.
 - With reduced-motion on, the screen simply appears with no animation.
 - The Verified screen names the receiver ("To Bole Branch") so the cashier can see the check really happened.
@@ -157,6 +158,7 @@ Behavior:
 ```
 
 Guidelines:
+
 - Answer the owner's first question ("how did today go?") with three numbers and a trend.
 - Alerts sit directly under the numbers, never hidden in a menu.
 - Charts are simple: bars for time, horizontal bars for comparison. One accent color, one neutral.
@@ -180,14 +182,14 @@ Detailed tokens live in [DESIGN.md](../DESIGN.md). In summary:
 
 ## 8. Content and voice
 
-| Principle | Example |
-|---|---|
-| Plain verbs, sentence case | "Complete sale", not "SUBMIT TRANSACTION" |
-| Say what happens | "Charge 318.00 Birr" |
-| Same name everywhere | The button says "Complete sale" and the confirmation says "Sale completed" |
-| Errors say what and what next | "Can't read this QR. Try again or enter the payment ID." |
-| No apologies, no blame | "Payment is 40.00 Birr short." not "Oops! Something went wrong" |
-| Names for people, not systems | "payment ID", not "transaction reference" |
+| Principle                     | Example                                                                    |
+| ----------------------------- | -------------------------------------------------------------------------- |
+| Plain verbs, sentence case    | "Complete sale", not "SUBMIT TRANSACTION"                                  |
+| Say what happens              | "Charge 318.00 Birr"                                                       |
+| Same name everywhere          | The button says "Complete sale" and the confirmation says "Sale completed" |
+| Errors say what and what next | "Can't read this QR. Try again or enter the payment ID."                   |
+| No apologies, no blame        | "Payment is 40.00 Birr short." not "Oops! Something went wrong"            |
+| Names for people, not systems | "payment ID", not "transaction reference"                                  |
 
 ## 9. Accessibility
 
@@ -216,25 +218,25 @@ Later: Empty states, onboarding checklist, CSV import wizard.
 
 Test with at least 5 people before final submission.
 
-| Task | Success measure |
-|---|---|
-| Sell 3 items for cash | Under 45 seconds, no help |
-| Sell 3 items by Telebirr with a real receipt | Under 60 seconds |
+| Task                                                            | Success measure                       |
+| --------------------------------------------------------------- | ------------------------------------- |
+| Sell 3 items for cash                                           | Under 45 seconds, no help             |
+| Sell 3 items by Telebirr with a real receipt                    | Under 60 seconds                      |
 | Handle a reused receipt and a payment sent to the wrong account | Correctly refuses and can explain why |
-| Owner adds a cashier and assigns a branch | Under 90 seconds |
-| Owner finds yesterday's income for one branch | Under 30 seconds |
+| Owner adds a cashier and assigns a branch                       | Under 90 seconds                      |
+| Owner finds yesterday's income for one branch                   | Under 30 seconds                      |
 
 ## 13. UX laws on this product
 
-Definitions and rules are in [DESIGN.md section 11](../DESIGN.md). This is where they show up. *(The brief's "Kabob's law" is Jakob's law: people expect your product to work like the ones they already know.)*
+Definitions and rules are in [DESIGN.md section 11](../DESIGN.md). This is where they show up. _(The brief's "Kabob's law" is Jakob's law: people expect your product to work like the ones they already know.)_
 
-| Law | Where it shows up |
-|---|---|
-| **Jakob's law** | The scan screen looks like any camera scanner. The cart is a list with a total at the bottom, like other shopping and checkout apps. The PIN pad looks like a phone lock screen. The owner dashboard uses a side menu and tables like common admin tools |
-| **Hick's law** | Charge screen: two choices (Cash, Mobile money). Verdict: one or two actions. Cashier home: one primary button. Owner menu: 7 items. Table filters: 3 visible, the rest under "More filters" |
-| **Law of proximity** | Cart row: name, quantity, and price sit on one row, 8 px apart, and rows are 16 px apart. On the verdict, the amount sits directly under the word and the reason directly under the amount. Destructive buttons sit at least 24 px from the primary one |
-| **Miller's law** | Dashboard home shows at most 4 stat cards. Onboarding has no more than 6 steps. Long numbers (payment IDs, account numbers) are shown in groups of 3 or 4. Lists load about 10 rows at a time. Cashier home shows no more than 3 things |
-| **Von Restorff effect** | One filled green button per screen. The verdict is the only full-screen color. Red appears only for rejection, fraud alerts, and destructive actions. "Needs attention" is the only tinted card on the dashboard home |
+| Law                     | Where it shows up                                                                                                                                                                                                                                        |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Jakob's law**         | The scan screen looks like any camera scanner. The cart is a list with a total at the bottom, like other shopping and checkout apps. The PIN pad looks like a phone lock screen. The owner dashboard uses a side menu and tables like common admin tools |
+| **Hick's law**          | Charge screen: two choices (Cash, Mobile money). Verdict: one or two actions. Cashier home: one primary button. Owner menu: 7 items. Table filters: 3 visible, the rest under "More filters"                                                             |
+| **Law of proximity**    | Cart row: name, quantity, and price sit on one row, 8 px apart, and rows are 16 px apart. On the verdict, the amount sits directly under the word and the reason directly under the amount. Destructive buttons sit at least 24 px from the primary one  |
+| **Miller's law**        | Dashboard home shows at most 4 stat cards. Onboarding has no more than 6 steps. Long numbers (payment IDs, account numbers) are shown in groups of 3 or 4. Lists load about 10 rows at a time. Cashier home shows no more than 3 things                  |
+| **Von Restorff effect** | One filled green button per screen. The verdict is the only full-screen color. Red appears only for rejection, fraud alerts, and destructive actions. "Needs attention" is the only tinted card on the dashboard home                                    |
 
 ## 14. Loading, feedback, and optimistic screens
 
@@ -242,17 +244,17 @@ Definitions and rules are in [DESIGN.md section 11](../DESIGN.md). This is where
 
 ### Skeleton inventory
 
-| Screen | Skeleton shape |
-|---|---|
-| Scan and cart | Cart rows (as many as last time, else 6) and the total bar |
-| Today's sales | 6 rows with an amount and a status chip each |
-| **Verdict while checking** | The verdict layout in neutral gray, with a plain status line ("Checking with provider") and a short step label. No spinner |
-| Sale detail | Header block, item rows, and a payment evidence card |
-| Owner home | 3 or 4 stat cards, one chart card, 5 branch rows, 3 alert rows |
-| Tables (sales, products, cashiers, branches) | Header row and 10 table rows |
-| Forms that load existing data | Field blocks in the final positions |
-| Payment accounts list | 2 account cards |
-| CSV import | A determinate progress bar with a count, since the length is known |
+| Screen                                       | Skeleton shape                                                                                                             |
+| -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Scan and cart                                | Cart rows (as many as last time, else 6) and the total bar                                                                 |
+| Today's sales                                | 6 rows with an amount and a status chip each                                                                               |
+| **Verdict while checking**                   | The verdict layout in neutral gray, with a plain status line ("Checking with provider") and a short step label. No spinner |
+| Sale detail                                  | Header block, item rows, and a payment evidence card                                                                       |
+| Owner home                                   | 3 or 4 stat cards, one chart card, 5 branch rows, 3 alert rows                                                             |
+| Tables (sales, products, cashiers, branches) | Header row and 10 table rows                                                                                               |
+| Forms that load existing data                | Field blocks in the final positions                                                                                        |
+| Payment accounts list                        | 2 account cards                                                                                                            |
+| CSV import                                   | A determinate progress bar with a count, since the length is known                                                         |
 
 ### Feedback
 
@@ -291,15 +293,15 @@ Nothing moves during onboarding. Space is reserved for every message, so the but
 
 Users never see backend errors: no codes, stack traces, table names, or URLs. The app maps each error code to one of these messages. Details stay in server logs.
 
-| Cause | The person sees | What they can do |
-|---|---|---|
-| No connection | "You're offline. Sales are saved on this phone." | Keep working |
-| Server slow | "This is taking longer than usual. Your sale is safe." | Wait or retry |
-| Provider not answering | "The provider isn't answering yet. Trying again." | Wait, retry, ask owner |
-| Too many tries | "Too many tries. Wait a minute and try again." | Wait |
-| Not allowed | "You don't have access to this." | Go back |
-| Session ended | "You were signed out. Sign in again. Your cart is saved." | Sign in |
-| Our fault | "Something went wrong on our side. Reference 7F3K." | Retry, quote the reference |
+| Cause                  | The person sees                                           | What they can do           |
+| ---------------------- | --------------------------------------------------------- | -------------------------- |
+| No connection          | "You're offline. Sales are saved on this phone."          | Keep working               |
+| Server slow            | "This is taking longer than usual. Your sale is safe."    | Wait or retry              |
+| Provider not answering | "The provider isn't answering yet. Trying again."         | Wait, retry, ask owner     |
+| Too many tries         | "Too many tries. Wait a minute and try again."            | Wait                       |
+| Not allowed            | "You don't have access to this."                          | Go back                    |
+| Session ended          | "You were signed out. Sign in again. Your cart is saved." | Sign in                    |
+| Our fault              | "Something went wrong on our side. Reference 7F3K."       | Retry, quote the reference |
 
 An error never blames the person and never clears what they typed.
 
@@ -307,23 +309,23 @@ An error never blames the person and never clears what they typed.
 
 Used to help people finish setup, avoid mistakes, and protect their money. Every number shown is real. No fake urgency, no fake scarcity, no guilt.
 
-| Technique | Where it appears |
-|---|---|
-| **Smart defaults** | Cashier's branch and name preselected. The last payment provider preselected. Payment time window starts at 60 minutes. Unit defaults to piece. City defaults to the branch's city. Time zone is Africa/Addis_Ababa. Owner dashboard opens on Today and All branches |
-| **Goal gradient** | Owner setup shows "3 of 6" with the first step already done, and highlights the next step. CSV import shows real progress. The cashier sees "Today: 42 sales" grow through the day |
-| **Reciprocity** | Give before asking. The owner can try a sample sale with sample products before entering payment accounts. A CSV template is offered on import. The first daily summary arrives without being asked for |
-| **Endowment effect** | The owner names the business and branches in the first steps and sees those names everywhere. Setup progress is saved. The dashboard fills with their own data from the first sale. The cashier sees "your sales today" |
-| **Loss aversion** | A "Protected this week" strip on the dashboard home: "2 reused payments blocked · 1,240 Birr". "620 Birr is waiting on 1 unverified sale." Destructive confirmations say exactly what is lost and what is kept: "Deleting this cashier removes their access. Their sales history is kept." |
+| Technique            | Where it appears                                                                                                                                                                                                                                                                           |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Smart defaults**   | Cashier's branch and name preselected. The last payment provider preselected. Payment time window starts at 60 minutes. Unit defaults to piece. City defaults to the branch's city. Time zone is Africa/Addis_Ababa. Owner dashboard opens on Today and All branches                       |
+| **Goal gradient**    | Owner setup shows "3 of 6" with the first step already done, and highlights the next step. CSV import shows real progress. The cashier sees "Today: 42 sales" grow through the day                                                                                                         |
+| **Reciprocity**      | Give before asking. The owner can try a sample sale with sample products before entering payment accounts. A CSV template is offered on import. The first daily summary arrives without being asked for                                                                                    |
+| **Endowment effect** | The owner names the business and branches in the first steps and sees those names everywhere. Setup progress is saved. The dashboard fills with their own data from the first sale. The cashier sees "your sales today"                                                                    |
+| **Loss aversion**    | A "Protected this week" strip on the dashboard home: "2 reused payments blocked · 1,240 Birr". "620 Birr is waiting on 1 unverified sale." Destructive confirmations say exactly what is lost and what is kept: "Deleting this cashier removes their access. Their sales history is kept." |
 
 ## 18. Simplicity, consistency, and visual hierarchy
 
-| Screen | Focal point | Then | Then |
-|---|---|---|---|
-| Charge | Total | Charge button | Item count |
-| Verdict | The word and color | Amount | Reason and next action |
-| Owner home | Income number | Needs attention | Branch comparison |
-| Sales list | Amount and status | Time | Cashier and branch |
-| Onboarding step | The question | The field | Continue |
+| Screen          | Focal point        | Then            | Then                   |
+| --------------- | ------------------ | --------------- | ---------------------- |
+| Charge          | Total              | Charge button   | Item count             |
+| Verdict         | The word and color | Amount          | Reason and next action |
+| Owner home      | Income number      | Needs attention | Branch comparison      |
+| Sales list      | Amount and status  | Time            | Cashier and branch     |
+| Onboarding step | The question       | The field       | Continue               |
 
 - One main task per screen. Remove before adding.
 - The same action sits in the same place everywhere (bottom, full width on the cashier app. Top right on web tables).
@@ -332,14 +334,14 @@ Used to help people finish setup, avoid mistakes, and protect their money. Every
 
 ## 19. Speed as experience
 
-| What the person feels | Budget |
-|---|---|
-| Scan adds a line | Under 300 ms |
-| Any tap shows a response | Under 100 ms |
-| A skeleton appears only if data takes longer than | About 150 ms |
-| Owner home on a mid-range phone, typical mobile connection | First useful content under about 2 s |
-| The dashboard's initial script, compressed | Around 200 KB or less for the home screen |
-| Offline | Cart, catalog search, and cash sales keep working |
+| What the person feels                                      | Budget                                            |
+| ---------------------------------------------------------- | ------------------------------------------------- |
+| Scan adds a line                                           | Under 300 ms                                      |
+| Any tap shows a response                                   | Under 100 ms                                      |
+| A skeleton appears only if data takes longer than          | About 150 ms                                      |
+| Owner home on a mid-range phone, typical mobile connection | First useful content under about 2 s              |
+| The dashboard's initial script, compressed                 | Around 200 KB or less for the home screen         |
+| Offline                                                    | Cart, catalog search, and cash sales keep working |
 
 The dashboard is a static site on a CDN, responses are compressed, and screens act first and confirm later, except for money verdicts.
 

@@ -2,11 +2,12 @@
 
 **Severity:** P2 (High)  
 **Applies to:** Cashier Android tablet, offline SQLite cache, active session tokens  
-**Target Resolution Time:** < 5 minutes  
+**Target Resolution Time:** < 5 minutes
 
 ---
 
 ## 1. Immediate Owner Action (From Owner Web Dashboard)
+
 1. **Log in to Owner Dashboard**: Navigate to **Branches & Cashiers** tab.
 2. **Locate Cashier Account**: Find the cashier assigned to the compromised tablet (e.g. `tigist.h`).
 3. **Deactivate Cashier Immediately**:
@@ -17,6 +18,7 @@
 ---
 
 ## 2. Terminal Security Analysis
+
 - **Are credentials stored on the phone?**:
   - The SQLite database on the cashier tablet caches only product catalogs and pending offline sales.
   - **No payment provider secrets, API master keys, or owner PINs are ever stored on the cashier tablet** (`SECURITY.md` Rule S1).
@@ -27,6 +29,7 @@
 ---
 
 ## 3. Issuing Replacement Tablet
+
 1. Register replacement cashier credentials in the Owner Dashboard with a new 4-6 digit login PIN.
 2. Install PayProof POS APK on replacement tablet.
 3. Cashier logs in with new credentials; the catalog syncs automatically within 300ms.

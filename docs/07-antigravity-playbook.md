@@ -2,23 +2,23 @@
 
 How to build PayProof POS with Google Antigravity: setup, the kickoff prompt, the per-milestone prompts, and how to review what the agent produces.
 
-| | |
-|---|---|
-| **Version** | 0.1 draft |
+|             |                                                                                                                                                               |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Version** | 0.1 draft                                                                                                                                                     |
 | **Related** | [AGENTS.md](../AGENTS.md) · [GEMINI.md](../GEMINI.md) · [Implementation plan](06-implementation-plan.md) · [Production readiness](08-production-readiness.md) |
 
 ---
 
 ## 1. What is in this folder for Antigravity
 
-| Path | What Antigravity does with it |
-|---|---|
-| `AGENTS.md` | Loaded on every turn as an always-on rule. The project's core rules |
-| `GEMINI.md` | Antigravity-specific operating rules: plan first, artifacts, checkpoints |
-| `.agents/rules/*.md` | Focused rules that load when relevant: `security`, `testing`, `performance` (model decides) and `database`, `ui-ux`, `verification` (when matching files are touched) |
-| `.agents/skills/*/SKILL.md` | Reusable procedures you can call by name: `/build-milestone`, `/new-endpoint`, `/new-table-with-rls`, `/build-screen`, `/security-review`, `/m0-findings`, `/release-check` |
-| `docs/` and root `*.md` | The source of truth the rules and skills point to |
-| `.env.example`, `.gitignore` | Placeholders only. Real secrets and real data stay out of git |
+| Path                         | What Antigravity does with it                                                                                                                                               |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `AGENTS.md`                  | Loaded on every turn as an always-on rule. The project's core rules                                                                                                         |
+| `GEMINI.md`                  | Antigravity-specific operating rules: plan first, artifacts, checkpoints                                                                                                    |
+| `.agents/rules/*.md`         | Focused rules that load when relevant: `security`, `testing`, `performance` (model decides) and `database`, `ui-ux`, `verification` (when matching files are touched)       |
+| `.agents/skills/*/SKILL.md`  | Reusable procedures you can call by name: `/build-milestone`, `/new-endpoint`, `/new-table-with-rls`, `/build-screen`, `/security-review`, `/m0-findings`, `/release-check` |
+| `docs/` and root `*.md`      | The source of truth the rules and skills point to                                                                                                                           |
+| `.env.example`, `.gitignore` | Placeholders only. Real secrets and real data stay out of git                                                                                                               |
 
 These locations and formats follow Antigravity's documentation for rules and skills: `AGENTS.md` and `GEMINI.md` need no frontmatter, files inside `.agents/rules/` must sit directly in that folder and start with a valid `trigger`, and each skill is a folder with a `SKILL.md` holding a `name` and `description`. Individual rule files are limited to 24 KB.
 
@@ -29,7 +29,7 @@ These locations and formats follow Antigravity's documentation for rules and ski
 3. Open the agent's **Customizations** panel and check that you see:
    - Rules: `AGENTS.md`, `GEMINI.md`, and the six rules from `.agents/rules/`
    - Skills: the seven project skills
-   If a rule is missing, check that its first lines are the `---` frontmatter block with a valid `trigger` (`always_on`, `model_decision`, `glob`, or `manual`, written exactly like that). A rule with a wrong trigger is silently ignored.
+     If a rule is missing, check that its first lines are the `---` frontmatter block with a valid `trigger` (`always_on`, `model_decision`, `glob`, or `manual`, written exactly like that). A rule with a wrong trigger is silently ignored.
 4. Choose the strongest model you have available for planning and security work. Model names and quotas change, so check what your account offers.
 5. Use the mode where the agent **plans first and asks for review**, not the fastest mode. For a payments product, speed matters less than reviewed plans.
 6. Set terminal permissions conservatively: allow the project's test, lint, build, and Docker commands, and require approval for anything else. Names of these settings vary between versions, so look for the review policy and terminal command policy in settings.
@@ -55,7 +55,7 @@ Until that file exists, the agent builds against the mock provider only.
 
 Paste this into a new Antigravity conversation. Fill in the two bracketed lines.
 
-````text
+```text
 You are the lead engineer on PayProof POS, a production-grade, multi-branch supermarket point-of-sale
 with real-time mobile-money payment verification. I am the product owner and reviewer. This is a
 payments product, so correctness, security, and honesty matter more than speed.
@@ -132,7 +132,7 @@ receipts, accounts, deployments). Do not start the next milestone until I approv
 
 [Optional: my machine is Windows/macOS/Linux. My phone for testing is ____.]
 [Optional: hosting choice if already decided: ____.]
-````
+```
 
 ## 5. Per-milestone prompts
 
@@ -224,6 +224,7 @@ Done when: every Must requirement is demonstrated or listed as a limitation.
 AI-written code is a draft. For a payments product, review it like a new teammate's first pull request.
 
 **Every time**
+
 - Read the plan before approving it. Does it match the requirement IDs and the milestone?
 - Read the diff, not only the walkthrough. Look at authorization, SQL, and anything that touches money.
 - Check that tests were really run and really cover the risk. Ask to see a failing test fail before it passes.
@@ -232,6 +233,7 @@ AI-written code is a draft. For a payments product, review it like a new teammat
 - Confirm the walkthrough names what was **not** tested.
 
 **Spot-check these on your own**
+
 1. Sign in as a cashier of branch A and try to read branch B's sales, directly through the API.
 2. Force an error (stop the database) and look at what the app shows.
 3. Hit one route fast until it returns 429.
@@ -250,11 +252,11 @@ AI-written code is a draft. For a payments product, review it like a new teammat
 
 ## 8. If something goes wrong
 
-| Symptom | Likely cause and fix |
-|---|---|
-| A rule does not seem to apply | Missing or invalid frontmatter `trigger`, wrong folder depth (only direct children of `.agents/rules/` load), or the file is over 24 KB |
-| The agent ignores the build gate or the stop conditions | Restate them in the conversation, and check `AGENTS.md` is at the workspace root |
-| The agent invents a provider format | Stop it. Point at the M0 rule and give it the real facts through `/m0-findings` |
-| Changes are too large to review | Ask for a smaller plan: one task, one commit |
-| Tests pass but the app is wrong | Add a test that reproduces it first, then fix |
-| It wants to add a library | Ask why, what it replaces, its size and maintenance status, and the alternatives |
+| Symptom                                                 | Likely cause and fix                                                                                                                    |
+| ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| A rule does not seem to apply                           | Missing or invalid frontmatter `trigger`, wrong folder depth (only direct children of `.agents/rules/` load), or the file is over 24 KB |
+| The agent ignores the build gate or the stop conditions | Restate them in the conversation, and check `AGENTS.md` is at the workspace root                                                        |
+| The agent invents a provider format                     | Stop it. Point at the M0 rule and give it the real facts through `/m0-findings`                                                         |
+| Changes are too large to review                         | Ask for a smaller plan: one task, one commit                                                                                            |
+| Tests pass but the app is wrong                         | Add a test that reproduces it first, then fix                                                                                           |
+| It wants to add a library                               | Ask why, what it replaces, its size and maintenance status, and the alternatives                                                        |

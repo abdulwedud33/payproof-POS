@@ -9,7 +9,10 @@ export type UserStatus = z.infer<typeof UserStatusSchema>;
 export const PhoneSchema = z
   .string()
   .trim()
-  .regex(/^(\+251|0)[97]\d{8}$/, 'Must be a valid Ethiopian phone number (e.g., +251911223344 or 0911223344)');
+  .regex(
+    /^(\+251|0)[97]\d{8}$/,
+    'Must be a valid Ethiopian phone number (e.g., +251911223344 or 0911223344)'
+  );
 
 export const RegisterOwnerRequestSchema = z.object({
   businessName: z.string().trim().min(2).max(100),

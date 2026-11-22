@@ -54,7 +54,11 @@ export function CsvImportModal({ isOpen, onClose, onImport }: CsvImportModalProp
           </div>
 
           <label className="block text-xs font-semibold text-slate-700 mb-1">
-            CSV Content (Header required: <code className="font-mono text-slate-600">name,name_local,sku,unit,price_minor,barcode</code>)
+            CSV Content (Header required:{' '}
+            <code className="font-mono text-slate-600">
+              name,name_local,sku,unit,price_minor,barcode
+            </code>
+            )
           </label>
           <textarea
             rows={8}

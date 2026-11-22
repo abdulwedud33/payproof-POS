@@ -20,7 +20,9 @@ export type SafeFetchErrorCode = z.infer<typeof SafeFetchErrorCodeSchema>;
 export const ProviderEvidenceSchema = z.object({
   provider: ProviderKindSchema,
   transactionId: z.string().min(1).max(64),
-  amountMinor: z.union([z.bigint(), z.number().int().nonnegative()]).transform((val) => BigInt(val)),
+  amountMinor: z
+    .union([z.bigint(), z.number().int().nonnegative()])
+    .transform((val) => BigInt(val)),
   currency: z.literal('ETB').default('ETB'),
   paymentTimestamp: z.string().datetime(),
   status: ProviderPaymentStatusSchema,
@@ -29,7 +31,10 @@ export const ProviderEvidenceSchema = z.object({
   payerNameMasked: z.string().nullable(),
   linkHost: z.string().min(1),
   linkPath: z.string(),
-  rawHash: z.string().length(64).regex(/^[a-f0-9]{64}$/i),
+  rawHash: z
+    .string()
+    .length(64)
+    .regex(/^[a-f0-9]{64}$/i),
   httpStatus: z.number().int().min(100).max(599),
   parserVersion: z.string().min(1),
   fetchDurationMs: z.number().nonnegative(),
@@ -66,7 +71,11 @@ export type SafeFetchResult = z.infer<typeof SafeFetchResultSchema>;
  * Redacts query parameter values from URLs before storage, preserving parameter names for auditing.
  * Prevents accidental logging or retention of session tokens or personal data embedded in query strings.
  */
-export function sanitizeLinkUrl(rawUrl: string): { host: string; path: string; sanitizedUrl: string } {
+export function sanitizeLinkUrl(rawUrl: string): {
+  host: string;
+  path: string;
+  sanitizedUrl: string;
+} {
   try {
     const parsed = new URL(rawUrl);
     const host = parsed.hostname;

@@ -8,12 +8,12 @@ services:
       POSTGRES_PASSWORD: postgres_password
       POSTGRES_DB: payproof
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./db/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d payproof"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d payproof']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -23,11 +23,11 @@ services:
     container_name: payproof-redis
     restart: unless-stopped
     ports:
-      - "6379:6379"
+      - '6379:6379'
     volumes:
       - redisdata:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ['CMD', 'redis-cli', 'ping']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -39,7 +39,7 @@ services:
     container_name: payproof-mock-provider
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - '8080:8080'
     environment:
       NODE_ENV: production
       PORT: 8080
@@ -52,13 +52,13 @@ services:
     container_name: payproof-verification
     restart: unless-stopped
     ports:
-      - "8000:8000"
+      - '8000:8000'
     environment:
       PORT: 8000
       HOST: 0.0.0.0
-      PROVIDER_ALLOWLIST_HOSTS: "mock-provider,mock-provider.payproof.internal,localhost,127.0.0.1"
-      ALLOW_HTTP_FOR_DEV: "true"
-      ALLOW_LOOPBACK_FOR_DEV: "true"
+      PROVIDER_ALLOWLIST_HOSTS: 'mock-provider,mock-provider.payproof.internal,localhost,127.0.0.1'
+      ALLOW_HTTP_FOR_DEV: 'true'
+      ALLOW_LOOPBACK_FOR_DEV: 'true'
     depends_on:
       - mock-provider
 

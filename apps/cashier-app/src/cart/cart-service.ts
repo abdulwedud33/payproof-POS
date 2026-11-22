@@ -124,10 +124,7 @@ export class CartService {
   /**
    * Prepares a cash sale payload with client UUID v7, idempotency key, and change calculation.
    */
-  public prepareCashSale(params: {
-    branchId: string;
-    cashReceivedMinor: number;
-  }): {
+  public prepareCashSale(params: { branchId: string; cashReceivedMinor: number }): {
     saleRequest: CreateSaleRequest;
     changeDueMinor: number;
     changeDueFormatted: string;

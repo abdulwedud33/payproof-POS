@@ -1,8 +1,5 @@
 import type { FastifyPluginAsync } from 'fastify';
-import {
-  CreateCashierRequestSchema,
-  UpdateCashierRequestSchema,
-} from '@payproof/shared-types';
+import { CreateCashierRequestSchema, UpdateCashierRequestSchema } from '@payproof/shared-types';
 import { CashierService } from '../services/cashier-service.js';
 import { requireAuth, requireRole } from '../middleware/auth.js';
 

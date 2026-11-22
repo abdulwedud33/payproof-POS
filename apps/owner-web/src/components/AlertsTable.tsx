@@ -27,7 +27,9 @@ interface AlertsTableProps {
 
 export function AlertsTable({ alerts, loading, onResolveAlert }: AlertsTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [severityFilter, setSeverityFilter] = useState<'all' | 'critical' | 'warning' | 'info'>('all');
+  const [severityFilter, setSeverityFilter] = useState<'all' | 'critical' | 'warning' | 'info'>(
+    'all'
+  );
   const [statusFilter, setStatusFilter] = useState<'all' | 'open' | 'resolved'>('all');
   const [selectedAlertForResolve, setSelectedAlertForResolve] = useState<AlertItem | null>(null);
   const [resolveNotes, setResolveNotes] = useState('');

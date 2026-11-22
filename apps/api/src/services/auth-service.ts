@@ -80,16 +80,20 @@ export class AuthService {
       );
 
       // 4. Assign Owner to Branch
-      await client.query(
-        `INSERT INTO user_branches (user_id, branch_id) VALUES ($1, $2)`,
-        [userId, branchId]
-      );
+      await client.query(`INSERT INTO user_branches (user_id, branch_id) VALUES ($1, $2)`, [
+        userId,
+        branchId,
+      ]);
 
       // 5. Audit Log
       await client.query(
         `INSERT INTO audit_logs (org_id, actor_id, actor_role, action, entity_type, entity_id, meta)
          VALUES ($1, $2, 'owner', 'owner.register', 'organization', $1, $3)`,
-        [orgId, userId, JSON.stringify({ businessName: req.businessName, branchName: req.firstBranchName })]
+        [
+          orgId,
+          userId,
+          JSON.stringify({ businessName: req.businessName, branchName: req.firstBranchName }),
+        ]
       );
     });
 
@@ -150,7 +154,8 @@ export class AuthService {
     if (row.locked_until && new Date(row.locked_until) > new Date()) {
       throw new AppApiError({
         code: ErrorCode.ACCOUNT_LOCKED,
-        message: 'Account is temporarily locked due to repeated failed logins. Please try again later.',
+        message:
+          'Account is temporarily locked due to repeated failed logins. Please try again later.',
         statusCode: 403,
       });
     }
@@ -170,10 +175,11 @@ export class AuthService {
       const failed = row.failed_logins + 1;
       const lockedUntil = failed >= 5 ? new Date(Date.now() + 15 * 60 * 1000) : null;
 
-      await dbPool.query(
-        `UPDATE users SET failed_logins = $1, locked_until = $2 WHERE id = $3`,
-        [failed, lockedUntil, row.id]
-      );
+      await dbPool.query(`UPDATE users SET failed_logins = $1, locked_until = $2 WHERE id = $3`, [
+        failed,
+        lockedUntil,
+        row.id,
+      ]);
 
       throw new AppApiError({
         code: ErrorCode.INVALID_CREDENTIALS,

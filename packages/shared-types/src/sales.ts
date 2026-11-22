@@ -63,20 +63,26 @@ export const CreateSaleRequestSchema = z
     id: val.id,
     branch_id: (val.branch_id ?? val.branchId)!,
     payment_method: (val.payment_method ?? val.paymentMethod)!,
-    subtotal_minor: (val.subtotal_minor ?? val.subtotalMinor ?? 0),
-    total_minor: (val.total_minor ?? val.totalMinor ?? 0),
+    subtotal_minor: val.subtotal_minor ?? val.subtotalMinor ?? 0,
+    total_minor: val.total_minor ?? val.totalMinor ?? 0,
     cash_received_minor: val.cash_received_minor ?? val.cashReceivedMinor,
     idempotency_key: (val.idempotency_key ?? val.idempotencyKey)!,
     items: val.items,
-    client_created_at: (val.client_created_at ?? val.clientCreatedAt ?? new Date().toISOString()),
+    client_created_at: val.client_created_at ?? val.clientCreatedAt ?? new Date().toISOString(),
   }));
 export type CreateSaleRequest = z.infer<typeof CreateSaleRequestSchema>;
 
 export const VoidSaleRequestSchema = z
   .object({
     reason: z.string().trim().min(3).max(255),
-    ownerPin: z.string().regex(/^\d{4,6}$/).optional(),
-    pin: z.string().regex(/^\d{4,6}$/).optional(),
+    ownerPin: z
+      .string()
+      .regex(/^\d{4,6}$/)
+      .optional(),
+    pin: z
+      .string()
+      .regex(/^\d{4,6}$/)
+      .optional(),
   })
   .transform((val) => ({
     reason: val.reason,

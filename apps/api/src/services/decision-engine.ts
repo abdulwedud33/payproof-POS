@@ -1,8 +1,4 @@
-import {
-  ProviderEvidence,
-  VerificationDecision,
-  SafeFetchError,
-} from '@payproof/shared-types';
+import { ProviderEvidence, VerificationDecision, SafeFetchError } from '@payproof/shared-types';
 import { formatBirr } from '@payproof/money';
 import { matchReceiver, SavedPaymentAccount } from './receiver-matcher.js';
 
@@ -37,7 +33,10 @@ export function evaluatePaymentDecision(
     return {
       verdict: 'rejected',
       rejectReason: 'untrusted_link',
-      reasons: [fetchError.message || 'Link is not HTTPS, host is not on allowlist, or redirects off allowlist'],
+      reasons: [
+        fetchError.message ||
+          'Link is not HTTPS, host is not on allowlist, or redirects off allowlist',
+      ],
       shortfallMinor: null,
       matchedAccountId: null,
       transactionId: null,
@@ -51,7 +50,10 @@ export function evaluatePaymentDecision(
     return {
       verdict: 'waiting',
       rejectReason: 'fetch_failed',
-      reasons: [fetchError?.message || 'Page could not be fetched or parsed (timeout, network error, or layout changed)'],
+      reasons: [
+        fetchError?.message ||
+          'Page could not be fetched or parsed (timeout, network error, or layout changed)',
+      ],
       shortfallMinor: null,
       matchedAccountId: null,
       transactionId: null,
@@ -91,7 +93,9 @@ export function evaluatePaymentDecision(
   // Rule 5: Receiver does not match a saved account of this branch
   const matchResult = matchReceiver(evidence, branchAccounts);
   if (!matchResult.matches) {
-    const reasons = [matchResult.reason || 'Receiver does not match any saved account for this branch'];
+    const reasons = [
+      matchResult.reason || 'Receiver does not match any saved account for this branch',
+    ];
     if (matchResult.nearMatchWarning) {
       reasons.push(matchResult.nearMatchWarning);
     }
@@ -116,7 +120,9 @@ export function evaluatePaymentDecision(
     return {
       verdict: 'rejected',
       rejectReason: 'too_old',
-      reasons: [`Payment timestamp is outside the allowed window (${ageMinutes} minutes old; max ${allowedWindowMs / 60000} minutes)`],
+      reasons: [
+        `Payment timestamp is outside the allowed window (${ageMinutes} minutes old; max ${allowedWindowMs / 60000} minutes)`,
+      ],
       shortfallMinor: null,
       matchedAccountId: matchResult.matchedAccount?.id || null,
       transactionId: evidence.transactionId,
@@ -135,7 +141,9 @@ export function evaluatePaymentDecision(
     return {
       verdict: 'rejected',
       rejectReason: 'short_payment',
-      reasons: [`Amount paid (${formattedPaid}) is less than sale total (${formattedTotal}). Shortfall: ${formattedShortfall}`],
+      reasons: [
+        `Amount paid (${formattedPaid}) is less than sale total (${formattedTotal}). Shortfall: ${formattedShortfall}`,
+      ],
       shortfallMinor,
       matchedAccountId: matchResult.matchedAccount?.id || null,
       transactionId: evidence.transactionId,
@@ -149,7 +157,9 @@ export function evaluatePaymentDecision(
     return {
       verdict: 'rejected',
       rejectReason: 'already_used',
-      reasons: [`Transaction ID '${evidence.transactionId}' has already been claimed by another sale`],
+      reasons: [
+        `Transaction ID '${evidence.transactionId}' has already been claimed by another sale`,
+      ],
       shortfallMinor: null,
       matchedAccountId: matchResult.matchedAccount?.id || null,
       transactionId: evidence.transactionId,
@@ -162,7 +172,9 @@ export function evaluatePaymentDecision(
   return {
     verdict: 'verified',
     rejectReason: null,
-    reasons: ['All verification checks passed: provider record valid, receiver matched, amount satisfied, time window valid, transaction unclaimed'],
+    reasons: [
+      'All verification checks passed: provider record valid, receiver matched, amount satisfied, time window valid, transaction unclaimed',
+    ],
     shortfallMinor: null,
     matchedAccountId: matchResult.matchedAccount?.id || null,
     transactionId: evidence.transactionId,

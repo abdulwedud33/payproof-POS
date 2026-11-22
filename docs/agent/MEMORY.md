@@ -3,6 +3,7 @@
 The project's working memory. Read it at the start of every session and update it when something is decided or learned. Keep entries short and dated.
 
 **Rules for this file**
+
 - Record decisions, constraints, learnings, and open questions. Not chat history.
 - Never record personal data about real people, real receipts, account numbers, or phone numbers.
 - When a decision changes, edit the line and note what it replaced. Do not leave contradictions.
@@ -12,144 +13,145 @@ The project's working memory. Read it at the start of every session and update i
 
 ## 1. Project facts
 
-| Fact | Detail | Status |
-|---|---|---|
-| Name | PayProof POS is a working name | Proposed |
-| Context | ASTU Computer Science and Engineering senior (BSc) project | Decided |
-| Department rules | One title per group, software is the main component, no repeat of past projects, compare with the past-project list, realistic scope | Decided |
-| Closest past project to compare | *Real Time Stock Management System* | Decided |
-| Builders | The student and an AI agent, together. The build runs in Google Antigravity | Decided |
-| Quality bar | Production ready, advanced app. See docs/08-production-readiness.md | Decided |
-| Build gate | No application code until the student says "start building" | Decided |
-| Reference material | The student named Awesome DESIGN.md, Impeccable, Taste skill, web design guidelines, and UI UX Pro Max as design inputs. They were not available when the docs were written | Open |
+| Fact                            | Detail                                                                                                                                                                      | Status   |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Name                            | PayProof POS is a working name                                                                                                                                              | Proposed |
+| Context                         | ASTU Computer Science and Engineering senior (BSc) project                                                                                                                  | Decided  |
+| Department rules                | One title per group, software is the main component, no repeat of past projects, compare with the past-project list, realistic scope                                        | Decided  |
+| Closest past project to compare | _Real Time Stock Management System_                                                                                                                                         | Decided  |
+| Builders                        | The student and an AI agent, together. The build runs in Google Antigravity                                                                                                 | Decided  |
+| Quality bar                     | Production ready, advanced app. See docs/08-production-readiness.md                                                                                                         | Decided  |
+| Build gate                      | No application code until the student says "start building"                                                                                                                 | Decided  |
+| Reference material              | The student named Awesome DESIGN.md, Impeccable, Taste skill, web design guidelines, and UI UX Pro Max as design inputs. They were not available when the docs were written | Open     |
 
 ## 2. Product decisions
 
-| # | Decision | Status |
-|---|---|---|
-| P1 | Multi-branch from day one. Owner manages many branches and many cashiers | Decided |
-| P2 | Owner can add, edit, and delete cashiers. Deleting a cashier with sales deactivates them and keeps history | Proposed |
-| P3 | Cashier scans barcodes or QR codes, and the cart total is shown | Decided |
-| P4 | Customer pays the shop's account, then the cashier verifies the payment before completing the sale | Decided |
-| P5 | Owner dashboard shows items sold, what was sold, and income, daily, weekly, and monthly | Decided |
-| P6 | Each branch has one or more saved receiving accounts. The owner enters them, and receiver matching uses them | Decided |
-| P7 | Cash sales are included so the owner sees complete takings | Proposed |
-| P8 | Weighed items (like watermelon) are entered by quantity | Proposed |
-| P9 | Android first. iOS is a stretch goal | Proposed |
-| P10 | Stock tracking is a stretch goal | Proposed |
+| #   | Decision                                                                                                     | Status   |
+| --- | ------------------------------------------------------------------------------------------------------------ | -------- |
+| P1  | Multi-branch from day one. Owner manages many branches and many cashiers                                     | Decided  |
+| P2  | Owner can add, edit, and delete cashiers. Deleting a cashier with sales deactivates them and keeps history   | Proposed |
+| P3  | Cashier scans barcodes or QR codes, and the cart total is shown                                              | Decided  |
+| P4  | Customer pays the shop's account, then the cashier verifies the payment before completing the sale           | Decided  |
+| P5  | Owner dashboard shows items sold, what was sold, and income, daily, weekly, and monthly                      | Decided  |
+| P6  | Each branch has one or more saved receiving accounts. The owner enters them, and receiver matching uses them | Decided  |
+| P7  | Cash sales are included so the owner sees complete takings                                                   | Proposed |
+| P8  | Weighed items (like watermelon) are entered by quantity                                                      | Proposed |
+| P9  | Android first. iOS is a stretch goal                                                                         | Proposed |
+| P10 | Stock tracking is a stretch goal                                                                             | Proposed |
 
 ## 2a. Standing rules (from the student, 24 Oct 2026)
 
 All **Decided**. Detail lives in [SECURITY.md](../../SECURITY.md), [DESIGN.md](../../DESIGN.md), and the TRD speed rules.
 
-| Group | Rules |
-|---|---|
-| Security | No secrets or keys in the frontend or app. Users access only authorized data. Backend and database rules enforced. All user and AI input validated. Row-level security on every table with policies. Rate limiting on every API. Users never see backend errors |
-| UX laws | Jakob's, Hick's, proximity, Miller's, and Von Restorff, wherever they fit. (The student wrote "Kabob's law", read as Jakob's law. Confirm if another was meant) |
-| Loading and feedback | No spinners where the layout is known: skeleton loaders that match the real screen, across the whole app. Instant feedback on every control, even when the process takes longer. No buttons moving during onboarding |
-| UX psychology | Smart defaults, goal gradient, reciprocity, endowment effect, loss aversion, used honestly |
-| Principles | Simplicity, consistency, visual hierarchy |
-| Speed | No uncompressed JSON. No illogical database writes. No single dependency bottleneck. Optimistic rendering. Statically hosted web app |
+| Group                | Rules                                                                                                                                                                                                                                                           |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Security             | No secrets or keys in the frontend or app. Users access only authorized data. Backend and database rules enforced. All user and AI input validated. Row-level security on every table with policies. Rate limiting on every API. Users never see backend errors |
+| UX laws              | Jakob's, Hick's, proximity, Miller's, and Von Restorff, wherever they fit. (The student wrote "Kabob's law", read as Jakob's law. Confirm if another was meant)                                                                                                 |
+| Loading and feedback | No spinners where the layout is known: skeleton loaders that match the real screen, across the whole app. Instant feedback on every control, even when the process takes longer. No buttons moving during onboarding                                            |
+| UX psychology        | Smart defaults, goal gradient, reciprocity, endowment effect, loss aversion, used honestly                                                                                                                                                                      |
+| Principles           | Simplicity, consistency, visual hierarchy                                                                                                                                                                                                                       |
+| Speed                | No uncompressed JSON. No illogical database writes. No single dependency bottleneck. Optimistic rendering. Statically hosted web app                                                                                                                            |
 
 **How some rules were applied (check these are what you meant):**
-- *Optimistic rendering* covers cart, cash sales, product edits, and alert review. It does **not** cover money outcomes: Verified is shown only after the server decides.
-- *Statically hosted* means the owner dashboard is a static export on a CDN. It has no server-side rendering. Data comes from the API after sign-in.
-- *AI input* means anything produced by a language model or AI tool, plus OCR output and parsed provider data. The core product has no language model.
-- *Row-level security* needs the API to set the user's context on each database transaction, and login uses a narrow database function because no user is known yet.
+
+- _Optimistic rendering_ covers cart, cash sales, product edits, and alert review. It does **not** cover money outcomes: Verified is shown only after the server decides.
+- _Statically hosted_ means the owner dashboard is a static export on a CDN. It has no server-side rendering. Data comes from the API after sign-in.
+- _AI input_ means anything produced by a language model or AI tool, plus OCR output and parsed provider data. The core product has no language model.
+- _Row-level security_ needs the API to set the user's context on each database transaction, and login uses a narrow database function because no user is known yet.
 
 ## 3. Technical decisions
 
-| # | Decision | Status |
-|---|---|---|
-| T1 | Stack: React Native cashier app, Next.js owner dashboard, Node.js + TypeScript API, Python FastAPI verification service, PostgreSQL, SQLite offline queue, JWT auth, Docker Compose, pnpm monorepo. Kotlin SMS companion is now optional | Decided |
-| T2 | **Verification is based on the provider's own record.** The cashier scans the payment QR, the server fetches the official receipt page, and the receiver must match the branch's saved account. This replaces the earlier "SMS is truth" design | Decided (student's call, 24 Oct 2026) |
-| T2-old | Earlier design: SMS match required for Verified, image analysis advisory | **Superseded** by T2. Kept as the fallback if A1 is false |
-| T3 | Money stored as integer santim | Proposed |
-| T4 | Sales are append-only with client UUID v7 and idempotency keys | Proposed |
-| T5 | SMS companion, payment inbox, and receipt-image checks are optional backup evidence and never verify a sale alone | Proposed |
-| T6 | Only the verification service fetches external pages, and only from an allowlist of official provider hosts | Proposed |
-| T7 | Full QR text and raw SMS text are not stored. Only hashes and extracted fields | Proposed |
-| T8 | A mock provider server is used for development and tests | Proposed |
-| T9 | Saved payment account changes need the owner's PIN and raise an alert | Proposed |
+| #      | Decision                                                                                                                                                                                                                                        | Status                                                    |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| T1     | Stack: React Native cashier app, Next.js owner dashboard, Node.js + TypeScript API, Python FastAPI verification service, PostgreSQL, SQLite offline queue, JWT auth, Docker Compose, pnpm monorepo. Kotlin SMS companion is now optional        | Decided                                                   |
+| T2     | **Verification is based on the provider's own record.** The cashier scans the payment QR, the server fetches the official receipt page, and the receiver must match the branch's saved account. This replaces the earlier "SMS is truth" design | Decided (student's call, 24 Oct 2026)                     |
+| T2-old | Earlier design: SMS match required for Verified, image analysis advisory                                                                                                                                                                        | **Superseded** by T2. Kept as the fallback if A1 is false |
+| T3     | Money stored as integer santim                                                                                                                                                                                                                  | Proposed                                                  |
+| T4     | Sales are append-only with client UUID v7 and idempotency keys                                                                                                                                                                                  | Proposed                                                  |
+| T5     | SMS companion, payment inbox, and receipt-image checks are optional backup evidence and never verify a sale alone                                                                                                                               | Proposed                                                  |
+| T6     | Only the verification service fetches external pages, and only from an allowlist of official provider hosts                                                                                                                                     | Proposed                                                  |
+| T7     | Full QR text and raw SMS text are not stored. Only hashes and extracted fields                                                                                                                                                                  | Proposed                                                  |
+| T8     | A mock provider server is used for development and tests                                                                                                                                                                                        | Proposed                                                  |
+| T9     | Saved payment account changes need the owner's PIN and raise an alert                                                                                                                                                                           | Proposed                                                  |
 
 ## 3a. Assumptions to confirm
 
-| ID | Assumption | Status |
-|---|---|---|
+| ID     | Assumption                                                                                                                                                               | Status                                                                                                          |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
 | **A1** | The payment QR on a Telebirr or CBE receipt links to an official provider page our server can fetch and read, showing transaction ID, amount, time, status, and receiver | **Assumed by the student. Unconfirmed. First task of Milestone 0.** If false, switch to the fallback in TRD 4.8 |
-| A2 | Each branch has one or more receiving accounts the owner can enter | Assumed |
-| A3 | Real sample receipts can be collected | Assumed |
-| A4 | Fetching a provider's public receipt page is acceptable under its terms | Unchecked |
+| A2     | Each branch has one or more receiving accounts the owner can enter                                                                                                       | Assumed                                                                                                         |
+| A3     | Real sample receipts can be collected                                                                                                                                    | Assumed                                                                                                         |
+| A4     | Fetching a provider's public receipt page is acceptable under its terms                                                                                                  | Unchecked                                                                                                       |
 
 ## 4. Domain notes
 
-*Fill these in from Milestone 0. Do not guess.*
+_Fill these in from Milestone 0. Do not guess._
 
-| Question | What we know |
-|---|---|
-| What does the Telebirr receipt QR contain? | Unknown |
-| What does the CBE receipt QR contain? | Unknown |
-| Which hostnames are official? | Unknown |
-| Does the receipt page need a login, captcha, or JavaScript? | Unknown |
-| What fields does the page show for the receiver (name, account, phone, masked)? | Unknown |
-| How long does a receipt link stay valid? | Unknown |
-| Can a payment be looked up by transaction ID alone? | Unknown |
-| What are the providers' rules for automated access? | Unknown |
-| Do shops use one receiving account per branch? | Unknown, to ask owners |
+| Question                                                                        | What we know           |
+| ------------------------------------------------------------------------------- | ---------------------- |
+| What does the Telebirr receipt QR contain?                                      | Unknown                |
+| What does the CBE receipt QR contain?                                           | Unknown                |
+| Which hostnames are official?                                                   | Unknown                |
+| Does the receipt page need a login, captcha, or JavaScript?                     | Unknown                |
+| What fields does the page show for the receiver (name, account, phone, masked)? | Unknown                |
+| How long does a receipt link stay valid?                                        | Unknown                |
+| Can a payment be looked up by transaction ID alone?                             | Unknown                |
+| What are the providers' rules for automated access?                             | Unknown                |
+| Do shops use one receiving account per branch?                                  | Unknown, to ask owners |
 
 ## 5. Open questions
 
-| # | Question | Owner | Needed by |
-|---|---|---|---|
-| Q1 | Past-project list: any overlap with POS, payment verification, or supermarket systems? | Student | Proposal submission |
-| Q2 | **Does the payment QR lead to a readable provider page? (A1)** | Student, with Claude | M0, first |
-| Q3 | Can we collect real receipts from friends and a shop? | Student | M0 |
-| Q4 | Which shop will act as a trial partner? | Student | M2 |
-| Q5 | What payment time window should be allowed? Proposed 60 minutes | Student | M4 |
-| Q6 | What void amount needs the owner's PIN? | Student | M6 |
-| Q7 | Which phones will we test on? Two models at least | Student | M2 |
-| Q8 | Should the proposal text already submitted (which mentions SMS matching) be updated? | Student | Before the next review |
+| #   | Question                                                                               | Owner                | Needed by              |
+| --- | -------------------------------------------------------------------------------------- | -------------------- | ---------------------- |
+| Q1  | Past-project list: any overlap with POS, payment verification, or supermarket systems? | Student              | Proposal submission    |
+| Q2  | **Does the payment QR lead to a readable provider page? (A1)**                         | Student, with Claude | M0, first              |
+| Q3  | Can we collect real receipts from friends and a shop?                                  | Student              | M0                     |
+| Q4  | Which shop will act as a trial partner?                                                | Student              | M2                     |
+| Q5  | What payment time window should be allowed? Proposed 60 minutes                        | Student              | M4                     |
+| Q6  | What void amount needs the owner's PIN?                                                | Student              | M6                     |
+| Q7  | Which phones will we test on? Two models at least                                      | Student              | M2                     |
+| Q8  | Should the proposal text already submitted (which mentions SMS matching) be updated?   | Student              | Before the next review |
 
 ## 6. Learnings
 
-*Add dated notes when something surprises us or a bug teaches us something.*
+_Add dated notes when something surprises us or a bug teaches us something._
 
-| Date | Learning |
-|---|---|
-| 22 Nov 2026 | CSV Formula Injection (CWE-1236): Product CSV imports must prefix cells starting with `=, +, -, @, \t, \r` with `'` to prevent spreadsheet DDE code execution upon export. |
-| 22 Nov 2026 | Sale Immutability: Post-sale modifications must be rejected by PostgreSQL triggers at the database layer; only void transitions with reasons and PINs are permitted. |
-| 22 Nov 2026 | Offline Outbox Sync: Cashier SQLite sales outbox must store client-generated UUID v7 IDs and idempotency keys to guarantee idempotent re-syncing without duplicate sales. |
-| 22 Nov 2026 | Anti-SSRF Defense: Carrier-Grade NAT (RFC 6598: 100.64.0.0/10) and Cloud Metadata (169.254.169.254) require explicit CIDR filtering beyond standard RFC 1918 private checks in both Python and TypeScript. |
-| 22 Nov 2026 | Concurrency Double-Spend Defense: Database primary key constraint `PRIMARY KEY (provider, provider_txn_id)` on `consumed_payments` strictly guarantees that out of 100 simultaneous verification attempts, exactly 1 succeeds and 99 are rejected with `already_used` and trigger immediate fraud alerts. |
-| 22 Nov 2026 | Dual-Factor Receiver Matching: When both masked account last 4 and account holder name are present on provider receipt pages, BOTH must agree. Near-matches (Levenshtein distance <= 2) are rejected for safety to defend against lookalike accounts. |
-| 22 Nov 2026 | Zero-CLS Verdict Skeleton: Displaying an exact-geometry skeleton loader immediately upon QR capture eliminates cumulative layout shift (CLS = 0) and prevents premature verification display before server confirmation. |
-| 22 Nov 2026 | Tri-Factor Accessibility: Mobile money verdict states (Verified, Waiting, Rejected) must convey status through Color + Icon + Word simultaneously to ensure full WCAG 2.2 accessibility. |
-| 22 Nov 2026 | Fastify BigInt Serialization: Database monetary integers typed as `bigint` throw `TypeError: Do not know how to serialize a BigInt` if uncast in Fastify JSON responses. Monetary sums must be cast to `Number` at API serialization boundaries. |
-| 22 Nov 2026 | Multi-Branch Owner Dashboard: Centralized multi-branch selector (`All Branches`, `Bole`, `Piassa`, `Adama`) combined with a "Protected this week" fraud prevention strip allows supermarket owners to answer "how much, what, where, and anything odd?" in under a minute without layout shift. |
+| Date        | Learning                                                                                                                                                                                                                                                                                                                                                                |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 22 Nov 2026 | CSV Formula Injection (CWE-1236): Product CSV imports must prefix cells starting with `=, +, -, @, \t, \r` with `'` to prevent spreadsheet DDE code execution upon export.                                                                                                                                                                                              |
+| 22 Nov 2026 | Sale Immutability: Post-sale modifications must be rejected by PostgreSQL triggers at the database layer; only void transitions with reasons and PINs are permitted.                                                                                                                                                                                                    |
+| 22 Nov 2026 | Offline Outbox Sync: Cashier SQLite sales outbox must store client-generated UUID v7 IDs and idempotency keys to guarantee idempotent re-syncing without duplicate sales.                                                                                                                                                                                               |
+| 22 Nov 2026 | Anti-SSRF Defense: Carrier-Grade NAT (RFC 6598: 100.64.0.0/10) and Cloud Metadata (169.254.169.254) require explicit CIDR filtering beyond standard RFC 1918 private checks in both Python and TypeScript.                                                                                                                                                              |
+| 22 Nov 2026 | Concurrency Double-Spend Defense: Database primary key constraint `PRIMARY KEY (provider, provider_txn_id)` on `consumed_payments` strictly guarantees that out of 100 simultaneous verification attempts, exactly 1 succeeds and 99 are rejected with `already_used` and trigger immediate fraud alerts.                                                               |
+| 22 Nov 2026 | Dual-Factor Receiver Matching: When both masked account last 4 and account holder name are present on provider receipt pages, BOTH must agree. Near-matches (Levenshtein distance <= 2) are rejected for safety to defend against lookalike accounts.                                                                                                                   |
+| 22 Nov 2026 | Zero-CLS Verdict Skeleton: Displaying an exact-geometry skeleton loader immediately upon QR capture eliminates cumulative layout shift (CLS = 0) and prevents premature verification display before server confirmation.                                                                                                                                                |
+| 22 Nov 2026 | Tri-Factor Accessibility: Mobile money verdict states (Verified, Waiting, Rejected) must convey status through Color + Icon + Word simultaneously to ensure full WCAG 2.2 accessibility.                                                                                                                                                                                |
+| 22 Nov 2026 | Fastify BigInt Serialization: Database monetary integers typed as `bigint` throw `TypeError: Do not know how to serialize a BigInt` if uncast in Fastify JSON responses. Monetary sums must be cast to `Number` at API serialization boundaries.                                                                                                                        |
+| 22 Nov 2026 | Multi-Branch Owner Dashboard: Centralized multi-branch selector (`All Branches`, `Bole`, `Piassa`, `Adama`) combined with a "Protected this week" fraud prevention strip allows supermarket owners to answer "how much, what, where, and anything odd?" in under a minute without layout shift.                                                                         |
 | 22 Nov 2026 | Production Hardening & Disaster Recovery: Comprehensive verification suites with empirical metrics (155 tests passing across TS and Python), zero secret leaks, automated database backup/restore utilities, and standard operational runbooks (provider downtime, compromised devices, secret rotation) satisfy production readiness for ASTU senior project delivery. |
 
 ## 7. Do not repeat
 
-*Mistakes and dead ends, so they are not tried again.*
+_Mistakes and dead ends, so they are not tried again._
 
 | Date | What was tried | Why it failed |
-|---|---|---|
-| | | |
+| ---- | -------------- | ------------- |
+|      |                |               |
 
 ## 8. Session log
 
-*One line per working session: what was done and what is next.*
+_One line per working session: what was done and what is next._
 
-| Date | Done | Next |
-|---|---|---|
-| 24 Oct 2026 | Compared title options, chose the supermarket payment-verification project, wrote the full documentation set | Student reviews docs, checks past-project list, runs Milestone 0, then says "start building" |
-| 24 Oct 2026 | Student added standing rules for security, UX, and speed. SECURITY.md exists. Rules folded into the PRD, TRD, schema, design system, UX brief, app flow, plan, evals, tools, prompts, and guardrails | Student reviews the rules and the interpretations in section 2a |
-| 24 Oct 2026 | Student changed the core design: verification now reads the provider's receipt page behind the payment QR and matches the receiver to the branch's saved account. SMS is optional backup. All docs updated | Student tests what the receipt QR codes lead to (A1) |
-| 21 Nov 2026 | Packaged the project for Google Antigravity: rules, skills, GEMINI.md, kickoff prompt, per-milestone prompts, production readiness doc | Student opens the folder in Antigravity, runs Milestone 0 in parallel, pastes the kickoff prompt |
-| 22 Nov 2026 | M1 Foundation built: monorepo, strict TS, @payproof/money, @payproof/shared-types, db migrations with RLS, Fastify apps/api with error masking & rate limits, auth & cashier/branch management, security test suites, secret scanning | Student reviews M1 Walkthrough, runs Docker/Postgres tests, and approves M1 checkpoint |
-| 22 Nov 2026 | M2 Catalog & Cashier Sale built: @payproof/ui-tokens (palette & presets), shared-types (catalog/sales/sync), 0002_catalog_and_sales.sql with immutability triggers & reporting views, 200 Ethiopian products seed, Products/Sales/Sync API, Next.js static export owner-web with real skeletons, cashier-app cart & offline SQLite queue | Student reviews M2 Walkthrough, tests owner-web & cashier-app, and approves M2 checkpoint |
-| 22 Nov 2026 | M3 Safe-fetching layer, mock provider server, and evidence contract built: ProviderEvidenceSchema & SafeFetchResultSchema in @payproof/shared-types & Python, services/mock-provider simulating 11 payment/hostile scenarios, safe-fetch engines with DNS pre-resolution & anti-SSRF IP filtering (RFC 1918, loopback, cloud metadata, carrier NAT), services/verification FastAPI app, 103 automated tests passing (95 TS + 8 Pytest), 0 secret scan violations | Student reviews M3 Walkthrough artifact and approves M3 checkpoint |
-| 22 Nov 2026 | M4 Saved payment accounts, pure decision engine, and atomic claims built: 0003_payment_accounts_and_claims.sql with immutability triggers & integrity constraints, AES-256-GCM encryption of account references, Unicode NFKD name normalization & dual-factor receiver matcher with near-match warning detection, pure TRD 4.4 Decision Engine (rules 1-9), POST /v1/sales/:id/verify-mobile-money with 100-concurrent-claim double-spend defense (exactly 1 claim succeeds, 99 rejected as already_used with fraud alert), manual override with owner PIN. 128 tests passed (120 TS + 8 Pytest), 0 secrets | Student reviews M4 Walkthrough artifact and approves M4 checkpoint |
-| 22 Nov 2026 | M5 Cashier payment UX built: camera guidance heuristics engine (distance, glare, stability), payment state machine (IDLE -> Prompt -> Scanning -> Checking -> Verified/Waiting/Rejected), zero-CLS skeleton loader, tri-factor accessible verdict presentation (Color + Icon + Word) with DESIGN.md tokens, waiting 12s countdown with automatic 3s retries, manual payment ID entry fallback, owner PIN override modal, and offline SQLite queueing with verification upon reconnection. 148 automated tests passed (140 TS + 8 Pytest), 0 secret scan violations | Student reviews M5 Walkthrough artifact and approves M5 checkpoint |
-| 22 Nov 2026 | M6 Owner dashboard & multi-branch management built: @payproof/shared-types contracts (ReportSummary, BreakdownDimension, ResolveAlert), apps/api reports & alerts endpoints with sanitized CSV export (CWE-1236), apps/owner-web Next.js static export dashboard with multi-branch selector (Bole, Piassa, Adama), "Protected this week" fraud prevention strip, setup progress checklist, real-time alerts feed with resolution modal, branch & cashier management with PIN creation, saved payment accounts manager (Telebirr & CBE) with Owner PIN gating, and payment ratio visualization bar. 155 automated tests passed (147 TS + 8 Pytest), Next.js static export 100% clean, 0 secrets | Student reviews M6 Walkthrough artifact and approves M6 checkpoint |
-| 22 Nov 2026 | M7 Hardening, evaluation & ASTU senior project package built: security audit (Fastify response security headers, dependency overrides for fast-jwt, 0 secret scan violations), full empirical evaluation run documented in docs/agent/EVALS.md § 10 (155/155 tests passing across hostile-links, receiver matching, TRD decision engine, and 100-concurrency atomic double-spend stress test), disaster recovery runbooks (provider unreachable, database restore, compromised cashier tablet, secret rotation), backup and restore scripts (scripts/db-backup.ps1, scripts/db-restore.ps1, scripts/health-check.ps1), ASTU senior project thesis summary (docs/09-senior-project-summary.md), and interactive examination committee live demo script (docs/agent/DEMO-SCRIPT.md). Production readiness checklist verified. 100% tests passing, clean static export | Final senior project review & presentation |
+| Date        | Done                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Next                                                                                             |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 24 Oct 2026 | Compared title options, chose the supermarket payment-verification project, wrote the full documentation set                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Student reviews docs, checks past-project list, runs Milestone 0, then says "start building"     |
+| 24 Oct 2026 | Student added standing rules for security, UX, and speed. SECURITY.md exists. Rules folded into the PRD, TRD, schema, design system, UX brief, app flow, plan, evals, tools, prompts, and guardrails                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Student reviews the rules and the interpretations in section 2a                                  |
+| 24 Oct 2026 | Student changed the core design: verification now reads the provider's receipt page behind the payment QR and matches the receiver to the branch's saved account. SMS is optional backup. All docs updated                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Student tests what the receipt QR codes lead to (A1)                                             |
+| 21 Nov 2026 | Packaged the project for Google Antigravity: rules, skills, GEMINI.md, kickoff prompt, per-milestone prompts, production readiness doc                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Student opens the folder in Antigravity, runs Milestone 0 in parallel, pastes the kickoff prompt |
+| 22 Nov 2026 | M1 Foundation built: monorepo, strict TS, @payproof/money, @payproof/shared-types, db migrations with RLS, Fastify apps/api with error masking & rate limits, auth & cashier/branch management, security test suites, secret scanning                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Student reviews M1 Walkthrough, runs Docker/Postgres tests, and approves M1 checkpoint           |
+| 22 Nov 2026 | M2 Catalog & Cashier Sale built: @payproof/ui-tokens (palette & presets), shared-types (catalog/sales/sync), 0002_catalog_and_sales.sql with immutability triggers & reporting views, 200 Ethiopian products seed, Products/Sales/Sync API, Next.js static export owner-web with real skeletons, cashier-app cart & offline SQLite queue                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Student reviews M2 Walkthrough, tests owner-web & cashier-app, and approves M2 checkpoint        |
+| 22 Nov 2026 | M3 Safe-fetching layer, mock provider server, and evidence contract built: ProviderEvidenceSchema & SafeFetchResultSchema in @payproof/shared-types & Python, services/mock-provider simulating 11 payment/hostile scenarios, safe-fetch engines with DNS pre-resolution & anti-SSRF IP filtering (RFC 1918, loopback, cloud metadata, carrier NAT), services/verification FastAPI app, 103 automated tests passing (95 TS + 8 Pytest), 0 secret scan violations                                                                                                                                                                                                                                                                                                                                                                                                    | Student reviews M3 Walkthrough artifact and approves M3 checkpoint                               |
+| 22 Nov 2026 | M4 Saved payment accounts, pure decision engine, and atomic claims built: 0003_payment_accounts_and_claims.sql with immutability triggers & integrity constraints, AES-256-GCM encryption of account references, Unicode NFKD name normalization & dual-factor receiver matcher with near-match warning detection, pure TRD 4.4 Decision Engine (rules 1-9), POST /v1/sales/:id/verify-mobile-money with 100-concurrent-claim double-spend defense (exactly 1 claim succeeds, 99 rejected as already_used with fraud alert), manual override with owner PIN. 128 tests passed (120 TS + 8 Pytest), 0 secrets                                                                                                                                                                                                                                                        | Student reviews M4 Walkthrough artifact and approves M4 checkpoint                               |
+| 22 Nov 2026 | M5 Cashier payment UX built: camera guidance heuristics engine (distance, glare, stability), payment state machine (IDLE -> Prompt -> Scanning -> Checking -> Verified/Waiting/Rejected), zero-CLS skeleton loader, tri-factor accessible verdict presentation (Color + Icon + Word) with DESIGN.md tokens, waiting 12s countdown with automatic 3s retries, manual payment ID entry fallback, owner PIN override modal, and offline SQLite queueing with verification upon reconnection. 148 automated tests passed (140 TS + 8 Pytest), 0 secret scan violations                                                                                                                                                                                                                                                                                                  | Student reviews M5 Walkthrough artifact and approves M5 checkpoint                               |
+| 22 Nov 2026 | M6 Owner dashboard & multi-branch management built: @payproof/shared-types contracts (ReportSummary, BreakdownDimension, ResolveAlert), apps/api reports & alerts endpoints with sanitized CSV export (CWE-1236), apps/owner-web Next.js static export dashboard with multi-branch selector (Bole, Piassa, Adama), "Protected this week" fraud prevention strip, setup progress checklist, real-time alerts feed with resolution modal, branch & cashier management with PIN creation, saved payment accounts manager (Telebirr & CBE) with Owner PIN gating, and payment ratio visualization bar. 155 automated tests passed (147 TS + 8 Pytest), Next.js static export 100% clean, 0 secrets                                                                                                                                                                      | Student reviews M6 Walkthrough artifact and approves M6 checkpoint                               |
+| 22 Nov 2026 | M7 Hardening, evaluation & ASTU senior project package built: security audit (Fastify response security headers, dependency overrides for fast-jwt, 0 secret scan violations), full empirical evaluation run documented in docs/agent/EVALS.md § 10 (155/155 tests passing across hostile-links, receiver matching, TRD decision engine, and 100-concurrency atomic double-spend stress test), disaster recovery runbooks (provider unreachable, database restore, compromised cashier tablet, secret rotation), backup and restore scripts (scripts/db-backup.ps1, scripts/db-restore.ps1, scripts/health-check.ps1), ASTU senior project thesis summary (docs/09-senior-project-summary.md), and interactive examination committee live demo script (docs/agent/DEMO-SCRIPT.md). Production readiness checklist verified. 100% tests passing, clean static export | Final senior project review & presentation                                                       |

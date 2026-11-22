@@ -71,13 +71,16 @@ export function globalErrorHandler(
   }
 
   // 4. Unexpected / 500 Server Errors: Log server-side only with ref, sanitize response completely
-  request.log.error({
-    ref,
-    err: error,
-    method: request.method,
-    url: request.url,
-    ip: request.ip,
-  }, 'Unhandled internal exception');
+  request.log.error(
+    {
+      ref,
+      err: error,
+      method: request.method,
+      url: request.url,
+      ip: request.ip,
+    },
+    'Unhandled internal exception'
+  );
 
   const safePayload: ApiErrorResponse = {
     error: {

@@ -24,7 +24,10 @@ export const VerificationDecisionSchema = z.object({
   verdict: VerdictEnum,
   rejectReason: RejectReasonEnum.nullable(),
   reasons: z.array(z.string()),
-  shortfallMinor: z.union([z.bigint(), z.number().int().nonnegative()]).nullable().transform((val) => (val !== null ? BigInt(val) : null)),
+  shortfallMinor: z
+    .union([z.bigint(), z.number().int().nonnegative()])
+    .nullable()
+    .transform((val) => (val !== null ? BigInt(val) : null)),
   matchedAccountId: z.string().uuid().nullable(),
   transactionId: z.string().nullable(),
   provider: ProviderKindSchema.nullable(),

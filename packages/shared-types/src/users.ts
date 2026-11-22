@@ -6,7 +6,10 @@ export const CreateCashierRequestSchema = z.object({
   phone: PhoneSchema,
   branchId: z.string().uuid('branchId must be a valid UUID'),
   password: z.string().min(8).max(128).optional(), // Optional on creation; temporary password generated if omitted
-  pin: z.string().regex(/^\d{4,6}$/, 'PIN must be 4 to 6 numeric digits').optional(),
+  pin: z
+    .string()
+    .regex(/^\d{4,6}$/, 'PIN must be 4 to 6 numeric digits')
+    .optional(),
 });
 export type CreateCashierRequest = z.infer<typeof CreateCashierRequestSchema>;
 
@@ -15,7 +18,10 @@ export const UpdateCashierRequestSchema = z.object({
   branchId: z.string().uuid().optional(),
   status: UserStatusSchema.optional(),
   password: z.string().min(8).max(128).optional(),
-  pin: z.string().regex(/^\d{4,6}$/).optional(),
+  pin: z
+    .string()
+    .regex(/^\d{4,6}$/)
+    .optional(),
 });
 export type UpdateCashierRequest = z.infer<typeof UpdateCashierRequestSchema>;
 

@@ -56,7 +56,9 @@ export function SummaryCards({ data, loading }: SummaryCardsProps) {
           <p className="text-sm font-medium text-slate-500 mb-1">Logged Voids</p>
           <h3 className="text-2xl font-bold text-slate-900 tabular-nums">
             {data.voidCount > 0 ? (
-              <span className="text-amber-700">{data.voidCount} voids ({formatBirr(data.voidMinor)})</span>
+              <span className="text-amber-700">
+                {data.voidCount} voids ({formatBirr(data.voidMinor)})
+              </span>
             ) : (
               <span className="text-slate-600">0 voids (0.00 Birr)</span>
             )}
