@@ -3,6 +3,7 @@ import cors from '@fastify/cors';
 import compress from '@fastify/compress';
 import jwt from '@fastify/jwt';
 import cookie from '@fastify/cookie';
+import crypto from 'crypto';
 import { config } from './config.js';
 import { globalErrorHandler } from './plugins/error-handler.js';
 import { authRoutes } from './routes/auth.js';
@@ -13,7 +14,29 @@ export function buildApp() {
   const isTest = config.NODE_ENV === 'test' || Boolean(process.env.VITEST);
 
   const app = Fastify({
-    logger: isTest ? false : true,
+    logger: isTest
+      ? false
+      : {
+          level: 'info',
+          serializers: {
+            req(req) {
+              return {
+                id: req.id,
+                method: req.method,
+                url: req.url,
+                ip: req.ip,
+              };
+            },
+          },
+        },
+    requestIdHeader: 'x-request-id',
+    requestIdLogLabel: 'requestId',
+    genReqId: (req) => (req.headers['x-request-id'] as string) || crypto.randomUUID(),
+  });
+
+  // Attach x-request-id header to every response
+  app.addHook('onSend', async (request, reply) => {
+    reply.header('x-request-id', request.id);
   });
 
   // Security Headers & CORS

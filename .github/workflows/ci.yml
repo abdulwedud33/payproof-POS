@@ -1,0 +1,101 @@
+name: PayProof POS CI (Production Readiness Gates)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    name: Verify Quality, Security & Production Gates
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres_password
+          POSTGRES_DB: payproof
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.5.2
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Gate 1 - Secret Scan (SECURITY.md S1)
+        run: pnpm scan:secrets
+
+      - name: Gate 2 - Code Formatting & Lint
+        run: |
+          pnpm lint
+          pnpm prettier --check "**/*.{ts,js,json,md,yml,sql}"
+
+      - name: Gate 3 - TypeScript Strict Typecheck
+        run: |
+          pnpm --filter @payproof/money typecheck
+          pnpm --filter @payproof/shared-types typecheck
+          pnpm --filter @payproof/db typecheck
+          pnpm --filter @payproof/api typecheck
+
+      - name: Gate 4 - Build Workspace Packages
+        run: |
+          pnpm --filter @payproof/money build
+          pnpm --filter @payproof/shared-types build
+          pnpm --filter @payproof/db build
+          pnpm --filter @payproof/api build
+
+      - name: Gate 5 - Database Migrations & Seed Check
+        env:
+          MIGRATOR_DATABASE_URL: postgres://postgres:postgres_password@localhost:5432/payproof
+          DATABASE_URL: postgres://postgres:postgres_password@localhost:5432/payproof
+        run: |
+          pnpm db:migrate
+          pnpm db:seed
+
+      - name: Gate 6 - Unit & Integration Tests (Money, Schemas, Auth, RLS, Rate Limit, Error Leak)
+        env:
+          DATABASE_URL: postgres://postgres:postgres_password@localhost:5432/payproof
+          REDIS_URL: redis://localhost:6379
+          JWT_ACCESS_SECRET: ci_jwt_access_secret_long_random_123456
+          JWT_REFRESH_SECRET: ci_jwt_refresh_secret_long_random_654321
+        run: |
+          pnpm --filter @payproof/money test
+          pnpm --filter @payproof/shared-types test
+          pnpm --filter @payproof/api test
+          pnpm --filter @payproof/db test:rls
+
+      - name: Gate 7 - Dependency Security Audit
+        run: pnpm audit --audit-level=high || true

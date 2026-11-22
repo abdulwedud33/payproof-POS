@@ -1,6 +1,6 @@
 import type { FastifyReply } from 'fastify';
 import { RateLimiterMemory, RateLimiterRedis, type RateLimiterRes } from 'rate-limiter-flexible';
-import Redis from 'ioredis';
+import { Redis } from 'ioredis';
 import { AppApiError, ErrorCode } from '@payproof/shared-types';
 import { config } from '../config.js';
 
