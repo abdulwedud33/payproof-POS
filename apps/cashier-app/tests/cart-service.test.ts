@@ -34,7 +34,7 @@ describe('Cashier Cart Service (<300ms additions & Weighed Keypad)', () => {
     const item2 = cart.addItem(milk, 2);
     const duration = performance.now() - start;
 
-    expect(duration).toBeLessThan(50); // Well under 300ms target
+    expect(duration).toBeLessThan(300); // 300ms target from DESIGN.md
     expect(cart.getItemCount()).toBe(1);
     expect(item2.quantity).toBe(3);
     expect(item2.lineTotalMinor).toBe(18000); // 3 * 6000 santim

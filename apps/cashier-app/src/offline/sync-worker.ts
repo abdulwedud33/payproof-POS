@@ -1,8 +1,9 @@
 import type { OfflineStorage } from './storage.js';
-import type { SaleResponse } from '@payproof/shared-types';
+import type { SaleResponse, VerificationDecision } from '@payproof/shared-types';
 
 export interface ApiClient {
   postSale: (payload: any) => Promise<SaleResponse>;
+  verifyMobileMoney?: (saleId: string, qrText: string) => Promise<VerificationDecision>;
 }
 
 export class SyncWorker {
@@ -18,6 +19,7 @@ export class SyncWorker {
   /**
    * Processes all pending sales in the outbox sequentially.
    * Leverages the server-side idempotency_key to prevent duplicate transactions.
+   * For mobile money sales, performs provider verification during sync if offline QR was recorded.
    */
   public async processOutbox(): Promise<{ processed: number; succeeded: number; failed: number }> {
     if (this.isRunning) {
@@ -37,7 +39,22 @@ export class SyncWorker {
         this.storage.markSyncing(record.id);
 
         try {
+          // 1. Post sale to server (idempotent via UUID v7 and idempotency_key)
           await this.api.postSale(record.payload);
+
+          // 2. If mobile money with pending QR verification, verify against provider
+          if (record.qrText && this.api.verifyMobileMoney) {
+            const decision = await this.api.verifyMobileMoney(record.id, record.qrText);
+            if (decision.verdict === 'rejected') {
+              this.storage.markFailed(
+                record.id,
+                `Mobile money rejected: ${decision.rejectReason || 'Unknown error'}`
+              );
+              failed++;
+              continue;
+            }
+          }
+
           this.storage.markSynced(record.id);
           succeeded++;
         } catch (error: any) {

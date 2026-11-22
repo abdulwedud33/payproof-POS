@@ -4,7 +4,8 @@ export interface OutboxRecord {
   id: string; // Sale UUID
   idempotencyKey: string;
   payload: CreateSaleRequest;
-  status: 'pending' | 'syncing' | 'synced' | 'failed';
+  qrText?: string;
+  status: 'pending' | 'syncing' | 'synced' | 'failed' | 'needs_review';
   attempts: number;
   lastError?: string;
   createdAt: string;
@@ -55,12 +56,14 @@ export class OfflineStorage {
 
   /**
    * Enqueues a completed sale into local outbox queue for background sync.
+   * Optionally accepts scanned QR text for mobile-money verification during sync.
    */
-  public enqueueSale(sale: CreateSaleRequest): OutboxRecord {
+  public enqueueSale(sale: CreateSaleRequest, qrText?: string): OutboxRecord {
     const record: OutboxRecord = {
       id: sale.id,
       idempotencyKey: sale.idempotency_key,
       payload: sale,
+      qrText,
       status: 'pending',
       attempts: 0,
       createdAt: new Date().toISOString(),
