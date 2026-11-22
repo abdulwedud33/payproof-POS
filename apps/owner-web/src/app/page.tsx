@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import type { ProductResponse, SaleResponse } from '@payproof/shared-types';
+import { formatEthiopianDate } from '@payproof/shared-types';
 import { SummaryCards, type SummaryData } from '../components/SummaryCards';
 import { ProductTable, type ExtendedProduct } from '../components/ProductTable';
 import { SalesTable } from '../components/SalesTable';
@@ -35,6 +36,7 @@ import {
   CreditCard,
   ShieldAlert,
   Globe,
+  Calendar,
 } from 'lucide-react';
 
 // Seed Branches
@@ -314,6 +316,7 @@ export default function DashboardPage() {
   >('overview');
   const [selectedBranchId, setSelectedBranchId] = useState<string>('all');
   const [locale, setLocale] = useState<Locale>('en');
+  const [calendarSystem, setCalendarSystem] = useState<'GC' | 'EC'>('EC');
   const [loading, setLoading] = useState(false);
 
   const t = translations[locale];
@@ -726,6 +729,38 @@ export default function DashboardPage() {
             </select>
           </div>
 
+          {/* Calendar System Switcher (Gregorian G.C. vs Ethiopian E.C. / ዓ.ም.) */}
+          <div className="flex items-center gap-1.5 bg-white border border-slate-200 rounded-lg p-1 shadow-2xs">
+            <Calendar className="w-3.5 h-3.5 text-slate-400 ml-1.5" />
+            <select
+              value={calendarSystem}
+              onChange={(e) => setCalendarSystem(e.target.value as 'GC' | 'EC')}
+              className="text-xs font-semibold text-slate-800 bg-transparent py-1 pr-2 focus:outline-hidden cursor-pointer"
+              title="Toggle Gregorian vs Ethiopian Calendar"
+            >
+              <option value="EC">📅 {t.ethiopian}</option>
+              <option value="GC">📅 {t.gregorian}</option>
+            </select>
+          </div>
+
+          {/* Today Date Badge */}
+          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-amber-50/80 border border-amber-200/90 rounded-lg text-xs font-semibold text-amber-900 shadow-2xs">
+            <span className="text-[10px] uppercase font-bold text-amber-700">{t.currentDate}:</span>
+            <span>
+              {calendarSystem === 'EC'
+                ? formatEthiopianDate(new Date(), locale)
+                : new Date().toLocaleDateString(
+                    locale === 'am' ? 'am-ET' : locale === 'om' ? 'om-ET' : 'en-US',
+                    {
+                      weekday: 'short',
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    }
+                  )}
+            </span>
+          </div>
+
           <button
             type="button"
             onClick={toggleLoadingSimulation}
@@ -865,6 +900,8 @@ export default function DashboardPage() {
               sales={activeBranchSales.slice(0, 5)}
               loading={loading}
               onVoidClick={(sale) => setVoidingSale(sale)}
+              calendarSystem={calendarSystem}
+              locale={locale}
             />
           </div>
         </div>
@@ -881,6 +918,8 @@ export default function DashboardPage() {
           onBranchChange={setSelectedBranchId}
           branches={branches}
           onExportCsv={handleExportCsv}
+          calendarSystem={calendarSystem}
+          locale={locale}
         />
       )}
 
@@ -891,6 +930,8 @@ export default function DashboardPage() {
           loading={loading}
           onAddBranch={handleAddBranch}
           onAddCashier={handleAddCashier}
+          calendarSystem={calendarSystem}
+          locale={locale}
         />
       )}
 
@@ -905,7 +946,13 @@ export default function DashboardPage() {
       )}
 
       {activeTab === 'alerts' && (
-        <AlertsTable alerts={alerts} loading={loading} onResolveAlert={handleResolveAlert} />
+        <AlertsTable
+          alerts={alerts}
+          loading={loading}
+          onResolveAlert={handleResolveAlert}
+          calendarSystem={calendarSystem}
+          locale={locale}
+        />
       )}
 
       {activeTab === 'products' && (
@@ -924,6 +971,8 @@ export default function DashboardPage() {
           sales={activeBranchSales}
           loading={loading}
           onVoidClick={(sale) => setVoidingSale(sale)}
+          calendarSystem={calendarSystem}
+          locale={locale}
         />
       )}
 

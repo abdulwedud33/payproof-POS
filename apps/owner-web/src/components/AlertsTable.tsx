@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { AlertTriangle, ShieldAlert, Info, CheckCircle2, Search, Filter } from 'lucide-react';
 import { formatBirr } from '@payproof/money';
+import { formatEthiopianDate } from '@payproof/shared-types';
 import { TableSkeleton } from './Skeleton';
 
 export interface AlertItem {
@@ -23,9 +24,17 @@ interface AlertsTableProps {
   alerts: AlertItem[];
   loading?: boolean;
   onResolveAlert: (alertId: string, notes: string) => Promise<void>;
+  calendarSystem?: 'GC' | 'EC';
+  locale?: 'en' | 'am' | 'om';
 }
 
-export function AlertsTable({ alerts, loading, onResolveAlert }: AlertsTableProps) {
+export function AlertsTable({
+  alerts,
+  loading,
+  onResolveAlert,
+  calendarSystem = 'EC',
+  locale = 'en',
+}: AlertsTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [severityFilter, setSeverityFilter] = useState<'all' | 'critical' | 'warning' | 'info'>(
     'all'
@@ -209,13 +218,15 @@ export function AlertsTable({ alerts, loading, onResolveAlert }: AlertsTableProp
                       ? formatBirr(alert.amount_minor)
                       : '—'}
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-slate-500">
-                    {new Date(alert.created_at).toLocaleString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
+                  <td className="px-4 py-3 whitespace-nowrap text-slate-500 text-xs">
+                    {calendarSystem === 'EC'
+                      ? `${formatEthiopianDate(alert.created_at, locale, { short: true })}, ${new Date(alert.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
+                      : new Date(alert.created_at).toLocaleString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap">{getStatusBadge(alert.status)}</td>
                   <td className="px-4 py-3 whitespace-nowrap text-center">

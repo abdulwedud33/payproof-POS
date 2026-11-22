@@ -9,6 +9,16 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   transpilePackages: ['@payproof/ui-tokens', '@payproof/money', '@payproof/shared-types'],
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve = config.resolve || {};
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        crypto: false,
+      };
+    }
+    return config;
+  },
 };
 
 module.exports = nextConfig;

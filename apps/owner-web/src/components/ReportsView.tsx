@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Download, Calendar, BarChart3, TrendingUp, DollarSign, Smartphone } from 'lucide-react';
 import { formatBirr } from '@payproof/money';
+import { formatEthiopianDate } from '@payproof/shared-types';
 import { TableSkeleton } from './Skeleton';
 
 export interface ReportSummary {
@@ -35,6 +36,8 @@ interface ReportsViewProps {
   onBranchChange: (branchId: string) => void;
   branches: Array<{ id: string; name: string }>;
   onExportCsv: (dateRange: string, branchId: string) => Promise<void>;
+  calendarSystem?: 'GC' | 'EC';
+  locale?: 'en' | 'am' | 'om';
 }
 
 export function ReportsView({
@@ -47,6 +50,8 @@ export function ReportsView({
   onBranchChange,
   branches,
   onExportCsv,
+  calendarSystem = 'EC',
+  locale = 'en',
 }: ReportsViewProps) {
   const [timeRange, setTimeRange] = useState<'today' | '7days' | 'month'>('7days');
   const [dimensionTab, setDimensionTab] = useState<'branch' | 'cashier' | 'hour'>('branch');
@@ -128,6 +133,23 @@ export function ReportsView({
               </option>
             ))}
           </select>
+
+          {/* Active Calendar Indicator Badge */}
+          <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-amber-50 border border-amber-200 rounded-lg text-xs font-semibold text-amber-900 shadow-2xs">
+            <Calendar className="w-3.5 h-3.5 text-amber-700" />
+            <span>
+              {calendarSystem === 'EC'
+                ? formatEthiopianDate(new Date(), locale)
+                : new Date().toLocaleDateString(
+                    locale === 'am' ? 'am-ET' : locale === 'om' ? 'om-ET' : 'en-US',
+                    {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    }
+                  )}
+            </span>
+          </div>
         </div>
 
         {/* CSV Export Button */}

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import crypto from 'node:crypto';
+import crypto from 'crypto';
 
 export const ProviderKindSchema = z.enum(['telebirr', 'cbe', 'mock']);
 export type ProviderKind = z.infer<typeof ProviderKindSchema>;

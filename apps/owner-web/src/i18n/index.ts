@@ -42,6 +42,10 @@ export interface Translations {
   warning: string;
   info: string;
   quickSetup: string;
+  calendar: string;
+  gregorian: string;
+  ethiopian: string;
+  currentDate: string;
 }
 
 export const translations: Record<Locale, Translations> = {
@@ -87,6 +91,10 @@ export const translations: Record<Locale, Translations> = {
     warning: 'Warning',
     info: 'Info',
     quickSetup: 'Supermarket Setup Progress',
+    calendar: 'Calendar',
+    gregorian: 'G.C. (Gregorian)',
+    ethiopian: 'E.C. (ዓ.ም.)',
+    currentDate: 'Current Date',
   },
   am: {
     appName: 'ፔይፕሩፍ ፖስ (PayProof)',
@@ -130,6 +138,10 @@ export const translations: Record<Locale, Translations> = {
     warning: 'ማስጠንቀቂያ',
     info: 'መረጃ',
     quickSetup: 'የሱፐርማርኬት ዝግጅት ደረጃ',
+    calendar: 'የቀን መቁጠሪያ',
+    gregorian: 'ፈረንጅ (G.C.)',
+    ethiopian: 'ኢትዮጵያ (ዓ.ም.)',
+    currentDate: 'የዛሬ ቀን',
   },
   om: {
     appName: 'PayProof POS',
@@ -173,5 +185,9 @@ export const translations: Record<Locale, Translations> = {
     warning: 'Akeekkachiisa',
     info: 'Oodeeffannoo',
     quickSetup: 'Sadarkaa Qophii Suupparmaarkeetii',
+    calendar: 'Kaaleendarii',
+    gregorian: 'G.C. (Gregorian)',
+    ethiopian: 'E.C. (B.I.)',
+    currentDate: 'Guyyaa Har’aa',
   },
 };

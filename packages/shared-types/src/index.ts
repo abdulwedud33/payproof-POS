@@ -10,3 +10,4 @@ export * from './payment-accounts.js';
 export * from './verifications.js';
 export * from './alerts.js';
 export * from './reports.js';
+export * from './ethiopian-calendar.js';

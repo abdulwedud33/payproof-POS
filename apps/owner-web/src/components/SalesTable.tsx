@@ -1,5 +1,6 @@
 import React from 'react';
 import type { SaleResponse } from '@payproof/shared-types';
+import { formatEthiopianDate } from '@payproof/shared-types';
 import { formatBirr } from '@payproof/money';
 import { Receipt, Ban } from 'lucide-react';
 import { TableSkeleton } from './Skeleton';
@@ -8,9 +9,17 @@ export interface SalesTableProps {
   sales: SaleResponse[];
   loading: boolean;
   onVoidClick: (sale: SaleResponse) => void;
+  calendarSystem?: 'GC' | 'EC';
+  locale?: 'en' | 'am' | 'om';
 }
 
-export function SalesTable({ sales, loading, onVoidClick }: SalesTableProps) {
+export function SalesTable({
+  sales,
+  loading,
+  onVoidClick,
+  calendarSystem = 'EC',
+  locale = 'en',
+}: SalesTableProps) {
   if (loading) {
     return <TableSkeleton rows={8} cols={6} />;
   }
@@ -51,13 +60,24 @@ export function SalesTable({ sales, loading, onVoidClick }: SalesTableProps) {
                     {sale.id.slice(0, 8)}...
                   </td>
                   <td className="py-3.5 px-4 text-slate-600">
-                    {sale.completed_at
-                      ? new Date(sale.completed_at).toLocaleTimeString([], {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                          second: '2-digit',
-                        })
-                      : '—'}
+                    {sale.completed_at ? (
+                      <div>
+                        <div className="font-medium text-slate-800 text-xs">
+                          {calendarSystem === 'EC'
+                            ? formatEthiopianDate(sale.completed_at, locale, { short: true })
+                            : new Date(sale.completed_at).toLocaleDateString()}
+                        </div>
+                        <div className="text-[11px] text-slate-400">
+                          {new Date(sale.completed_at).toLocaleTimeString([], {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit',
+                          })}
+                        </div>
+                      </div>
+                    ) : (
+                      '—'
+                    )}
                   </td>
                   <td className="py-3.5 px-4 text-slate-600 font-medium">
                     {sale.items?.length || 1} items

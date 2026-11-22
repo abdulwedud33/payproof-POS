@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Store, UserCheck, Plus, MapPin, Users, KeyRound, Shield, Check, X } from 'lucide-react';
+import { formatEthiopianDate } from '@payproof/shared-types';
 import { TableSkeleton } from './Skeleton';
 
 export interface BranchItem {
@@ -34,6 +35,8 @@ interface BranchCashierManagerProps {
     branch_id: string;
     pin: string;
   }) => Promise<void>;
+  calendarSystem?: 'GC' | 'EC';
+  locale?: 'en' | 'am' | 'om';
 }
 
 export function BranchCashierManager({
@@ -42,6 +45,8 @@ export function BranchCashierManager({
   loading,
   onAddBranch,
   onAddCashier,
+  calendarSystem = 'EC',
+  locale = 'en',
 }: BranchCashierManagerProps) {
   const [subTab, setSubTab] = useState<'branches' | 'cashiers'>('branches');
   const [isAddBranchOpen, setIsAddBranchOpen] = useState(false);
@@ -196,8 +201,10 @@ export function BranchCashierManager({
                       {b.active_cashiers_count} cashiers
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-slate-400">
-                    {new Date(b.created_at).toLocaleDateString()}
+                  <td className="px-4 py-3 text-slate-500 font-medium text-xs">
+                    {calendarSystem === 'EC'
+                      ? formatEthiopianDate(b.created_at, locale, { short: true })
+                      : new Date(b.created_at).toLocaleDateString()}
                   </td>
                 </tr>
               ))}
@@ -240,8 +247,10 @@ export function BranchCashierManager({
                       </span>
                     )}
                   </td>
-                  <td className="px-4 py-3 text-slate-400">
-                    {new Date(c.created_at).toLocaleDateString()}
+                  <td className="px-4 py-3 text-slate-500 font-medium text-xs">
+                    {calendarSystem === 'EC'
+                      ? formatEthiopianDate(c.created_at, locale, { short: true })
+                      : new Date(c.created_at).toLocaleDateString()}
                   </td>
                 </tr>
               ))}
