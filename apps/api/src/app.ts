@@ -15,6 +15,7 @@ import { syncRoutes } from './routes/sync.js';
 import { paymentAccountRoutes } from './routes/payment-accounts.js';
 import { reportRoutes } from './routes/reports.js';
 import { alertRoutes } from './routes/alerts.js';
+import { shiftRoutes } from './routes/shifts.js';
 
 export function buildApp() {
   const isTest = config.NODE_ENV === 'test' || Boolean(process.env.VITEST);
@@ -84,6 +85,7 @@ export function buildApp() {
   app.register(paymentAccountRoutes, { prefix: '/v1/payment-accounts' });
   app.register(reportRoutes, { prefix: '/v1/reports' });
   app.register(alertRoutes, { prefix: '/v1/alerts' });
+  app.register(shiftRoutes, { prefix: '/v1/shifts' });
 
   return app;
 }

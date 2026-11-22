@@ -25,6 +25,8 @@ import {
   type ReportSummary,
   type DimensionBreakdownItem,
 } from '../components/ReportsView';
+import { ShiftsTable } from '../components/ShiftsTable';
+import type { ShiftResponse } from '@payproof/shared-types';
 import { translations, type Locale } from '../i18n';
 import {
   Package,
@@ -37,6 +39,7 @@ import {
   ShieldAlert,
   Globe,
   Calendar,
+  Clock,
 } from 'lucide-react';
 
 // Seed Branches
@@ -310,9 +313,51 @@ const INITIAL_SALES: SaleResponse[] = [
   },
 ];
 
+// Seed Shifts
+const INITIAL_SHIFTS: ShiftResponse[] = [
+  {
+    id: '44444444-4444-4444-4444-444444444441',
+    org_id: '11111111-1111-1111-1111-111111111111',
+    branch_id: '22222222-2222-2222-2222-222222222221',
+    branch_name: 'Bole Branch',
+    cashier_id: '33333333-3333-3333-3333-333333333331',
+    cashier_name: 'Tigist Haile',
+    opening_float_minor: 50000,
+    expected_cash_minor: 125000,
+    actual_cash_minor: 125000,
+    cash_difference_minor: 0,
+    total_mobile_money_minor: 180000,
+    total_sales_count: 14,
+    total_void_count: 1,
+    status: 'closed',
+    notes: 'Morning shift balanced accurately',
+    opened_at: new Date(Date.now() - 1000 * 60 * 60 * 8).toISOString(),
+    closed_at: new Date(Date.now() - 1000 * 60 * 60 * 1).toISOString(),
+  },
+  {
+    id: '44444444-4444-4444-4444-444444444442',
+    org_id: '11111111-1111-1111-1111-111111111111',
+    branch_id: '22222222-2222-2222-2222-222222222221',
+    branch_name: 'Bole Branch',
+    cashier_id: '33333333-3333-3333-3333-333333333332',
+    cashier_name: 'Dawit Bekele',
+    opening_float_minor: 50000,
+    expected_cash_minor: 84000,
+    actual_cash_minor: null,
+    cash_difference_minor: null,
+    total_mobile_money_minor: 110000,
+    total_sales_count: 8,
+    total_void_count: 0,
+    status: 'open',
+    notes: 'Afternoon peak shift active',
+    opened_at: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
+    closed_at: null,
+  },
+];
+
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState<
-    'overview' | 'reports' | 'branches' | 'accounts' | 'alerts' | 'products' | 'sales'
+    'overview' | 'reports' | 'branches' | 'accounts' | 'alerts' | 'products' | 'sales' | 'shifts'
   >('overview');
   const [selectedBranchId, setSelectedBranchId] = useState<string>('all');
   const [locale, setLocale] = useState<Locale>('en');
@@ -326,6 +371,7 @@ export default function DashboardPage() {
   const [cashiers, setCashiers] = useState<CashierItem[]>(INITIAL_CASHIERS);
   const [accounts, setAccounts] = useState<PaymentAccountItem[]>(INITIAL_ACCOUNTS);
   const [alerts, setAlerts] = useState<AlertItem[]>(INITIAL_ALERTS);
+  const [shifts, setShifts] = useState<ShiftResponse[]>(INITIAL_SHIFTS);
   const [products, setProducts] = useState<ExtendedProduct[]>(INITIAL_PRODUCTS);
   const [sales, setSales] = useState<SaleResponse[]>(INITIAL_SALES);
   const [filteredProducts, setFilteredProducts] = useState<ExtendedProduct[]>(INITIAL_PRODUCTS);
@@ -859,6 +905,18 @@ export default function DashboardPage() {
           <Receipt className="w-4 h-4" />
           {t.salesJournal} ({activeBranchSales.length})
         </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('shifts')}
+          className={`flex items-center gap-2 pb-3 px-4 text-xs sm:text-sm font-semibold border-b-2 whitespace-nowrap transition-colors ${
+            activeTab === 'shifts'
+              ? 'border-blue-600 text-blue-600'
+              : 'border-transparent text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          <Clock className="w-4 h-4" />
+          {t.shiftsDrawer} ({shifts.length})
+        </button>
       </div>
 
       {/* Tab Panels */}
@@ -971,6 +1029,19 @@ export default function DashboardPage() {
           sales={activeBranchSales}
           loading={loading}
           onVoidClick={(sale) => setVoidingSale(sale)}
+          calendarSystem={calendarSystem}
+          locale={locale}
+        />
+      )}
+
+      {activeTab === 'shifts' && (
+        <ShiftsTable
+          shifts={
+            selectedBranchId === 'all'
+              ? shifts
+              : shifts.filter((s) => s.branch_id === selectedBranchId)
+          }
+          loading={loading}
           calendarSystem={calendarSystem}
           locale={locale}
         />

@@ -1,0 +1,38 @@
+# ==============================================================================
+# PayProof POS - Caddy Reverse Proxy & SSL Configuration
+# Automatic TLS/SSL certificates via Let's Encrypt / ZeroSSL
+# ==============================================================================
+
+{$DOMAIN:localhost} {
+    # Modern TLS Security & Compression
+    encode zstd gzip
+
+    # Production Security Headers
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        Permissions-Policy "camera=(self), geolocation=(), microphone=()"
+        -Server
+    }
+
+    # API Proxy (/v1/* and /health)
+    handle /v1/* {
+        reverse_proxy api:3000 {
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Real-IP {remote_host}
+        }
+    }
+
+    handle /health {
+        reverse_proxy api:3000
+    }
+
+    # Static Owner Web Dashboard & SPA fallback
+    handle {
+        root * /srv/owner-web
+        try_files {path} {path}/ /index.html
+        file_server
+    }
+}

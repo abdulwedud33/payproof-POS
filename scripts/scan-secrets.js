@@ -21,7 +21,8 @@ const FORBIDDEN_PATTERNS = [
   },
   {
     name: 'Postgres password with live credential',
-    regex: /postgres:\/\/(?!app_api:CHANGE_ME|migrator:CHANGE_ME|postgres:postgres)[^:]+:[^@]+@/i,
+    regex:
+      /postgres:\/\/(?!app_api:CHANGE_ME|migrator:CHANGE_ME|postgres:postgres|\$\{)[^:]+:(?!\$\{)[^@]+@/i,
   },
   { name: 'AWS/Cloud Secret Key pattern', regex: /(?:AKIA[0-9A-Z]{16}|aws_secret_access_key)/i },
 ];
@@ -69,8 +70,8 @@ function walk(dir) {
     if (stat.isDirectory()) {
       walk(fullPath);
     } else {
-      // Check .env files that are not .env.example
-      if (file.startsWith('.env') && file !== '.env.example') {
+      // Check .env files that are not example templates
+      if (file.startsWith('.env') && !file.endsWith('.example')) {
         console.error(`[SECRET SCAN FAIL] Real environment file detected: ${relPath}`);
         violations++;
       }

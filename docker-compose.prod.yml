@@ -1,0 +1,112 @@
+# ==============================================================================
+# PayProof POS - Production Docker Compose Stack
+# High-Performance Retail Stack: Caddy (Auto-HTTPS) + Node Fastify + Python + PG + Redis
+# ==============================================================================
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    container_name: payproof-caddy
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./apps/owner-web/out:/srv/owner-web:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    environment:
+      - DOMAIN=${DOMAIN:-localhost}
+    depends_on:
+      - api
+    networks:
+      - payproof-net
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: payproof-postgres-prod
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-payproof_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Database password required}
+      POSTGRES_DB: ${POSTGRES_DB:-payproof_prod}
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -U ${POSTGRES_USER:-payproof_admin} -d ${POSTGRES_DB:-payproof_prod}',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - payproof-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: payproof-redis-prod
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:?Redis password required}
+    volumes:
+      - redis_prod_data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', '-a', '${REDIS_PASSWORD}', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - payproof-net
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: payproof-api-prod
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      HOST: 0.0.0.0
+      DATABASE_URL: postgres://${POSTGRES_USER:-payproof_admin}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-payproof_prod}
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?JWT access secret required}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:?JWT refresh secret required}
+      VERIFICATION_SERVICE_URL: http://verification:8000
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      verification:
+        condition: service_started
+    networks:
+      - payproof-net
+
+  verification:
+    build:
+      context: ./services/verification
+      dockerfile: Dockerfile
+    container_name: payproof-verification-prod
+    restart: unless-stopped
+    environment:
+      PORT: 8000
+      HOST: 0.0.0.0
+      PROVIDER_ALLOWLIST_HOSTS: ${PROVIDER_ALLOWLIST_HOSTS:-transactioninfo.ethiotelecom.et,apps.cbe.com.et}
+      ALLOW_HTTP_FOR_DEV: 'false'
+      ALLOW_LOOPBACK_FOR_DEV: 'false'
+    networks:
+      - payproof-net
+
+volumes:
+  postgres_prod_data:
+  redis_prod_data:
+  caddy_data:
+  caddy_config:
+
+networks:
+  payproof-net:
+    driver: bridge

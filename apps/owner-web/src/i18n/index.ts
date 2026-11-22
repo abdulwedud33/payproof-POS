@@ -46,6 +46,7 @@ export interface Translations {
   gregorian: string;
   ethiopian: string;
   currentDate: string;
+  shiftsDrawer: string;
 }
 
 export const translations: Record<Locale, Translations> = {
@@ -59,6 +60,7 @@ export const translations: Record<Locale, Translations> = {
     fraudAlerts: 'Fraud Alerts',
     catalogProducts: 'Catalog Products',
     salesJournal: 'Sales Journal',
+    shiftsDrawer: 'Shifts & Drawer',
     allBranches: 'All Branches (Consolidated)',
     refresh: 'Refresh',
     totalSalesToday: 'Total Sales Today',
@@ -106,6 +108,7 @@ export const translations: Record<Locale, Translations> = {
     fraudAlerts: 'የማጭበርበር ማስጠንቀቂያዎች',
     catalogProducts: 'የእቃዎች ዝርዝር (ካታሎግ)',
     salesJournal: 'የሽያጭ መዝገብ',
+    shiftsDrawer: 'የካሼር ፈረቃ እና ካዝና',
     allBranches: 'ሁሉም ቅርንጫፎች (የተጠቃለለ)',
     refresh: 'አድስ (ሪፍሬሽ)',
     totalSalesToday: 'የዛሬ አጠቃላይ ሽያጭ',
@@ -153,6 +156,7 @@ export const translations: Record<Locale, Translations> = {
     fraudAlerts: 'Akeekkachiisa Hannaa',
     catalogProducts: 'Tarree Meeshaalee',
     salesJournal: 'Galmee Gurgurtaa',
+    shiftsDrawer: 'Dabaree fi Sanduqa',
     allBranches: 'Dameelee Hunda (Waliigala)',
     refresh: 'Haroomsi',
     totalSalesToday: 'Gurgurtaa Har’aa',
