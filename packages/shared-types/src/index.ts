@@ -5,3 +5,4 @@ export * from './users.js';
 export * from './catalog.js';
 export * from './sales.js';
 export * from './sync.js';
+export * from './evidence.js';

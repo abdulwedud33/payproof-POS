@@ -11,6 +11,7 @@
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "scan:secrets": "node scripts/scan-secrets.js",
+    "test:verification": "cd services/verification && python -m pytest tests",
     "db:migrate": "pnpm --filter db migrate",
     "db:seed": "pnpm --filter db seed"
   },

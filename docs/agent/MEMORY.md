@@ -119,6 +119,7 @@ All **Decided**. Detail lives in [SECURITY.md](../../SECURITY.md), [DESIGN.md](.
 | 22 Nov 2026 | CSV Formula Injection (CWE-1236): Product CSV imports must prefix cells starting with `=, +, -, @, \t, \r` with `'` to prevent spreadsheet DDE code execution upon export. |
 | 22 Nov 2026 | Sale Immutability: Post-sale modifications must be rejected by PostgreSQL triggers at the database layer; only void transitions with reasons and PINs are permitted. |
 | 22 Nov 2026 | Offline Outbox Sync: Cashier SQLite sales outbox must store client-generated UUID v7 IDs and idempotency keys to guarantee idempotent re-syncing without duplicate sales. |
+| 22 Nov 2026 | Anti-SSRF Defense: Carrier-Grade NAT (RFC 6598: 100.64.0.0/10) and Cloud Metadata (169.254.169.254) require explicit CIDR filtering beyond standard RFC 1918 private checks in both Python and TypeScript. |
 
 ## 7. Do not repeat
 
@@ -140,3 +141,4 @@ All **Decided**. Detail lives in [SECURITY.md](../../SECURITY.md), [DESIGN.md](.
 | 21 Nov 2026 | Packaged the project for Google Antigravity: rules, skills, GEMINI.md, kickoff prompt, per-milestone prompts, production readiness doc | Student opens the folder in Antigravity, runs Milestone 0 in parallel, pastes the kickoff prompt |
 | 22 Nov 2026 | M1 Foundation built: monorepo, strict TS, @payproof/money, @payproof/shared-types, db migrations with RLS, Fastify apps/api with error masking & rate limits, auth & cashier/branch management, security test suites, secret scanning | Student reviews M1 Walkthrough, runs Docker/Postgres tests, and approves M1 checkpoint |
 | 22 Nov 2026 | M2 Catalog & Cashier Sale built: @payproof/ui-tokens (palette & presets), shared-types (catalog/sales/sync), 0002_catalog_and_sales.sql with immutability triggers & reporting views, 200 Ethiopian products seed, Products/Sales/Sync API, Next.js static export owner-web with real skeletons, cashier-app cart & offline SQLite queue | Student reviews M2 Walkthrough, tests owner-web & cashier-app, and approves M2 checkpoint |
+| 22 Nov 2026 | M3 Safe-fetching layer, mock provider server, and evidence contract built: ProviderEvidenceSchema & SafeFetchResultSchema in @payproof/shared-types & Python, services/mock-provider simulating 11 payment/hostile scenarios, safe-fetch engines with DNS pre-resolution & anti-SSRF IP filtering (RFC 1918, loopback, cloud metadata, carrier NAT), services/verification FastAPI app, 103 automated tests passing (95 TS + 8 Pytest), 0 secret scan violations | Student reviews M3 Walkthrough artifact and approves M3 checkpoint |
