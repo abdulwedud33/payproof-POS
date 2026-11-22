@@ -49,9 +49,7 @@ export function ProductTable({
     return true;
   });
 
-  const lowStockCount = products.filter(
-    (p) => (p.stock_quantity ?? 45) <= (p.low_stock_threshold ?? 10)
-  ).length;
+  const lowStockCount = products.filter((p) => (p.stock_quantity ?? 45) <= (p.low_stock_threshold ?? 10)).length;
 
   return (
     <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-xs">
@@ -78,9 +76,7 @@ export function ProductTable({
                 : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'
             }`}
           >
-            <AlertTriangle
-              className={`w-3.5 h-3.5 ${filterLowStockOnly ? 'text-amber-700' : 'text-slate-400'}`}
-            />
+            <AlertTriangle className={`w-3.5 h-3.5 ${filterLowStockOnly ? 'text-amber-700' : 'text-slate-400'}`} />
             Low Stock ({lowStockCount})
           </button>
         </div>
@@ -114,8 +110,8 @@ export function ProductTable({
             {filterLowStockOnly
               ? 'Great news! All products are stocked above minimum reorder thresholds.'
               : searchTerm
-                ? `No catalog items matched "${searchTerm}". Try a different keyword.`
-                : 'Your store catalog is empty. Add your first item or import a spreadsheet.'}
+              ? `No catalog items matched "${searchTerm}". Try a different keyword.`
+              : 'Your store catalog is empty. Add your first item or import a spreadsheet.'}
           </p>
         </div>
       ) : (
@@ -142,13 +138,9 @@ export function ProductTable({
                   <tr key={p.id} className="hover:bg-slate-50/70 transition-colors">
                     <td className="py-3.5 px-4 font-medium text-slate-900">
                       {p.name}
-                      {p.sku && (
-                        <span className="block text-xs text-slate-400 mt-0.5">{p.sku}</span>
-                      )}
+                      {p.sku && <span className="block text-xs text-slate-400 mt-0.5">{p.sku}</span>}
                     </td>
-                    <td className="py-3.5 px-4 text-slate-600 font-medium">
-                      {p.name_local || '—'}
-                    </td>
+                    <td className="py-3.5 px-4 text-slate-600 font-medium">{p.name_local || '—'}</td>
                     <td className="py-3.5 px-4">
                       <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-700 capitalize">
                         {p.unit}
