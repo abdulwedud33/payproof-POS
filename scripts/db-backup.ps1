@@ -1,4 +1,4 @@
-﻿# PayProof POS · Database Backup Utility
+# PayProof POS · Database Backup Utility
 param(
   [string]$OutputDir = "db/backups",
   [string]$ContainerName = "payproof-db"

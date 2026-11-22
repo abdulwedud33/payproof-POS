@@ -1,4 +1,4 @@
-﻿# PayProof POS · Database Restore Utility
+# PayProof POS · Database Restore Utility
 param(
   [Parameter(Mandatory=$true)]
   [string]$BackupFile,

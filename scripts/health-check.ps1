@@ -1,4 +1,4 @@
-﻿# PayProof POS · Health Check Script
+# PayProof POS · Health Check Script
 param(
   [string]$ApiUrl = "http://localhost:3000",
   [string]$VerificationUrl = "http://localhost:8000",
