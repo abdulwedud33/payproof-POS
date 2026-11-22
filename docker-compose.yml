@@ -32,29 +32,6 @@ services:
       timeout: 5s
       retries: 5
 
-  api:
-    build:
-      context: .
-      dockerfile: apps/api/Dockerfile
-    container_name: payproof-api
-    restart: unless-stopped
-    ports:
-      - "3000:3000"
-    environment:
-      NODE_ENV: production
-      PORT: 3000
-      HOST: 0.0.0.0
-      DATABASE_URL: postgres://app_api:app_api_password@postgres:5432/payproof
-      REDIS_URL: redis://redis:6379
-      JWT_ACCESS_SECRET: dev_jwt_access_secret_long_random_123
-      JWT_REFRESH_SECRET: dev_jwt_refresh_secret_long_random_456
-      ACCOUNT_ENCRYPTION_KEY: dGVzdF8zMl9ieXRlc19lbmNyeXB0aW9uX2tleV8xMjM=
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-
 volumes:
   pgdata:
   redisdata:

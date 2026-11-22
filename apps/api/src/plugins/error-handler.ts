@@ -35,9 +35,15 @@ export function globalErrorHandler(
     return reply.status(400).send(payload);
   }
 
-  // 2. Known AppApiError instances
-  if (error instanceof AppApiError || error.name === 'AppApiError') {
-    const apiErr = error as AppApiError;
+  // 2. Known AppApiError / AppError instances
+  if (
+    error instanceof AppApiError ||
+    error.name === 'AppApiError' ||
+    error.name === 'AppError' ||
+    ('statusCode' in error && typeof (error as any).statusCode === 'number')
+  ) {
+    const apiErr = error as any;
+    const statusCode = apiErr.statusCode || 400;
     const payload: ApiErrorResponse = {
       error: {
         code: apiErr.code || ErrorCode.BAD_REQUEST,
@@ -46,7 +52,7 @@ export function globalErrorHandler(
         details: apiErr.details,
       },
     };
-    return reply.status(apiErr.statusCode || 400).send(payload);
+    return reply.status(statusCode).send(payload);
   }
 
   // 3. Fastify HTTP Errors (e.g. 404, 400 schema error, 415)

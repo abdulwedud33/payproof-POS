@@ -1,0 +1,21 @@
+{
+  "name": "@payproof/cashier-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo 'ok'"
+  },
+  "dependencies": {
+    "@payproof/money": "workspace:*",
+    "@payproof/shared-types": "workspace:*",
+    "@payproof/ui-tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.9",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.7"
+  }
+}

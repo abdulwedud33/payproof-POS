@@ -2,3 +2,6 @@ export * from './errors.js';
 export * from './auth.js';
 export * from './branches.js';
 export * from './users.js';
+export * from './catalog.js';
+export * from './sales.js';
+export * from './sync.js';

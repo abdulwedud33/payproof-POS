@@ -6,14 +6,14 @@
  * - Blocks forbidden patterns, private keys, live tokens, and uncommitted .env files
  */
 
-import fs from 'fs';
-import path from 'path';
+const fs = require('fs');
+const path = require('path');
 
 const FORBIDDEN_PATTERNS = [
   { name: 'Private Key block', regex: /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/ },
   { name: 'Generic API Secret assignment', regex: /(?:api[_-]?key|secret|password|auth_token)\s*=\s*['"][a-zA-Z0-9_\-]{16,}['"]/i },
   { name: 'JWT Secret hardcoded string', regex: /JWT_(?:ACCESS|REFRESH)_SECRET\s*=\s*['"][^'"]+['"]/i },
-  { name: 'Postgres password with live credential', regex: /postgres:\/\/(?!app_api:CHANGE_ME|migrator:CHANGE_ME|postgres:postgres|app_api:app_api_password|postgres:postgres_password)[^:]+:[^@]+@/i },
+  { name: 'Postgres password with live credential', regex: /postgres:\/\/(?!app_api:CHANGE_ME|migrator:CHANGE_ME|postgres:postgres)[^:]+:[^@]+@/i },
   { name: 'AWS/Cloud Secret Key pattern', regex: /(?:AKIA[0-9A-Z]{16}|aws_secret_access_key)/i },
 ];
 

@@ -116,7 +116,9 @@ All **Decided**. Detail lives in [SECURITY.md](../../SECURITY.md), [DESIGN.md](.
 
 | Date | Learning |
 |---|---|
-| | |
+| 22 Nov 2026 | CSV Formula Injection (CWE-1236): Product CSV imports must prefix cells starting with `=, +, -, @, \t, \r` with `'` to prevent spreadsheet DDE code execution upon export. |
+| 22 Nov 2026 | Sale Immutability: Post-sale modifications must be rejected by PostgreSQL triggers at the database layer; only void transitions with reasons and PINs are permitted. |
+| 22 Nov 2026 | Offline Outbox Sync: Cashier SQLite sales outbox must store client-generated UUID v7 IDs and idempotency keys to guarantee idempotent re-syncing without duplicate sales. |
 
 ## 7. Do not repeat
 
@@ -137,3 +139,4 @@ All **Decided**. Detail lives in [SECURITY.md](../../SECURITY.md), [DESIGN.md](.
 | 24 Oct 2026 | Student changed the core design: verification now reads the provider's receipt page behind the payment QR and matches the receiver to the branch's saved account. SMS is optional backup. All docs updated | Student tests what the receipt QR codes lead to (A1) |
 | 21 Nov 2026 | Packaged the project for Google Antigravity: rules, skills, GEMINI.md, kickoff prompt, per-milestone prompts, production readiness doc | Student opens the folder in Antigravity, runs Milestone 0 in parallel, pastes the kickoff prompt |
 | 22 Nov 2026 | M1 Foundation built: monorepo, strict TS, @payproof/money, @payproof/shared-types, db migrations with RLS, Fastify apps/api with error masking & rate limits, auth & cashier/branch management, security test suites, secret scanning | Student reviews M1 Walkthrough, runs Docker/Postgres tests, and approves M1 checkpoint |
+| 22 Nov 2026 | M2 Catalog & Cashier Sale built: @payproof/ui-tokens (palette & presets), shared-types (catalog/sales/sync), 0002_catalog_and_sales.sql with immutability triggers & reporting views, 200 Ethiopian products seed, Products/Sales/Sync API, Next.js static export owner-web with real skeletons, cashier-app cart & offline SQLite queue | Student reviews M2 Walkthrough, tests owner-web & cashier-app, and approves M2 checkpoint |

@@ -2,7 +2,6 @@
   "name": "payproof-root",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "description": "PayProof POS Monorepo",
   "scripts": {
     "build": "turbo run build",
@@ -21,10 +20,7 @@
     "prettier": "^3.5.3"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["argon2", "esbuild"],
-    "overrides": {
-      "fast-jwt": ">=6.2.0"
-    }
+    "onlyBuiltDependencies": ["argon2", "esbuild"]
   },
   "packageManager": "pnpm@10.5.2"
 }

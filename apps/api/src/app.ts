@@ -9,6 +9,9 @@ import { globalErrorHandler } from './plugins/error-handler.js';
 import { authRoutes } from './routes/auth.js';
 import { branchRoutes } from './routes/branches.js';
 import { cashierRoutes } from './routes/cashiers.js';
+import { productRoutes } from './routes/products.js';
+import { saleRoutes } from './routes/sales.js';
+import { syncRoutes } from './routes/sync.js';
 
 export function buildApp() {
   const isTest = config.NODE_ENV === 'test' || Boolean(process.env.VITEST);
@@ -30,9 +33,6 @@ export function buildApp() {
           },
         },
     requestIdHeader: 'x-request-id',
-    logController: {
-      requestIdLogLabel: 'requestId',
-    },
     genReqId: (req) => (req.headers['x-request-id'] as string) || crypto.randomUUID(),
   });
 
@@ -71,6 +71,9 @@ export function buildApp() {
   app.register(authRoutes, { prefix: '/v1/auth' });
   app.register(branchRoutes, { prefix: '/v1/branches' });
   app.register(cashierRoutes, { prefix: '/v1/cashiers' });
+  app.register(productRoutes, { prefix: '/v1/products' });
+  app.register(saleRoutes, { prefix: '/v1/sales' });
+  app.register(syncRoutes, { prefix: '/v1/sync' });
 
   return app;
 }

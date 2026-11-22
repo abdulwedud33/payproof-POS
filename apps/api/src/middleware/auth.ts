@@ -6,6 +6,9 @@ export interface RequestUser {
   orgId: string;
   role: UserRole;
   branchIds: string[];
+  user_id?: string;
+  org_id?: string;
+  branch_ids?: string[];
 }
 
 declare module '@fastify/jwt' {
@@ -21,6 +24,18 @@ declare module '@fastify/jwt' {
 export async function requireAuth(request: FastifyRequest, _reply: FastifyReply) {
   try {
     await request.jwtVerify();
+    if (request.user) {
+      // Normalize aliases
+      const userId = request.user.id || (request.user as any).user_id || '';
+      const orgId = request.user.orgId || (request.user as any).org_id || '';
+      const branchIds = request.user.branchIds || (request.user as any).branch_ids || [];
+      request.user.id = userId;
+      request.user.orgId = orgId;
+      request.user.branchIds = branchIds;
+      request.user.user_id = userId;
+      request.user.org_id = orgId;
+      request.user.branch_ids = branchIds;
+    }
   } catch {
     throw new AppApiError({
       code: ErrorCode.UNAUTHORIZED,
