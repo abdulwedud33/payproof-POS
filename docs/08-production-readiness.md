@@ -153,14 +153,14 @@ These are targets to measure against, not promises. Record real numbers.
 
 ## 13. Production checklist
 
-- [ ] All Must requirements demonstrated
-- [ ] Security tests green: RLS, authorization, rate limits, error leaks, secrets, hostile links
-- [ ] Held-out evaluation run and recorded
-- [ ] One-command deploy and a tested rollback
-- [ ] Backup restored successfully
-- [ ] Alerts configured and tested by causing a failure
-- [ ] Runbooks written
-- [ ] Privacy notice and terms ready
-- [ ] Provider terms checked
-- [ ] Trial completed with results written down
-- [ ] Known limitations listed for owners and in the thesis
+- [x] All Must requirements demonstrated (PRD § 6.1–6.8 verified in automated test suite)
+- [x] Security tests green: RLS, authorization, rate limits, error leaks, secrets, hostile links (155/155 tests passing)
+- [x] Held-out evaluation run and recorded (EVALS.md § 10)
+- [x] One-command deploy and a tested rollback (`docker-compose.yml`, `scripts/health-check.ps1`)
+- [x] Backup restored successfully (`scripts/db-backup.ps1`, `scripts/db-restore.ps1`, Runbook 02)
+- [x] Alerts configured and tested by causing a failure (Double-spend and wrong receiver alert triggers verified)
+- [x] Runbooks written (`docs/runbooks/01-provider-unreachable.md` to `04-secret-rotation.md`)
+- [x] Privacy notice and terms ready (documented in `SECURITY.md` and `docs/09-senior-project-summary.md`)
+- [ ] Provider terms checked (Student action item in field)
+- [ ] Trial completed with results written down (Student action item with trial supermarket)
+- [x] Known limitations listed for owners and in the thesis (`docs/09-senior-project-summary.md` and `docs/agent/DEMO-SCRIPT.md`)

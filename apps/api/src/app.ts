@@ -39,9 +39,13 @@ export function buildApp() {
     genReqId: (req) => (req.headers['x-request-id'] as string) || crypto.randomUUID(),
   });
 
-  // Attach x-request-id header to every response
+  // Attach security headers and x-request-id header to every response
   app.addHook('onSend', async (request, reply) => {
     reply.header('x-request-id', request.id);
+    reply.header('X-Content-Type-Options', 'nosniff');
+    reply.header('X-Frame-Options', 'DENY');
+    reply.header('Referrer-Policy', 'strict-origin-when-cross-origin');
+    reply.header('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
   });
 
   // Security Headers & CORS
