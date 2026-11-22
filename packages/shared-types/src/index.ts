@@ -9,3 +9,4 @@ export * from './evidence.js';
 export * from './payment-accounts.js';
 export * from './verifications.js';
 export * from './alerts.js';
+export * from './reports.js';

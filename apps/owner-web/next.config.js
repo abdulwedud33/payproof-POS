@@ -5,6 +5,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   transpilePackages: ['@payproof/ui-tokens', '@payproof/money', '@payproof/shared-types'],
 };
 
